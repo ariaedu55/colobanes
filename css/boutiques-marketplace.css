@@ -1,0 +1,444 @@
+/**
+ * Boutiques marketplace — page catalogue + tuiles accueil
+ */
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---- Tuile boutique (accueil + catalogue) ---- */
+.mp-bt-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 10px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(53, 100, 166, 0.1);
+    text-decoration: none;
+    color: var(--titres, #0d0d0d);
+    transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+    min-width: 0;
+}
+
+.mp-bt-tile--showcase {
+    --tile-main: var(--couleur-dominante, #3564a6);
+    --tile-accent: var(--orange, #ff6b35);
+    position: relative;
+    overflow: hidden;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    min-height: 92px;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid #eceff4;
+    box-shadow: 0 1px 2px rgba(13, 13, 13, 0.04);
+}
+
+.mp-bt-tile--showcase::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(120deg, transparent 40%, rgba(255, 255, 255, 0.45) 50%, transparent 60%);
+    transform: translateX(-120%);
+    transition: transform 0.55s ease;
+}
+
+.mp-bt-tile--showcase:hover::after {
+    transform: translateX(120%);
+}
+
+.mp-bt-tile__glow {
+    position: absolute;
+    top: -30%;
+    right: -20%;
+    width: 70%;
+    height: 80%;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--tile-main) 22%, transparent) 0%, transparent 70%);
+    pointer-events: none;
+    /* Halo décoratif retiré : il apparaissait comme une tache floue sur fond blanc */
+    display: none;
+}
+
+.mp-bt-tile:hover,
+.mp-bt-tile--showcase:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--tile-main, var(--couleur-dominante, #3564a6)) 34%, #fff);
+    box-shadow:
+        0 14px 30px color-mix(in srgb, var(--tile-main, var(--couleur-dominante, #3564a6)) 18%, transparent),
+        0 4px 12px rgba(13, 13, 13, 0.06);
+}
+
+.mp-bt-tile__logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: var(--bleu-pale, rgba(53, 100, 166, 0.12));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.mp-bt-tile--showcase .mp-bt-tile__logo {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #e6e9ef;
+    box-shadow: 0 1px 3px rgba(13, 13, 13, 0.06);
+    z-index: 1;
+}
+
+.mp-bt-tile__logo-ring {
+    display: none;
+}
+
+.mp-bt-tile--showcase .mp-bt-tile__logo-ring {
+    /* Anneau coloré retiré : logo sur cercle blanc net */
+    display: none;
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid color-mix(in srgb, var(--tile-accent) 55%, var(--tile-main));
+    opacity: 0.75;
+    pointer-events: none;
+}
+
+.mp-bt-tile__logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+}
+
+.mp-bt-tile--showcase .mp-bt-tile__logo img {
+    object-fit: contain;
+    padding: 8px;
+    border-radius: 50%;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.mp-bt-tile__logo i {
+    font-size: 20px;
+    color: var(--couleur-dominante, #3564a6);
+}
+
+.mp-bt-tile__logo:has(img) i {
+    display: none;
+}
+
+.mp-bt-tile__body {
+    display: contents;
+}
+
+.mp-bt-tile--showcase .mp-bt-tile__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+    min-width: 0;
+    z-index: 1;
+    padding-right: 2px;
+}
+
+.mp-bt-tile__name {
+    font-size: 12.48px;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+}
+
+.mp-bt-tile--showcase .mp-bt-tile__name {
+    font-size: 13.44px;
+    font-weight: 700;
+    text-align: left;
+    color: var(--titres, #0d0d0d);
+    letter-spacing: -0.02em;
+    -webkit-line-clamp: 2;
+    width: 100%;
+}
+
+.mp-bt-tile__dist {
+    font-size: 10.88px;
+    color: var(--gris-moyen, #737373);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.mp-bt-tile--showcase .mp-bt-tile__dist {
+    font-size: 10.56px;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--tile-main) 72%, #0d0d0d);
+}
+
+.mp-bt-tile__cta {
+    display: none;
+}
+
+/* ---- Accueil : panneau boutiques ---- */
+.mp-showcase-boutiques {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    justify-self: stretch;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+    border: 1px solid #eceff4;
+    box-shadow: 0 1px 3px rgba(13, 13, 13, 0.04);
+    padding: 10px clamp(14px, 3vw, 20px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: min(360px, 52vh);
+}
+
+.mp-showcase-boutiques::before {
+    display: none;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(ellipse 90% 70% at 0% 0%, rgba(53, 100, 166, 0.1) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 100% 100%, rgba(255, 107, 53, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.mp-bt-panel-head {
+    position: relative;
+    z-index: 1;
+}
+
+.mp-showcase-boutiques .mp-bt-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.mp-showcase-boutiques .mp-bt-panel-head h2 {
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+}
+
+.mp-showcase-boutiques .mp-bt-panel-cta {
+    align-self: center;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 7px 14px;
+    font-size: 12.48px;
+}
+
+.mp-showcase-boutiques .mp-bt-tile--showcase {
+    padding: 6px 12px;
+    min-height: 80px;
+    gap: 10px;
+}
+
+.mp-showcase-boutiques .mp-bt-tile--showcase .mp-bt-tile__logo {
+    width: 72px;
+    height: 72px;
+}
+
+.mp-showcase-boutiques .mp-bt-tile--showcase .mp-bt-tile__logo img {
+    padding: 8px;
+}
+
+.mp-bt-panel-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.4px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--couleur-dominante, #3564a6);
+    background: rgba(53, 100, 166, 0.1);
+    border: 1px solid rgba(53, 100, 166, 0.18);
+    padding: 5px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+}
+
+.mp-bt-panel-head h2 {
+    margin: 0;
+    font-size: clamp(18.4px, 2.4vw, 22.4px);
+    font-weight: 700;
+    color: var(--titres, #0d0d0d);
+    font-family: var(--font-titres, sans-serif);
+    letter-spacing: -0.03em;
+}
+
+.mp-bt-panel-head p {
+    margin: 6px 0 0;
+    font-size: 13.12px;
+    color: var(--gris-moyen, #737373);
+    line-height: 1.45;
+}
+
+.mp-bt-panel-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    flex: 1;
+    align-content: start;
+}
+
+/* Mobile : conserver 4 boutiques visibles (grille 2×2) */
+@media (max-width: 767px) {
+    .mp-bt-panel-grid .mp-bt-tile:nth-child(n+5) {
+        display: none;
+    }
+
+    /* Tuile verticale : logo au-dessus, nom centré sur toute la largeur (évite « colos hop ») */
+    .mp-showcase-boutiques .mp-bt-tile--showcase {
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 8px;
+        min-height: 0;
+    }
+
+    .mp-showcase-boutiques .mp-bt-tile--showcase .mp-bt-tile__logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .mp-showcase-boutiques .mp-bt-tile--showcase .mp-bt-tile__body {
+        align-items: center;
+        padding-right: 0;
+        width: 100%;
+    }
+
+    .mp-showcase-boutiques .mp-bt-tile--showcase .mp-bt-tile__name {
+        text-align: center;
+        font-size: 13px;
+        word-break: normal;
+        overflow-wrap: anywhere;
+    }
+}
+
+/* Desktop large : panneau 40 % — 2 colonnes × 3 lignes (6 boutiques) */
+@media (min-width: 1101px) {
+    .mp-showcase-inner.mp-showcase-inner--no-nav .mp-bt-panel-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 12px;
+    }
+
+    .mp-showcase-inner.mp-showcase-inner--no-nav .mp-showcase-boutiques {
+        min-height: auto;
+    }
+
+    .mp-showcase-inner.mp-showcase-inner--no-nav .mp-bt-tile--showcase {
+        min-height: 80px;
+        padding: 6px 12px;
+        gap: 10px;
+    }
+
+    .mp-showcase-inner.mp-showcase-inner--no-nav .mp-bt-tile--showcase .mp-bt-tile__logo {
+        width: 72px;
+        height: 72px;
+    }
+
+    .mp-showcase-inner.mp-showcase-inner--no-nav .mp-bt-tile--showcase .mp-bt-tile__name {
+        font-size: 11.84px;
+        text-align: left;
+    }
+}
+
+/* Tablette / desktop intermédiaire : 6 boutiques en grille 2×3 */
+@media (min-width: 768px) and (max-width: 1100px) {
+    .mp-showcase-inner.mp-showcase-inner--no-nav .mp-bt-panel-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .mp-showcase-inner.mp-showcase-inner--no-nav .mp-bt-tile--showcase {
+        min-height: 80px;
+        padding: 6px 12px;
+    }
+}
+
+@media (max-width: 520px) {
+    .mp-bt-panel-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.mp-bt-panel-cta {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--couleur-dominante, #3564a6);
+    color: #fff;
+    font-size: 13.12px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(53, 100, 166, 0.28);
+    transition: background 0.18s, transform 0.18s;
+}
+
+.mp-bt-panel-cta:hover {
+    background: var(--bleu-fonce, #2d5690);
+    transform: translateY(-1px);
+    color: #fff;
+}
+
+.mp-bt-panel-empty {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    color: var(--gris-moyen, #737373);
+    font-size: 13.76px;
+    padding: 20px;
+}
+
+.mp-bt-panel-empty i {
+    font-size: 32px;
+    opacity: 0.35;
+    color: var(--couleur-dominante, #3564a6);
+}
+

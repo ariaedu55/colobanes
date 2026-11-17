@@ -1,0 +1,250 @@
+/**
+ * Validation de commande (commande.php) — design épuré.
+ * Chargé après commande-page.css et checkout-v2.css : ne fait que les surcharger.
+ */
+
+/* ---- En-tête : flèche retour ronde + titre ---- */
+.co-body .cmd-head {
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.co-body .cmd-head__back {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--co-line);
+    border-radius: 50%;
+    background: #fff;
+    font-size: 15px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.co-body .cmd-head__back:hover {
+    border-color: var(--co-brand);
+    background: var(--co-brand-tint);
+}
+
+.co-body .cmd-head__title {
+    font-size: clamp(20px, 2.6vw, 24px);
+}
+
+/* ---- Carte unique ---- */
+.co-body .cmd-card {
+    padding: 22px;
+    border-radius: 20px;
+    background: #fff;
+}
+
+/* ---- Choix du mode : interrupteur à deux positions ---- */
+.co-body .cmd-mode {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin-bottom: 20px;
+    padding: 4px;
+    border-radius: 14px;
+    background: var(--co-bg);
+}
+
+.co-body .cmd-mode-btn,
+.co-body .cmd-mode-btn:hover {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 11px;
+    background: transparent;
+    box-shadow: none;
+    color: var(--co-muted);
+    text-align: center;
+}
+
+.co-body .cmd-mode-btn i {
+    font-size: 16px;
+    color: inherit;
+}
+
+.co-body .cmd-mode-btn strong {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.co-body .cmd-mode-btn:hover {
+    color: var(--co-ink);
+}
+
+.co-body .cmd-mode-btn.is-active {
+    background: #fff;
+    color: var(--co-brand);
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.12);
+}
+
+/* ---- Champs ---- */
+.co-body .cmd-field label,
+.co-body .geo-search-label {
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--co-ink);
+}
+
+.co-body .cmd-field label span {
+    font-weight: 500;
+    color: var(--co-muted);
+}
+
+.co-body .cmd-field input,
+.co-body .cmd-field textarea,
+.co-body .cmd-search__input {
+    border: 1px solid var(--co-line);
+    border-radius: 12px;
+    background: #fff;
+}
+
+.co-body .cmd-field textarea {
+    min-height: 0;
+}
+
+.co-body .geo-map {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.co-body .cmd-geo__actions {
+    margin-top: 10px;
+}
+
+.co-body .btn-geo-capture {
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+}
+
+.co-body .geo-status {
+    margin-top: 8px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 12.5px;
+}
+
+/* Téléphone séparé du bloc adresse par un filet */
+.co-body .cmd-field--tel {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #f2f4f7;
+}
+
+/* ---- Retrait : carte boutique ---- */
+.co-body .cmd-pickup-card {
+    border: 1px solid var(--co-line);
+    border-radius: 14px;
+    background: var(--co-bg);
+}
+
+/* ---- Récapitulatif ---- */
+.co-body .cmd-recap {
+    padding: 20px;
+    background: #fff;
+}
+
+.co-body .cmd-recap__title {
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.co-body .cmd-recap-item {
+    align-items: center;
+    padding: 10px 0;
+}
+
+.co-body .cmd-recap-item img {
+    width: 52px;
+    height: 52px;
+}
+
+.co-body .cmd-recap-item__name {
+    font-size: 13.5px;
+    font-weight: 600;
+}
+
+.co-body .cmd-recap-item__meta {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: var(--co-muted);
+}
+
+.co-body .cmd-recap-item__price {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--co-ink);
+}
+
+.co-body .cmd-recap-row--total {
+    margin-top: 6px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--co-line);
+}
+
+.co-body .cmd-submit {
+    width: 100%;
+    min-height: 52px;
+    margin-top: 16px;
+    font-size: 15px;
+}
+
+.cmd-paynote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0 0;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--co-green, #12805c);
+}
+
+/* ---- Téléphone ---- */
+@media (max-width: 859px) {
+    .co-body .cmd-layout {
+        gap: 14px;
+    }
+
+    /* Récap au-dessus du bouton, bouton collé en bas de l'écran (au-dessus du menu mobile) */
+    .co-body .cmd-submit--mobile {
+        position: sticky;
+        bottom: calc(var(--shop-mobile-dock-clearance, 92px) + 8px);
+        z-index: 30;
+        margin-top: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .co-body .cmd-card,
+    .co-body .cmd-recap {
+        padding: 16px;
+    }
+
+    .co-body .cmd-mode-btn {
+        min-height: 44px;
+        padding: 8px 6px;
+    }
+
+    .co-body .cmd-mode-btn strong {
+        font-size: 13px;
+    }
+}
+
+/* Espace entre la zone carte/position et le champ « Précisions » */
+.co-body .cmd-geo {
+    margin-bottom: 16px;
+}

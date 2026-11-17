@@ -1,0 +1,85 @@
+.produit-indispo-msg {
+    margin: 0 0 12px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: var(--orange-fonce, #e85a2a);
+    background: rgba(255, 107, 53, 0.1);
+    border: 1px solid rgba(255, 107, 53, 0.25);
+    border-radius: 10px;
+}
+
+.produit-indispo-link {
+    display: inline-block;
+    margin-left: 6px;
+    font-weight: 600;
+    color: var(--couleur-dominante, #3564a6);
+    text-decoration: none;
+}
+
+.produit-indispo-link:hover {
+    text-decoration: underline;
+}
+
+.produit-alternatives {
+    margin: 2rem 0;
+    padding: 0 0 1rem;
+}
+
+.produit-alternatives-lead {
+    margin: 0.35rem 0 0;
+    font-size: 0.92rem;
+    color: var(--texte-mute, #737373);
+}
+
+.produit-alerte-prix {
+    margin: 0 0 14px;
+}
+
+.produit-alerte-prix--guest {
+    font-size: 0.85rem;
+}
+
+.produit-alerte-prix--guest a {
+    color: var(--couleur-dominante, #3564a6);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.produit-alerte-prix__on {
+    margin: 0 0 8px;
+    font-size: 0.85rem;
+    color: var(--gris-fonce, #4a4a4a);
+}
+
+.produit-alerte-prix__form {
+    margin: 0;
+}
+
+.produit-alerte-prix__btn {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid rgba(53, 100, 166, 0.35);
+    border-radius: 10px;
+    background: rgba(53, 100, 166, 0.08);
+    color: var(--couleur-dominante, #3564a6);
+    font-family: var(--font-corps, 'Poppins', sans-serif);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+}
+
+.produit-alerte-prix__btn:hover {
+    background: rgba(53, 100, 166, 0.14);
+}
+
+.produit-alerte-prix__btn--off {
+    background: transparent;
+    font-size: 0.78rem;
+}
+
+.btn-add-panier:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}

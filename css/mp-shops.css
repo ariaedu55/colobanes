@@ -1,0 +1,287 @@
+/**
+ * Accueil — « Boutiques partenaires » : cartes vitrine, 2 par ligne.
+ * Bandeau teinté à la couleur de la boutique, logo posé dessus, nom + badge
+ * certifié. Téléphone : 4 boutiques (2 × 2) ; tablette / ordinateur : 6.
+ */
+
+.mp-showcase-boutiques.mp-shops {
+    --shops-ink: #0f172a;
+    --shops-muted: #6b7280;
+    --shops-line: #edf0f4;
+    --shops-primary: var(--couleur-dominante, #3564a6);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+    padding: 18px 16px;
+    background: #fff;
+    border: 1px solid #eceff4;
+    border-radius: 18px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+/* ─── En-tête : titre sur une ligne + lien discret ─── */
+.mp-shops__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 2px;
+}
+
+.mp-shops__title {
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-family: var(--font-titres, inherit);
+    font-size: clamp(17px, 2.2vw, 20px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--shops-ink);
+}
+
+.mp-shops__more {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 2px 6px 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--shops-primary);
+    text-decoration: none;
+    border-radius: 8px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mp-shops__more i {
+    font-size: 10px;
+    transition: transform 0.18s ease;
+}
+
+.mp-shops__more:hover i,
+.mp-shops__more:focus-visible i {
+    transform: translateX(2px);
+}
+
+.mp-shops__more:focus-visible {
+    outline: 2px solid var(--shops-primary);
+    outline-offset: 2px;
+}
+
+/* ─── Grille : 2 cartes par ligne ─── */
+.mp-shops__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.mp-shops__list > li {
+    min-width: 0;
+}
+
+.mp-shop {
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px 16px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--shops-line);
+    border-radius: 16px;
+    color: inherit;
+    text-align: center;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.mp-shop:hover {
+    border-color: color-mix(in srgb, var(--shop-color, #3564a6) 30%, #e5e9ef);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.07);
+    transform: translateY(-2px);
+}
+
+.mp-shop:active {
+    transform: scale(0.98);
+}
+
+.mp-shop:focus-visible {
+    outline: 2px solid var(--shops-primary);
+    outline-offset: 2px;
+}
+
+/* Bandeau teinté à la couleur de la boutique */
+.mp-shop__cover {
+    align-self: stretch;
+    height: 44px;
+    margin: 0 -10px;
+    background:
+        linear-gradient(135deg,
+            color-mix(in srgb, var(--shop-color, #3564a6) 22%, #fff) 0%,
+            color-mix(in srgb, var(--shop-color, #3564a6) 8%, #fff) 100%);
+}
+
+/* Logo posé à cheval sur le bandeau */
+.mp-shop__logo {
+    position: relative;
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    margin-top: -32px;
+    margin-bottom: 12px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mp-shop__logo img {
+    width: 100%;
+    height: 100%;
+    /* Logo toujours entier (logos larges type « COLOSHOP ») */
+    object-fit: contain;
+    display: block;
+}
+
+.mp-shop__logo:not(:has(img))::before {
+    content: attr(data-initiale);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--shop-color, var(--shops-primary));
+    background: color-mix(in srgb, var(--shop-color, #3564a6) 12%, #fff);
+}
+
+.mp-shop__name {
+    max-width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--shops-ink);
+}
+
+.mp-shop__name-text {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.mp-shop__certif {
+    flex-shrink: 0;
+    font-size: 13px;
+    color: #1d9bf0;
+}
+
+.mp-shops__empty {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 6px 14px;
+    font-size: 13.5px;
+    color: var(--shops-muted);
+}
+
+/* 4e carte : appel à ouvrir sa boutique — volontairement différente des boutiques
+   (style de la bannière « Vendez sur COLObanes »), même place et même taille dans la grille */
+.mp-shop--vendre {
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 12px;
+    border: 0;
+    color: #fff;
+    text-align: left;
+    background:
+        radial-gradient(140px 90px at 100% 100%, rgba(255, 107, 53, 0.38), transparent 70%),
+        linear-gradient(135deg, #142b4a, var(--couleur-dominante, #3564a6));
+}
+
+.mp-shop--vendre:hover {
+    border-color: transparent;
+    box-shadow: 0 8px 22px rgba(20, 43, 74, 0.28);
+}
+
+.mp-shop--vendre {
+    overflow: hidden;
+}
+
+/* Grande icône boutique en filigrane : la carte se lit comme une invitation, pas comme une boutique */
+.mp-shop-cta__icon {
+    position: absolute;
+    top: 10px;
+    right: -8px;
+    font-size: 58px;
+    color: rgba(255, 255, 255, 0.14);
+    pointer-events: none;
+}
+
+.mp-shop-cta__title {
+    position: relative;
+    max-width: 120px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.mp-shop-cta__btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 30px;
+    padding: 0 8px;
+    border-radius: 9px;
+    background: #ff6b35;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.mp-shop-cta__btn i {
+    font-size: 10px;
+}
+
+/* Max 4 boutiques (2 × 2) — desktop et mobile, taille des cartes inchangée */
+.mp-shops__list > li:nth-child(n + 5) {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .mp-showcase-boutiques.mp-shops {
+        padding: 16px 12px 14px;
+    }
+
+    .mp-shops__list {
+        gap: 10px;
+    }
+}

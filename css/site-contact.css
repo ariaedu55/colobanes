@@ -1,0 +1,129 @@
+/**
+ * Contenu contact COLObanes — page contact + panneau menu latéral
+ */
+
+.site-contact-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.site-contact-intro {
+  margin: 0;
+  font-size: 14.72px;
+  line-height: 1.5;
+  color: var(--gris-fonce, #4a4a4a);
+  text-align: center;
+}
+
+.site-contact-info {
+  background: var(--blanc, #fff);
+  border: 1px solid var(--glass-border, rgba(0, 0, 0, 0.08));
+  border-radius: 16px;
+  padding: 22px 18px;
+  box-shadow: var(--glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.08));
+}
+
+.site-contact-info__title {
+  margin: 0 0 18px;
+  font-size: 16.8px;
+  color: var(--titres, #0d0d0d);
+  font-family: var(--font-titres, 'Poppins', sans-serif);
+}
+
+.site-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 18px;
+  color: var(--texte-fonce, #0d0d0d);
+  font-size: 14.4px;
+  line-height: 1.45;
+}
+
+.site-contact-item:last-of-type {
+  margin-bottom: 0;
+}
+
+.site-contact-item__icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: var(--bleu-pale, rgba(53, 100, 166, 0.12));
+  color: var(--couleur-dominante, #3564a6);
+  border-radius: 12px;
+  font-size: 16.8px;
+  flex-shrink: 0;
+}
+
+.site-contact-item a {
+  color: var(--couleur-dominante, #3564a6);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-contact-item a:hover {
+  text-decoration: underline;
+}
+
+.site-contact-social {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(53, 100, 166, 0.1);
+}
+
+.site-contact-social h4 {
+  margin: 0 0 6px;
+  font-size: 15.2px;
+  color: var(--titres, #0d0d0d);
+}
+
+.site-contact-social p {
+  margin: 0 0 12px;
+  font-size: 13.44px;
+  color: var(--gris-moyen, #737373);
+}
+
+.site-contact-map__title {
+  margin: 0 0 12px;
+  font-size: 16.8px;
+  color: var(--titres, #0d0d0d);
+  font-family: var(--font-titres, 'Poppins', sans-serif);
+}
+
+.site-contact-map {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.08));
+  border: 1px solid var(--glass-border, rgba(0, 0, 0, 0.08));
+  background: #fff;
+  padding: 12px 12px 0;
+}
+
+.site-contact-map iframe {
+  width: 100%;
+  height: 280px;
+  border: 0;
+  display: block;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Page contact standalone */
+.contact-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+.contact-page__header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.contact-page__header h1 {
+  font-size: clamp(24px, 4vw, 33.6px);
+  color: var(--titres, #0d0d0d);
+  margin: 0 0 10px;
+  font-family: var(--font-titres, 'Poppins', sans-serif);
+}

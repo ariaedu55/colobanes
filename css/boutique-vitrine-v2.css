@@ -1,0 +1,790 @@
+/**
+ * Vitrine boutique — v2
+ * Thème piloté par les couleurs du vendeur : --shop-primary et --shop-accent
+ * (définies par includes/partials/boutique_vitrine_header.php), teintes dérivées avec color-mix().
+ */
+
+/* Repli si le vendeur n'a pas choisi de couleurs ; ses couleurs (même sélecteur, déclarées
+   plus loin dans la page par le partial d'en-tête) prennent le dessus. Ne pas les redéclarer sur body. */
+:root {
+  --shop-primary: #3564a6;
+  --shop-accent: #ff6b35;
+}
+
+body.boutique-vitrine {
+  --shop-primary-dark: color-mix(in srgb, var(--shop-primary) 78%, #000);
+  --shop-primary-tint: color-mix(in srgb, var(--shop-primary) 10%, #fff);
+  --shop-accent-tint: color-mix(in srgb, var(--shop-accent) 12%, #fff);
+  --shop-ink: #0f172a;
+  --shop-ink-soft: #475569;
+  --shop-muted: #8a94a6;
+  --shop-line: #e9edf3;
+  --shop-bg: #f6f7f9;
+  --shop-radius: 18px;
+  --shop-max: 1240px;
+  background: var(--shop-bg);
+}
+
+/* ================= Une seule barre en haut de la vitrine =================
+   L'en-tête du site (recherche, région, langue…) et la barre MENU / NOUVEAUTÉS / PROMO sont masqués :
+   la recherche et les rubriques sont dans les onglets de la boutique. */
+body.boutique-vitrine .nav-planete-gateau,
+body.boutique-vitrine section.section1 {
+  display: none !important;
+}
+
+.bv-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 60px;
+  padding: 0 max(16px, calc((100vw - var(--shop-max)) / 2 + 16px));
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--shop-line);
+}
+
+.bv-topbar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: var(--shop-ink);
+  text-decoration: none;
+}
+
+.bv-topbar__back i {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #f1f4f8;
+  font-size: 14px;
+}
+
+.bv-topbar__back img {
+  height: 28px;
+  width: auto;
+  mix-blend-mode: multiply;
+}
+
+.bv-topbar__back-text {
+  padding-left: 10px;
+  border-left: 1px solid var(--shop-line);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--shop-ink-soft);
+  white-space: nowrap;
+}
+
+.bv-topbar__back:hover .bv-topbar__back-text {
+  color: var(--shop-primary);
+}
+
+.bv-topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.bv-topbar__btn {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--shop-ink);
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.bv-topbar__btn:hover {
+  background: #f1f4f8;
+}
+
+.bv-topbar__badge {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--shop-accent);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.bv-topbar__account {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 14px 0 4px;
+  border: 1px solid var(--shop-line);
+  border-radius: 999px;
+  color: var(--shop-ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.bv-topbar__account > i {
+  margin-left: 6px;
+  font-size: 22px;
+  color: var(--shop-ink-soft);
+}
+
+.bv-topbar__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--shop-primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.bv-topbar__account:hover {
+  border-color: var(--shop-primary);
+}
+
+/* Téléphone / tablette : la barre du bas porte déjà « Accueil » (retour), le panier et le compte */
+@media (max-width: 1024px) {
+  .bv-topbar {
+    display: none;
+  }
+
+  .bv-header {
+    margin-top: 0;
+  }
+}
+
+/* ================= En-tête de boutique ================= */
+.bv-header {
+  position: relative;
+  max-width: var(--shop-max);
+  margin: 12px auto 0;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.bv-cover {
+  height: 168px;
+  border-radius: var(--shop-radius) var(--shop-radius) 0 0;
+  background:
+    radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--shop-accent) 55%, transparent) 0%, transparent 55%),
+    radial-gradient(90% 120% at 0% 100%, color-mix(in srgb, #fff 14%, transparent) 0%, transparent 60%),
+    linear-gradient(120deg, var(--shop-primary-dark) 0%, var(--shop-primary) 60%, color-mix(in srgb, var(--shop-primary) 70%, var(--shop-accent)) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.bv-cover__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bv-cover--photo {
+  background: #e9eef5;
+}
+
+.bv-cover--photo::after {
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.22));
+  background-size: auto;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+/* Motif discret (points) pour donner de la matière à la bannière */
+.bv-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1.2px, transparent 1.3px);
+  background-size: 18px 18px;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
+}
+
+.bv-identity {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 18px;
+  padding: 0 24px 20px;
+  background: #fff;
+  border: 1px solid var(--shop-line);
+  border-top: 0;
+}
+
+.bv-identity__logo {
+  width: 104px;
+  height: 104px;
+  margin-top: -52px;
+  border-radius: 24px;
+  background: #fff;
+  border: 4px solid #fff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.bv-identity__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.bv-identity__logo span {
+  font-family: var(--font-titres);
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--shop-primary);
+}
+
+.bv-identity__main {
+  min-width: 0;
+  padding-top: 14px;
+}
+
+.bv-identity__name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-family: var(--font-titres);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--shop-ink);
+  overflow-wrap: anywhere;
+}
+
+.bv-identity__cert {
+  color: var(--shop-primary);
+  font-size: 20px;
+}
+
+.bv-identity__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  color: var(--shop-ink-soft);
+}
+
+.bv-identity__meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bv-identity__meta i {
+  color: var(--shop-muted);
+}
+
+.bv-identity__meta strong {
+  color: var(--shop-ink);
+  font-weight: 700;
+}
+
+.bv-identity__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bv-identity__actions form {
+  margin: 0;
+}
+
+.bv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.bv-btn:active {
+  transform: scale(0.97);
+}
+
+.bv-btn--primary {
+  background: var(--shop-primary);
+  color: #fff;
+}
+
+.bv-btn--primary:hover {
+  background: var(--shop-primary-dark);
+  color: #fff;
+}
+
+.bv-btn--ghost {
+  background: #fff;
+  border-color: var(--shop-line);
+  color: var(--shop-ink);
+}
+
+.bv-btn--ghost:hover {
+  border-color: var(--shop-primary);
+  color: var(--shop-primary);
+}
+
+.bv-btn--icon {
+  width: 44px;
+  padding: 0;
+  background: #fff;
+  border-color: var(--shop-line);
+  color: var(--shop-ink);
+}
+
+.bv-btn--icon:hover {
+  border-color: var(--shop-primary);
+  color: var(--shop-primary);
+}
+
+/* Onglets + recherche (collants sous l'en-tête du site) */
+/* Pas « sticky » : l'en-tête du site l'est déjà sur certaines pages et recouvrirait les onglets */
+.bv-toolbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 24px;
+  background: #fff;
+  border: 1px solid var(--shop-line);
+  border-top: 1px solid var(--shop-line);
+  border-radius: 0 0 var(--shop-radius) var(--shop-radius);
+}
+
+.bv-tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 4px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.bv-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.bv-tabs__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  height: 54px;
+  padding: 0 14px;
+  color: var(--shop-ink-soft);
+  font-size: 14.5px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.bv-tabs__item i {
+  font-size: 13px;
+  color: var(--shop-muted);
+}
+
+.bv-tabs__item:hover {
+  color: var(--shop-ink);
+}
+
+.bv-tabs__item.is-active {
+  color: var(--shop-primary);
+}
+
+.bv-tabs__item.is-active i {
+  color: var(--shop-primary);
+}
+
+.bv-tabs__item.is-active::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--shop-primary);
+}
+
+.bv-search {
+  position: relative;
+  flex: 0 1 320px;
+  margin: 0;
+}
+
+.bv-search i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--shop-muted);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.bv-search input {
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 0 14px 0 38px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: #f1f4f8;
+  color: var(--shop-ink);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.bv-search input:focus {
+  background: #fff;
+  border-color: var(--shop-primary);
+}
+
+/* ================= Sections de la vitrine ================= */
+body.boutique-vitrine .mp-hero {
+  max-width: var(--shop-max);
+  margin: 20px auto 0;
+  padding: 0 16px;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+body.boutique-vitrine .produit_vedete,
+body.boutique-vitrine .section00,
+body.boutique-vitrine .boutique-top-categories,
+body.boutique-vitrine .section4,
+body.boutique-vitrine .galerie-creations,
+body.boutique-vitrine .logos-section {
+  max-width: var(--shop-max);
+  margin: 28px auto 0;
+  padding: 0 16px;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+/* Titres de section : sobres, alignés à gauche (plus de majuscules encadrées de traits) */
+body.boutique-vitrine .produit_vedete h1,
+body.boutique-vitrine .section00 h1,
+body.boutique-vitrine .boutique-top-categories__title,
+body.boutique-vitrine .galerie-titre {
+  margin: 0 0 16px;
+  padding: 0;
+  font-family: var(--font-titres);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  text-align: left;
+  color: var(--shop-ink);
+}
+
+body.boutique-vitrine .produit_vedete h1::before,
+body.boutique-vitrine .produit_vedete h1::after,
+body.boutique-vitrine .section00 h1::before,
+body.boutique-vitrine .section00 h1::after {
+  display: none !important;
+  content: none !important;
+}
+
+body.boutique-vitrine .box1 {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+body.boutique-vitrine .box1 > span {
+  display: none;
+}
+
+body.boutique-vitrine .box1 h1 {
+  margin: 0 !important;
+}
+
+.bv-section-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  color: var(--shop-primary);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.bv-section-link i {
+  font-size: 12px;
+}
+
+.bv-section-link:hover {
+  text-decoration: underline;
+}
+
+.bv-header .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Bandeaux de titre des pages internes (Produits, Nouveautés, Promos, Contact) :
+   l'identité est déjà dans l'en-tête de boutique, on garde un titre sobre */
+body.boutique-vitrine .produits-page-header,
+body.boutique-vitrine .page-header,
+body.boutique-vitrine .contact-header {
+  max-width: var(--shop-max);
+  margin: 24px auto 0;
+  padding: 0 16px;
+  box-sizing: border-box;
+  background: none !important;
+  color: var(--shop-ink) !important;
+  text-align: left !important;
+}
+
+body.boutique-vitrine .produits-page-header h1,
+body.boutique-vitrine .page-header h1,
+body.boutique-vitrine .contact-header h1 {
+  margin: 0;
+  font-family: var(--font-titres);
+  font-size: 22px !important;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--shop-ink) !important;
+}
+
+body.boutique-vitrine .produits-page-header h1 i,
+body.boutique-vitrine .page-header h1 i,
+body.boutique-vitrine .contact-header h1 i {
+  display: none;
+}
+
+body.boutique-vitrine .produits-page-header p,
+body.boutique-vitrine .page-header p,
+body.boutique-vitrine .contact-header p {
+  margin: 4px 0 0;
+  font-size: 14px !important;
+  color: var(--shop-muted) !important;
+  opacity: 1;
+}
+
+body.boutique-vitrine .contact-page {
+  max-width: var(--shop-max);
+  padding-top: 0;
+}
+
+/* Prix et boutons des cartes produits aux couleurs de la boutique */
+body.boutique-vitrine .prix-promo,
+body.boutique-vitrine .mp-new-price,
+body.boutique-vitrine .produit-content .prix {
+  color: var(--shop-accent);
+}
+
+body.boutique-vitrine .btn-add-cart,
+body.boutique-vitrine .mp-card-cart-btn {
+  border-color: var(--shop-primary);
+  color: var(--shop-primary);
+}
+
+body.boutique-vitrine .btn-add-cart:hover,
+body.boutique-vitrine .mp-card-cart-btn:hover {
+  background: var(--shop-primary);
+  color: #fff;
+}
+
+/* Bloc « Bienvenue chez … » */
+body.boutique-vitrine .section4 > * {
+  border-radius: var(--shop-radius);
+  overflow: hidden;
+}
+
+/* ================= Tablette ================= */
+@media (max-width: 1024px) {
+  .bv-identity {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .bv-identity__actions {
+    grid-column: 1 / -1;
+  }
+
+  .bv-search {
+    flex-basis: 240px;
+  }
+}
+
+/* ================= Téléphone ================= */
+@media (max-width: 767px) {
+  .bv-header {
+    margin-top: 0;
+    padding: 0;
+  }
+
+  .bv-cover {
+    height: 120px;
+    border-radius: 0;
+  }
+
+  .bv-identity {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 10px;
+    padding: 0 16px 16px;
+    border-left: 0;
+    border-right: 0;
+    text-align: center;
+  }
+
+  .bv-identity__logo {
+    width: 88px;
+    height: 88px;
+    margin-top: -44px;
+    border-radius: 22px;
+  }
+
+  .bv-identity__main {
+    padding-top: 0;
+  }
+
+  .bv-identity__name {
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .bv-identity__meta {
+    justify-content: center;
+    font-size: 13px;
+  }
+
+  .bv-identity__actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 44px;
+  }
+
+  /* Sans bouton Suivre (vendeur sur sa propre vitrine) : Contacter prend la place */
+  .bv-identity__actions:not(:has(> form, > .bv-btn--primary)) {
+    grid-template-columns: 1fr 44px;
+  }
+
+  .bv-identity__actions form,
+  .bv-identity__actions form .bv-btn {
+    width: 100%;
+  }
+
+  .bv-btn {
+    height: 42px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+
+  .bv-toolbar {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 0;
+    padding: 10px 0 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+
+  .bv-search {
+    flex: none;
+    margin: 0 16px;
+  }
+
+  .bv-tabs {
+    padding: 0 6px;
+  }
+
+  .bv-tabs__item {
+    height: 48px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+
+  .bv-tabs__item i {
+    display: none;
+  }
+
+  body.boutique-vitrine .mp-hero {
+    margin-top: 14px;
+    padding: 0 14px;
+  }
+
+  body.boutique-vitrine .produit_vedete,
+  body.boutique-vitrine .section00,
+  body.boutique-vitrine .boutique-top-categories,
+  body.boutique-vitrine .section4,
+  body.boutique-vitrine .galerie-creations,
+  body.boutique-vitrine .logos-section {
+    margin-top: 22px;
+    padding: 0 14px;
+  }
+
+  body.boutique-vitrine .produit_vedete h1,
+  body.boutique-vitrine .section00 h1,
+  body.boutique-vitrine .boutique-top-categories__title,
+  body.boutique-vitrine .galerie-titre {
+    font-size: 19px;
+    margin-bottom: 12px;
+  }
+}

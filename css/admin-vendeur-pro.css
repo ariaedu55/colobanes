@@ -1,0 +1,751 @@
+/**
+ * Espace vendeur — habillage « pro » commun à toutes les pages vendeur
+ * (chargé par admin/includes/nav.php quand le rôle est « vendeur »).
+ * Téléphone/tablette : barre du haut + tiroir de menu + barre du bas partagée avec la boutique.
+ * Ordinateur : menu latéral fixe, contenu aéré.
+ */
+
+body:has(.admin-sidebar--vendeur) {
+  --vd-bg: #f4f6fa;
+  --vd-card: #ffffff;
+  --vd-line: #e9edf3;
+  --vd-ink: #0f172a;
+  --vd-ink-soft: #475569;
+  --vd-muted: #8a94a6;
+  --vd-brand: var(--couleur-dominante, #3564a6);
+  --vd-brand-tint: #edf2fa;
+  --vd-orange: var(--orange, #ff6b35);
+  background: var(--vd-bg);
+}
+
+body:has(.admin-sidebar--vendeur) .admin-container,
+body:has(.admin-sidebar--vendeur) .admin-content {
+  background: var(--vd-bg);
+}
+
+/* ================= Barre du haut (téléphone / tablette) ================= */
+.vd-topbar,
+.vd-drawer-head,
+.vd-drawer-section {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .vd-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 10050;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: calc(10px + env(safe-area-inset-top, 0px)) 14px 10px;
+    background: #fff;
+    border-bottom: 1px solid var(--vd-line);
+  }
+
+  /* Fine bande bleue de marque, comme côté boutique */
+  .vd-topbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--vd-brand);
+  }
+
+  .vd-topbar__brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    text-decoration: none;
+  }
+
+  .vd-topbar__brand img {
+    width: auto;
+    height: 30px;
+    mix-blend-mode: multiply;
+  }
+
+  .vd-topbar__shop {
+    min-width: 0;
+    padding-left: 10px;
+    border-left: 1px solid var(--vd-line);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--font-titres);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--vd-ink);
+  }
+
+  .vd-topbar__actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .vd-topbar__btn {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #1f2937;
+    font-size: 18px;
+    text-decoration: none;
+  }
+
+  .vd-topbar__btn:hover {
+    background: #f1f4f9;
+  }
+
+  .vd-topbar__badge {
+    position: absolute;
+    top: 3px;
+    right: 2px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    background: var(--vd-orange);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    box-shadow: 0 0 0 2px #fff;
+  }
+
+  /* L'ancien bouton ☰ flottant est remplacé par « Menu » dans la barre du bas */
+  body:has(.admin-sidebar--vendeur) .mobile-menu-toggle {
+    display: none !important;
+  }
+
+  /* ===== Tiroir de menu (ouvert par « Menu ») ===== */
+  .admin-sidebar.admin-sidebar--vendeur.show {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 10600;
+    width: min(84vw, 320px) !important;
+    max-width: none !important;
+    height: 100dvh;
+    padding: calc(18px + env(safe-area-inset-top, 0px)) 14px calc(18px + env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    background: #fff !important;
+    box-shadow: 0 0 40px rgba(15, 23, 42, 0.18);
+    transform: none !important;
+    animation: vd-drawer-in 0.22s ease-out;
+  }
+
+  @keyframes vd-drawer-in {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+  }
+
+  /* Sélecteur renforcé : admin-dashboard.css masque cette couche avec un id + 2 classes */
+  #sidebarOverlay.sidebar-overlay.admin-vendeur-nav-hide-under-1024.show,
+  .sidebar-overlay.show {
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    z-index: 10550;
+    background: rgba(15, 23, 42, 0.45);
+  }
+
+  /* Le logo est déjà dans la barre du haut : le tiroir s'ouvre sur la carte profil */
+  .admin-sidebar--vendeur.show .sidebar-header {
+    display: none !important;
+  }
+
+  .admin-sidebar--vendeur.show .vd-drawer-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .admin-sidebar--vendeur.show .vd-drawer-profile {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 16px;
+    background: var(--vd-brand-tint);
+    color: var(--vd-ink);
+    text-decoration: none;
+  }
+
+  .vd-drawer-profile__avatar {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--vd-brand);
+    color: #fff;
+    font-family: var(--font-titres);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .vd-drawer-profile__text {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .vd-drawer-profile__name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .vd-drawer-profile__sub {
+    font-size: 12.5px;
+    color: var(--vd-ink-soft);
+  }
+
+  .vd-drawer-profile__chev {
+    color: var(--vd-muted);
+    font-size: 12px;
+  }
+
+  .vd-drawer-close {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: #f1f4f8;
+    color: var(--vd-ink);
+    font-size: 17px;
+    cursor: pointer;
+  }
+
+  .admin-sidebar--vendeur.show .vd-drawer-section {
+    display: block;
+    margin: 0 6px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--vd-muted);
+  }
+
+  /* Pas de doublons : Accueil, Produits et Messages sont dans la barre du bas,
+     Annonces est la cloche de la barre du haut, le profil est la carte en tête du tiroir */
+  .admin-sidebar--vendeur.show .menu-item[href$="dashboard.php"],
+  .admin-sidebar--vendeur.show .menu-item[href$="stock/index.php"],
+  .admin-sidebar--vendeur.show .menu-item[href$="messages.php"],
+  .admin-sidebar--vendeur.show .menu-item[href$="annonces.php"],
+  .admin-sidebar--vendeur.show .menu-item[href$="profil.php"] {
+    display: none !important;
+  }
+
+  .admin-sidebar--vendeur.show .sidebar-menu {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto;
+    gap: 2px;
+    width: 100%;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: 0 !important;
+  }
+
+  .admin-sidebar--vendeur.show .menu-item {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-height: 48px;
+    padding: 6px 10px !important;
+    border-radius: 12px !important;
+    background: transparent !important;
+    color: var(--vd-ink) !important;
+    text-decoration: none;
+  }
+
+  .admin-sidebar--vendeur.show .menu-item.active {
+    background: var(--vd-brand-tint) !important;
+    color: var(--vd-brand) !important;
+  }
+
+  .admin-sidebar--vendeur.show .menu-item__icon {
+    flex: 0 0 36px;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 10px !important;
+    display: grid !important;
+    place-items: center;
+    font-size: 15px !important;
+  }
+
+  .admin-sidebar--vendeur.show .menu-item__text {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    white-space: nowrap;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    max-width: none !important;
+  }
+
+  .admin-sidebar--vendeur.show .menu-item__badge {
+    position: static !important;
+    margin-left: auto;
+  }
+
+  .admin-sidebar--vendeur.show .menu-item--logout {
+    margin-top: auto !important;
+    border-top: 1px solid var(--vd-line);
+    border-radius: 0 !important;
+    color: #dc2626 !important;
+  }
+
+  .admin-sidebar--vendeur.show .menu-item--logout .menu-item__icon {
+    background: #fdeeee !important;
+    color: #dc2626 !important;
+  }
+}
+
+/* ================= Lisibilité : aucun libellé sous 12px ================= */
+body:has(.admin-sidebar--vendeur) .dash-v2-header__eyebrow,
+body:has(.admin-sidebar--vendeur) .dash-v2-stat__label,
+body:has(.admin-sidebar--vendeur) .stk-stat__lbl,
+body:has(.admin-sidebar--vendeur) .stk-filters__label,
+body:has(.admin-sidebar--vendeur) .cmd-v2-hero__label,
+body:has(.admin-sidebar--vendeur) .cmd-v2-stat__label,
+body:has(.admin-sidebar--vendeur) .cert-pricing-col__foot-hint,
+body:has(.admin-sidebar--vendeur) .prm-hero__eyebrow,
+body:has(.admin-sidebar--vendeur) .prm-boutique__field-label,
+body:has(.admin-sidebar--vendeur) .abl-form-label,
+body:has(.admin-sidebar--vendeur) .abl-position-saved__label,
+body:has(.admin-sidebar--vendeur) .ap-menu-section,
+body:has(.admin-sidebar--vendeur) .pbv-page-header__eyebrow,
+body:has(.admin-sidebar--vendeur) .pbv-logo-caption,
+body:has(.admin-sidebar--vendeur) .pbv-color-slot__title,
+body:has(.admin-sidebar--vendeur) .pbv-color-hex,
+body:has(.admin-sidebar--vendeur) .pbv-color-preview-card__label,
+body:has(.admin-sidebar--vendeur) .pbv-page p {
+  font-size: 12px !important;
+}
+
+/* Libellés de compteurs : sur deux lignes plutôt que tronqués */
+body:has(.admin-sidebar--vendeur) .dash-v2-stat__label,
+body:has(.admin-sidebar--vendeur) .stk-stat__lbl,
+body:has(.admin-sidebar--vendeur) .cmd-v2-stat__label {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  line-height: 1.25;
+}
+
+/* ================= Tableau de bord : en-tête plus lisible ================= */
+body:has(.admin-sidebar--vendeur) .dash-v2-header__eyebrow {
+  letter-spacing: 0.06em;
+  color: var(--vd-muted) !important;
+}
+
+/* ================= Profil vendeur : même design que le profil client ================= */
+@media (max-width: 1023px) {
+  body.admin-page-profil .ap-shell-header {
+    background: var(--vd-brand);
+    border-radius: 0 0 28px 28px;
+    padding-bottom: 28px;
+  }
+
+  body.admin-page-profil .ap-shell-header::before,
+  body.admin-page-profil .ap-shell-header::after {
+    display: none;
+  }
+
+  body.admin-page-profil .ap-shell-sheet {
+    margin-top: 0;
+    padding: 6px 0 24px;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 0;
+  }
+}
+
+body.admin-page-profil .ap-shell-avatar {
+  width: 84px;
+  height: 84px;
+  background: #fff;
+  border: 0;
+  color: var(--vd-brand);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.22);
+  overflow: hidden;
+}
+
+body.admin-page-profil .ap-shell-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+body.admin-page-profil .ap-shell-name {
+  font-size: 21px;
+}
+
+body.admin-page-profil .ap-sheet-boutique-name {
+  display: none;
+}
+
+/* Rangées groupées en cartes blanches (une carte = une section) */
+body.admin-page-profil .ap-menu-section {
+  padding: 18px 4px 8px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--vd-muted);
+}
+
+body.admin-page-profil .ap-menu-list {
+  padding: 0 14px;
+}
+
+body.admin-page-profil .ap-menu-list > .ap-card {
+  background: #fff;
+  border: 1px solid var(--vd-line);
+  border-top: 0;
+}
+
+body.admin-page-profil .ap-menu-list > .ap-menu-section + .ap-card {
+  border-top: 1px solid var(--vd-line);
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+}
+
+body.admin-page-profil .ap-menu-list > .ap-card:has(+ .ap-menu-section),
+body.admin-page-profil .ap-menu-list > .ap-card:last-child {
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+}
+
+body.admin-page-profil .ap-menu-list > .ap-menu-section + .ap-card:has(+ .ap-menu-section),
+body.admin-page-profil .ap-menu-list > .ap-menu-section + .ap-card:last-child {
+  border-radius: 16px;
+}
+
+body.admin-page-profil .ap-menu-row {
+  min-height: 58px;
+  gap: 14px;
+  padding: 10px 14px;
+  font-size: 15px;
+}
+
+body.admin-page-profil .ap-menu-row__icon {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  font-size: 16px;
+  background: #f1f3f6;
+  color: var(--vd-ink-soft);
+}
+
+body.admin-page-profil .ap-menu-row--accent .ap-menu-row__icon {
+  background: var(--vd-brand-tint);
+  color: var(--vd-brand);
+}
+
+body.admin-page-profil .ap-menu-row--logout .ap-menu-row__icon {
+  background: #fdeeee;
+  color: #dc2626;
+}
+
+body.admin-page-profil .ap-menu-row--logout .ap-menu-row__label {
+  color: #dc2626;
+}
+
+/* Derniers petits libellés relevés par l'audit (historique des ventes, ajout produit, couleurs vitrine) */
+body:has(.admin-sidebar--vendeur) .cmd-v2-kpi label,
+body:has(.admin-sidebar--vendeur) .fap-dropzone-inner small,
+body:has(.admin-sidebar--vendeur) .btn-fap-add-variante-text small {
+  font-size: 12px !important;
+}
+
+body:has(.admin-sidebar--vendeur) .pbv-color-slot__title {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  line-height: 1.25;
+}
+
+/* ================= Tableau de bord : en-tête, chiffre d'affaires, compteurs ================= */
+.dash-v3-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 4px 0 16px;
+}
+
+.dash-v3-head__title {
+  margin: 0;
+  font-family: var(--font-titres);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--vd-ink);
+}
+
+.dash-v3-head__sub {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--vd-muted);
+}
+
+.dash-v3-head__sub strong {
+  color: var(--vd-ink-soft);
+  font-weight: 600;
+}
+
+.dash-v3-hero {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 16px;
+  padding: 20px;
+  border-radius: 20px;
+  color: #fff;
+  background:
+    radial-gradient(110% 140% at 100% 0%, color-mix(in srgb, var(--vd-orange) 30%, transparent) 0%, transparent 55%),
+    linear-gradient(135deg, color-mix(in srgb, var(--vd-brand) 82%, #000) 0%, var(--vd-brand) 100%);
+}
+
+.dash-v3-hero__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dash-v3-hero__label {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.dash-v3-hero__cert {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.dash-v3-hero__amount {
+  margin: 6px 0 18px;
+  font-family: var(--font-titres);
+  font-size: clamp(30px, 7vw, 40px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.dash-v3-hero__amount span {
+  font-size: 0.42em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0;
+}
+
+.dash-v3-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dash-v3-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.dash-v3-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+.dash-v3-btn--solid {
+  background: #fff;
+  border-color: #fff;
+  color: var(--vd-brand);
+}
+
+.dash-v3-btn--solid:hover {
+  background: #f1f4f9;
+  color: var(--vd-brand);
+}
+
+.dash-v3-btn--static {
+  cursor: default;
+}
+
+/* Compteurs : libellés en casse normale, chiffres plus présents */
+body:has(.admin-sidebar--vendeur) .dash-v2-stat__label {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--vd-muted) !important;
+}
+
+body:has(.admin-sidebar--vendeur) .dash-v2-stat__value {
+  font-size: 22px !important;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+body:has(.admin-sidebar--vendeur) .dash-v2-stat {
+  border: 1px solid var(--vd-line);
+  box-shadow: none;
+}
+
+@media (max-width: 767px) {
+  .dash-v3-head {
+    margin-top: 6px;
+  }
+
+  .dash-v3-head__title {
+    font-size: 21px;
+  }
+
+  .dash-v3-hero {
+    padding: 18px 16px;
+  }
+
+  /* Téléphone : Voir ma boutique sur toute la largeur, Partager et COLObanes côte à côte */
+  .dash-v3-hero__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dash-v3-btn--solid {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---- Rappel « Activez votre boutique » (vendeur sans produit) ---- */
+.vd-activation {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 18px;
+    padding: 14px 16px;
+    border: 1px solid #fed7aa;
+    border-radius: 14px;
+    background: #fff7ed;
+    color: #7c2d12;
+}
+
+.vd-activation__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: #ff6b35;
+    color: #fff;
+    font-size: 16px;
+}
+
+.vd-activation__text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.vd-activation__text strong {
+    font-size: 15px;
+    font-weight: 700;
+    color: #101828;
+}
+
+.vd-activation__text span {
+    font-size: 13px;
+    line-height: 1.45;
+    color: #7c2d12;
+}
+
+.vd-activation__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex: none;
+    height: 42px;
+    padding: 0 18px;
+    border-radius: 10px;
+    background: #ff6b35;
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none !important;
+    white-space: nowrap;
+    transition: background-color 0.15s ease;
+}
+
+.vd-activation__cta:hover {
+    background: #e85a2a;
+}
+
+@media (max-width: 640px) {
+    .vd-activation {
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+
+    .vd-activation__text {
+        flex-basis: calc(100% - 54px);
+    }
+
+    .vd-activation__cta {
+        width: 100%;
+    }
+}

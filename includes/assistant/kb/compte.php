@@ -1,0 +1,81 @@
+<?php
+/* Assistant — compte client : inscription, connexion, profil, notifications, application. */
+return [
+    [
+        'id' => 'inscription', 'title' => 'Créer un compte', 'audience' => 'client',
+        'keywords' => ['creer un compte', 'inscription', 'inscrire', 's inscrire', 'ouvrir un compte', 'nouveau compte', 'creer compte'],
+        'questions' => ['comment creer un compte', 'je veux m inscrire', 'comment s inscrire sur le site', 'faut il un compte pour acheter', 'inscription gratuite'],
+        'answer' => "L’inscription est **gratuite** : touchez **Créer un compte**, choisissez **Acheteur (compte client)**, puis inscrivez-vous avec votre **téléphone ou e-mail**, ou directement avec **Google / Apple**.\nUn compte est nécessaire pour commander, suivre vos commandes, enregistrer des favoris et écrire aux vendeurs.",
+        'links' => [['Créer un compte', '/choix-inscription.php']],
+    ],
+    [
+        'id' => 'connexion', 'title' => 'Se connecter', 'audience' => 'client',
+        'keywords' => ['se connecter', 'connexion', 'connecter', 'login', 'identifier', 'je n arrive pas a me connecter', 'impossible de me connecter'],
+        'questions' => ['comment me connecter', 'je n arrive pas a me connecter', 'ou est la page de connexion', 'se connecter avec google', 'connexion avec mon numero'],
+        'answer' => "Touchez **Se connecter** puis choisissez l’onglet **Téléphone** ou **E-mail**, avec votre mot de passe. Vous pouvez aussi continuer avec **Google** ou **Apple**.\nProblème de mot de passe ? Utilisez **Mot de passe oublié** sur la même page.",
+        'links' => [['Se connecter', '/choix-connexion.php'], ['Mot de passe oublié', '/mot-de-passe-oublie.php']],
+    ],
+    [
+        'id' => 'mot_de_passe', 'title' => 'Mot de passe oublié',
+        'keywords' => ['mot de passe oublie', 'oublie mon mot de passe', 'reinitialiser', 'changer mot de passe', 'changer de mot de passe', 'mdp', 'password'],
+        'questions' => ['j ai oublie mon mot de passe', 'comment changer mon mot de passe', 'reinitialiser mon mot de passe', 'je ne me souviens plus de mon mot de passe'],
+        'answer' => "Sur **Mot de passe oublié**, indiquez votre type de compte (client ou vendeur) et votre **adresse e-mail** : vous recevez un lien sécurisé, valable un temps limité, pour choisir un nouveau mot de passe.\nDéjà connecté ? Changez-le dans **Mon compte → Profil**.",
+        'links' => [['Mot de passe oublié', '/mot-de-passe-oublie.php']],
+    ],
+    [
+        'id' => 'profil', 'title' => 'Modifier mes informations', 'audience' => 'client',
+        'keywords' => ['mon profil', 'modifier mon nom', 'changer mon numero', 'changer mon email', 'mes informations', 'mon compte', 'photo de profil'],
+        'questions' => ['comment modifier mon profil', 'changer mon numero de telephone', 'mettre a jour mon adresse email', 'ou est mon compte'],
+        'answer' => "Ouvrez **Mon compte → Profil** pour modifier votre nom, votre e-mail, votre téléphone et votre mot de passe. Gardez un numéro **joignable** : le vendeur ou le livreur l’utilise pour vos livraisons.",
+        'links' => [['Mon profil', '/user/profil.php']],
+    ],
+    [
+        'id' => 'deconnexion', 'title' => 'Se déconnecter', 'audience' => 'client',
+        'keywords' => ['deconnexion', 'deconnecter', 'se deconnecter', 'logout', 'changer de compte'],
+        'questions' => ['comment me deconnecter', 'sortir de mon compte', 'utiliser un autre compte'],
+        'answer' => "Ouvrez **Mon compte** puis touchez **Déconnexion** en bas de la page.",
+        'links' => [['Mon compte', '/user/profil.php']],
+    ],
+    [
+        'id' => 'notifications', 'title' => 'Notifications', 'audience' => 'client',
+        'keywords' => ['notification', 'notifications', 'alerte', 'pas de notification', 'activer les notifications', 'cloche'],
+        'questions' => ['comment activer les notifications', 'je ne recois pas de notification', 'desactiver les notifications', 'a quoi sert la cloche'],
+        'answer' => "Vous êtes notifié des étapes de vos commandes, des réponses des vendeurs, des baisses de prix et des nouveautés des boutiques suivies (la **cloche** en haut les regroupe).\nPour les recevoir sur le téléphone, autorisez les notifications quand l’application ou le navigateur le demande, ou dans les réglages de votre téléphone.",
+        'links' => [['Mon compte', '/user/profil.php']],
+    ],
+    [
+        'id' => 'annonces_plateforme', 'title' => 'Messages de la plateforme', 'audience' => 'client',
+        'keywords' => ['annonces', 'message de colobanes', 'messages de la plateforme', 'information colobanes'],
+        'questions' => ['ou voir les annonces de colobanes', 'j ai recu un message de la plateforme', 'les informations importantes'],
+        'answer' => "Les messages importants de COLObanes (promotions, nouveautés, informations) sont dans **Mon compte → Annonces**. Un badge indique ceux que vous n’avez pas encore lus.",
+        'links' => [['Annonces', '/user/annonces.php']],
+    ],
+    [
+        'id' => 'application', 'title' => 'Application mobile',
+        'keywords' => ['application', 'appli', 'app', 'telecharger', 'play store', 'app store', 'android', 'iphone app', 'installer'],
+        'questions' => ['avez vous une application', 'comment telecharger l application', 'l appli existe sur android', 'installer colobanes sur mon telephone'],
+        'answer' => "L’application **COLObanes** est gratuite sur l’**App Store** (iPhone) et **Google Play** (Android) : navigation plus rapide et notifications de vos commandes et messages.",
+        'links' => [['App Store', 'https://apps.apple.com/app/id6771130832'], ['Google Play', 'https://play.google.com/store/apps/details?id=com.colobanes.app&hl=fr']],
+    ],
+    [
+        'id' => 'mode_sombre', 'title' => 'Mode sombre',
+        'keywords' => ['mode sombre', 'theme sombre', 'dark mode', 'mode nuit'],
+        'questions' => ['activer le mode sombre', 'mettre l ecran en noir', 'changer le theme'],
+        'answer' => "Dans **Mon compte**, touchez l’icône **lune** pour passer en mode sombre (et le soleil pour revenir au mode clair). Le choix est mémorisé.",
+        'links' => [['Mon compte', '/user/profil.php']],
+    ],
+    [
+        'id' => 'notifications_offres', 'title' => 'Notifications nouveautés, dons et offres', 'audience' => 'client',
+        'keywords' => ['trop de notifications', 'arreter les notifications', 'desactiver notifications', 'pourquoi je recois des notifications', 'notification nouveautes', 'notification don'],
+        'questions' => ['pourquoi je recois des notifications', 'comment arreter les notifications', 'je recois trop de notifications', 'desactiver les alertes'],
+        'answer' => "COLObanes vous prévient du suivi de vos **commandes** et de vos **messages**, et parfois des **nouveautés des boutiques** ou des **dons** : ces annonces arrivent **une fois par jour au maximum**, jamais la nuit.\nPour les couper : réglages du **téléphone → Notifications → COLObanes** (ou réglages du navigateur sur ordinateur). Les alertes de commande restent utiles pour suivre vos achats.",
+        'links' => [],
+    ],
+    [
+        'id' => 'assistant_kennassy', 'title' => 'Qui est Kennassy ?',
+        'keywords' => ['kennassy', 'qui es tu', 'tu es qui', 'tu es un robot', 'assistant', 'chatbot', 'intelligence artificielle'],
+        'questions' => ['qui es tu', 'tu es un robot', 'tu es une vraie personne', 'que peux tu faire'],
+        'answer' => "Je suis **Kennassy**, l’assistante virtuelle de COLObanes. Je vous aide à **trouver des produits et des boutiques**, à **suivre vos commandes**, à comprendre la **livraison**, le **paiement**, la **vente en gros** ou les **dons**, et j’accompagne les **vendeurs**.\nPour parler à une personne de l’équipe : **contact@colobanes.com**.",
+        'links' => [['Nous contacter', '/contact.php']],
+    ],
+];

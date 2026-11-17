@@ -1,0 +1,279 @@
+/**
+ * Modification d'un produit (admin/produits/embed_modifier.php dans la fenêtre du stock,
+ * et admin/produits/modifier.php). Surcharge le formulaire commun inc_form_ajouter_produit.php
+ * (ses styles sont inline : sélecteurs préfixés par body.fap-edit-page pour l'emporter).
+ */
+
+body.fap-edit-page {
+    --pe-ink: #101828;
+    --pe-text: #344054;
+    --pe-muted: #667085;
+    --pe-line: #e4e7ec;
+    --pe-bg: #f4f6fa;
+    --pe-brand: var(--couleur-dominante, #3564a6);
+    --pe-brand-tint: #edf2fa;
+    background: var(--pe-bg);
+}
+
+/* ---- Largeur : la règle « max-width: 720px » de la page autonome ne s'applique plus ---- */
+body.fap-edit-page .form-add-section {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 16px 20px 0;
+    box-sizing: border-box;
+}
+
+body.fap-edit-page .form-add-container {
+    max-width: none;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* ---- Deux colonnes : contenu à gauche, visuels + visibilité à droite ---- */
+body.fap-edit-page .fap-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+}
+
+@media (min-width: 960px) {
+    body.fap-edit-page .fap-layout {
+        grid-template-columns: minmax(0, 1fr) 360px;
+        align-items: start;
+    }
+
+    body.fap-edit-page .fap-column-side {
+        position: sticky;
+        top: 16px;
+    }
+}
+
+body.fap-edit-page .fap-column {
+    min-width: 0;
+}
+
+/* ---- Cartes ---- */
+body.fap-edit-page .fap-card {
+    margin-bottom: 16px;
+    padding: 18px 20px;
+    border: 1px solid var(--pe-line);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+body.fap-edit-page .fap-card-head {
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+body.fap-edit-page .fap-card-head i {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    border-radius: 9px;
+    background: var(--pe-brand-tint);
+    color: var(--pe-brand);
+    font-size: 14px;
+}
+
+body.fap-edit-page .fap-card-head h3 {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--pe-ink);
+}
+
+/* ---- Champs ---- */
+body.fap-edit-page .fap-field {
+    margin-bottom: 14px;
+}
+
+body.fap-edit-page .fap-field label {
+    margin-bottom: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--pe-text);
+}
+
+body.fap-edit-page .fap-field input[type=text],
+body.fap-edit-page .fap-field input[type=number],
+body.fap-edit-page .fap-field select,
+body.fap-edit-page .fap-field textarea {
+    padding: 10px 12px;
+    border: 1px solid #d0d5dd;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+body.fap-edit-page .fap-field textarea {
+    min-height: 96px;
+}
+
+body.fap-edit-page .fap-field input[readonly],
+body.fap-edit-page .fap-field input:disabled {
+    background: var(--pe-bg);
+    color: var(--pe-muted);
+}
+
+body.fap-edit-page .fap-hint {
+    margin-bottom: 10px;
+    font-size: 12.5px;
+    color: var(--pe-muted);
+}
+
+/* Prix & stock : 2 colonnes sur petit écran, 4 sur grand */
+body.fap-edit-page .fap-row-prix-stock {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 12px;
+}
+
+@media (min-width: 720px) {
+    body.fap-edit-page .fap-row-prix-stock {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+/* ---- Sous-catégories : pastilles compactes, hauteur limitée ---- */
+body.fap-edit-page .fap-field-souscats fieldset {
+    margin: 0;
+    padding: 12px;
+    border: 1px solid var(--pe-line);
+    border-radius: 12px;
+}
+
+body.fap-edit-page .fap-field-souscats legend {
+    padding: 0 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--pe-text);
+}
+
+body.fap-edit-page .fap-genres-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-height: 210px;
+    margin-top: 4px;
+    overflow-y: auto;
+}
+
+body.fap-edit-page .fap-genre-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid var(--pe-line);
+    border-radius: 999px;
+    background: #fff;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+body.fap-edit-page .fap-genre-label input {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    accent-color: var(--pe-brand);
+}
+
+body.fap-edit-page .fap-genre-label:has(input:checked) {
+    border-color: var(--pe-brand);
+    background: var(--pe-brand-tint);
+    color: var(--pe-brand);
+}
+
+/* ---- Visuels ---- */
+body.fap-edit-page .fap-existing-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+body.fap-edit-page .fap-existing-gallery .preview-item {
+    width: auto;
+    height: auto;
+    aspect-ratio: 1;
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+body.fap-edit-page .fap-existing-gallery .preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+body.fap-edit-page .fap-dropzone {
+    border-radius: 12px;
+}
+
+/* ---- Barre d'actions toujours visible en bas ---- */
+body.fap-edit-page .fap-actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    gap: 10px;
+    margin: 8px -20px 0;
+    padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--pe-line);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 -8px 24px rgba(16, 24, 40, 0.06);
+}
+
+body.fap-edit-page .btn-fap-submit {
+    padding: 12px 22px;
+    border-radius: 12px;
+    background: var(--pe-brand);
+    box-shadow: none;
+    font-size: 14.5px;
+}
+
+body.fap-edit-page .btn-fap-cancel {
+    padding: 11px 20px;
+    border: 1px solid #d0d5dd;
+    border-radius: 12px;
+    color: var(--pe-ink);
+    font-size: 14.5px;
+}
+
+@media (max-width: 600px) {
+    body.fap-edit-page .form-add-section {
+        padding: 10px 10px 0;
+    }
+
+    body.fap-edit-page .fap-card {
+        padding: 14px;
+        border-radius: 14px;
+    }
+
+    body.fap-edit-page .fap-actions {
+        margin: 8px -10px 0;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    body.fap-edit-page .fap-actions > * {
+        flex: 1;
+        justify-content: center;
+    }
+}

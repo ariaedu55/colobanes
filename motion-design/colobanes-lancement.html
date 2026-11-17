@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lancement COLObanes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --navy:#0d2245; --blue:#3564a6; --blue-d:#1e3a6b; --orange:#ff6b35; --green:#15803d;
+  --ink:#101828; --mute:#667085; --page:#05070d; --ctrl:#9aa4b8;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){ --page:#e9edf4; --ctrl:#475467; } }
+:root[data-theme="light"]{ --page:#e9edf4; --ctrl:#475467; }
+:root[data-theme="dark"]{ --page:#05070d; --ctrl:#9aa4b8; }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--page);font-family:Poppins,system-ui,sans-serif;overflow:hidden;color:#fff}
+#wrap{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px}
+#holder{position:relative;flex:none}
+#stage{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;transform-origin:0 0;border-radius:28px;
+  background:radial-gradient(120% 80% at 50% 0%,#1b4380 0%,var(--navy) 55%,#081631 100%)}
+body.rec #stage{border-radius:0} body.rec #wrap{padding:0} body.rec #controls{display:none}
+.abs{position:absolute}
+.scene{position:absolute;inset:0}
+
+/* background */
+#grid{position:absolute;inset:-200px;opacity:.06;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:90px 90px}
+.orb{position:absolute;border-radius:50%;filter:blur(100px)}
+#orb1{width:640px;height:640px;background:#ff6b35;opacity:.33}
+#orb2{width:760px;height:760px;background:#3f7fd9;opacity:.45}
+#orb3{width:460px;height:460px;background:#f6c82d;opacity:.12}
+
+/* teaser */
+.tw{position:absolute;left:0;right:0;top:50%;text-align:center;font-weight:900;font-size:168px;letter-spacing:-.04em;line-height:1;margin-top:-90px}
+#tfinal{font-size:104px;line-height:1.05;margin-top:-120px}
+#tfinal em{font-style:normal;color:var(--orange)}
+
+/* headlines */
+.head{position:absolute;left:0;right:0;top:120px;text-align:center;padding:0 60px}
+.kicker{display:inline-flex;align-items:center;gap:14px;padding:10px 26px 10px 12px;border-radius:999px;background:rgba(255,255,255,.09);
+  border:1.5px solid rgba(255,255,255,.18);font-weight:700;font-size:26px;letter-spacing:.2em}
+.kicker .ico{width:48px;height:48px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-size:21px;letter-spacing:0}
+.ttl{margin-top:22px;font-weight:800;font-size:76px;line-height:1.06;letter-spacing:-.025em}
+.ttl .ln{display:block;overflow:hidden;padding-bottom:.08em}
+.ttl .w{display:inline-block}
+.ttl em{font-style:normal;color:var(--orange)}
+
+/* phone */
+#phoneWrap{position:absolute;left:0;top:0;width:1080px;height:1920px;perspective:2600px}
+#phone{position:absolute;left:226px;top:515px;width:628px;height:1328px;border-radius:96px;background:#0a0c11;padding:14px;
+  box-shadow:0 0 0 3px #2b3343,0 0 0 9px #11151d,0 70px 140px rgba(0,0,0,.6),0 0 180px rgba(63,127,217,.35)}
+#screenClip{position:relative;width:600px;height:1300px;border-radius:84px;overflow:hidden;background:#fff}
+#scr{position:absolute;left:0;top:0;width:923px;height:2000px;transform:scale(.650054);transform-origin:0 0}
+.sc{position:absolute;inset:0;background:#fff;overflow:hidden}
+.sc img{position:absolute;left:0;top:0;width:923px;height:2000px;display:block}
+.sc .hd,.sc .bd,.sc .ft{position:absolute;left:0;right:0;overflow:hidden}
+#island{position:absolute;left:204px;top:18px;width:192px;height:56px;border-radius:28px;background:#000;z-index:50}
+.ov{position:absolute;z-index:40}
+.touch{position:absolute;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;background:rgba(255,255,255,.5);border:6px solid #fff;
+  box-shadow:0 10px 30px rgba(0,0,0,.35),0 0 0 2px rgba(0,0,0,.08);z-index:60}
+.touch::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:6px solid rgba(255,255,255,.9);transform:scale(var(--rip,1));opacity:var(--ripo,0)}
+.cover{position:absolute;z-index:41;display:flex;align-items:center}
+#glare{position:absolute;inset:0;z-index:55;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.14) 48%,transparent 60%);background-size:300% 100%}
+
+/* store page (built) */
+#st{background:#fff;color:var(--ink)}
+#st .bar{position:absolute;left:0;right:0;top:150px;display:flex;align-items:center;gap:16px;padding:0 44px;font-size:38px;color:var(--blue);font-weight:500}
+#st .top{position:absolute;left:44px;right:44px;top:250px;display:flex;gap:40px}
+#st .icon{width:260px;height:260px;border-radius:58px;background:#fff;box-shadow:0 0 0 2px #e6eaf0,0 14px 40px rgba(16,24,40,.12);display:grid;place-items:center;overflow:hidden;flex:none}
+#st .icon img{position:static;width:170px;height:auto}
+#st h3{font-size:54px;font-weight:800;line-height:1.1;margin-top:10px}
+#st .cat{font-size:32px;color:var(--mute);margin-top:6px}
+#st .get{margin-top:34px;width:230px;height:84px;border-radius:999px;background:var(--blue);color:#fff;font-size:36px;font-weight:700;display:grid;place-items:center;position:relative}
+#st .get .ring{position:absolute;inset:0;display:grid;place-items:center;background:#fff}
+#st .meta{position:absolute;left:44px;right:44px;top:600px;display:flex;border-top:2px solid #eef1f5;border-bottom:2px solid #eef1f5;padding:30px 0}
+#st .meta div{flex:1;text-align:center;font-size:26px;color:var(--mute)}
+#st .meta div+div{border-left:2px solid #eef1f5}
+#st .meta b{display:block;font-size:36px;color:var(--ink);margin-bottom:4px}
+#st .shots{position:absolute;left:44px;top:800px;display:flex;gap:26px}
+#st .shots div{width:330px;height:715px;border-radius:40px;overflow:hidden;box-shadow:0 0 0 2px #e6eaf0}
+#st .shots img{position:static;width:330px;height:715px}
+#st .desc{position:absolute;left:44px;right:44px;top:1560px;font-size:32px;line-height:1.45;color:#344054}
+#st .desc b{color:var(--ink)}
+
+/* callouts (stage coords) */
+.call{position:absolute;overflow:hidden;border-radius:30px;box-shadow:0 40px 90px rgba(0,0,0,.5),0 0 0 6px rgba(255,255,255,.95);background:#fff}
+.call img{position:absolute;display:block}
+.pill{position:absolute;display:flex;align-items:center;gap:16px;padding:16px 30px 16px 16px;border-radius:999px;background:#fff;color:var(--ink);
+  font-weight:700;font-size:30px;box-shadow:0 24px 60px rgba(0,0,0,.4);white-space:nowrap}
+.pill .ci{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:27px}
+.heart{position:absolute;color:var(--orange);font-size:56px;filter:drop-shadow(0 6px 14px rgba(255,107,53,.5))}
+.linkPill{left:60px;top:1500px;width:960px;height:124px;border-radius:999px;background:#fff;color:var(--ink);display:flex;align-items:center;padding:0 14px 0 18px;gap:16px;
+  box-shadow:0 40px 90px rgba(0,0,0,.5),0 0 0 8px rgba(255,255,255,.14)}
+.linkPill .li{width:86px;height:86px;border-radius:50%;background:#fff1eb;color:var(--orange);display:grid;place-items:center;font-size:34px;flex:none}
+.linkPill .url{font-size:30px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden}
+.linkPill .url span{color:var(--blue)}
+.cp{height:94px;min-width:200px;padding:0 30px;border-radius:999px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;gap:12px;font-size:27px;font-weight:700;position:relative;overflow:hidden;flex:none}
+.cp .ok{position:absolute;inset:0;background:#17b26a;display:flex;align-items:center;justify-content:center;gap:12px}
+.share{position:absolute;width:104px;height:104px;border-radius:50%;display:grid;place-items:center;font-size:42px;color:#fff;box-shadow:0 20px 44px rgba(0,0,0,.4)}
+.autoTag{left:540px;top:1395px;padding:14px 30px;border-radius:999px;background:var(--orange);font-weight:700;font-size:27px;white-space:nowrap;display:flex;gap:12px;align-items:center;box-shadow:0 20px 40px rgba(255,107,53,.4)}
+
+/* outro */
+#s8{clip-path:circle(0% at 50% 50%);background:#fff;color:var(--ink)}
+#oIcon{left:540px;top:280px;width:240px;height:240px;margin-left:-120px;border-radius:56px;background:#fff;box-shadow:0 30px 70px rgba(16,24,40,.18),0 0 0 2px #eef1f5;display:grid;place-items:center}
+#oIcon img{width:160px}
+#oLogo{left:540px;top:600px;width:900px;margin-left:-450px}
+#oLogo img{width:100%;display:block}
+#verbs{left:0;right:0;top:1060px;display:grid;grid-template-columns:auto auto;justify-content:center;gap:18px}
+.verb{display:flex;align-items:center;gap:14px;padding:16px 32px 16px 16px;border-radius:999px;background:#f3f6fb;font-size:32px;font-weight:700}
+.verb i{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:25px}
+#cta{left:540px;top:1310px;height:124px;padding:0 60px;border-radius:999px;background:var(--orange);color:#fff;display:flex;align-items:center;gap:22px;
+  font-size:40px;font-weight:800;white-space:nowrap;box-shadow:0 24px 50px rgba(255,107,53,.4)}
+#stores{left:0;right:0;top:1490px;display:flex;justify-content:center;gap:24px}
+.store{display:flex;align-items:center;gap:18px;height:116px;padding:0 36px 0 30px;border-radius:26px;background:#0b0d12;color:#fff}
+.store i{font-size:58px}
+.store small{display:block;font-size:20px;opacity:.8;line-height:1.1}
+.store b{display:block;font-size:36px;line-height:1.1}
+#url{left:0;right:0;top:1660px;text-align:center;font-size:44px;font-weight:800;color:var(--blue-d)}
+#flag{left:0;right:0;bottom:0;height:24px;display:flex} #flag div{flex:1;transform-origin:left}
+
+/* controls */
+#controls{display:flex;align-items:center;gap:12px;width:min(100%,560px);color:var(--ctrl);font-size:14px}
+#controls button{width:44px;height:44px;border-radius:50%;border:0;background:var(--orange);color:#fff;font-size:16px;cursor:pointer;flex:none}
+#controls button.g{background:transparent;border:1.5px solid currentColor;color:var(--ctrl)}
+#scrub{flex:1;accent-color:#ff6b35;min-width:0}
+#tc{font-variant-numeric:tabular-nums;width:86px;text-align:right}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="holder">
+<div id="stage">
+  <div id="bg" class="scene"><div id="grid"></div><div id="orb1" class="orb"></div><div id="orb2" class="orb"></div><div id="orb3" class="orb"></div></div>
+  <div id="flash" class="scene"></div>
+
+  <!-- teaser -->
+  <div id="teaser" class="scene">
+    <div class="tw" id="tw0">Achetez.</div>
+    <div class="tw" id="tw1">Négociez.</div>
+    <div class="tw" id="tw2">Donnez.</div>
+    <div class="tw" id="tw3">Vendez.</div>
+    <div class="tw" id="tfinal">Tout au même<br><em>endroit.</em></div>
+  </div>
+
+  <div class="scene" id="heads"></div>
+
+  <!-- phone -->
+  <div id="phoneWrap">
+    <div id="phone">
+      <div id="screenClip">
+        <div id="scr">
+          <div class="sc" id="st">
+            <div class="bar"><i class="fa-solid fa-chevron-left"></i>Rechercher</div>
+            <div class="top">
+              <div class="icon"><img src="assets/icon.png" alt=""></div>
+              <div><h3>COLObanes</h3><div class="cat">Marché en ligne · Shopping</div>
+                <div class="get" id="getBtn"><span id="getTxt">OBTENIR</span><div class="ring" id="getRing"><svg width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="34" fill="none" stroke="#e4e9f2" stroke-width="7"/><circle id="getArc" cx="42" cy="42" r="34" fill="none" stroke="#3564a6" stroke-width="7" stroke-linecap="round" stroke-dasharray="214" stroke-dashoffset="214" transform="rotate(-90 42 42)"/><rect x="34" y="34" width="16" height="16" rx="3" fill="#3564a6"/></svg></div></div>
+              </div>
+            </div>
+            <div class="meta"><div><b>Gratuit</b>Prix</div><div><b>iOS · Android</b>Disponible</div><div><b>FR · EN</b>Langues</div></div>
+            <div class="shots"><div><img src="assets/s7.webp" alt=""></div><div><img src="assets/s10.webp" alt=""></div><div><img src="assets/s13.webp" alt=""></div></div>
+            <div class="desc"><b>Le marché de Colobane, dans votre poche.</b> Achetez, négociez les prix, faites des dons et ouvrez votre boutique gratuitement.</div>
+          </div>
+        </div>
+        <div id="island"></div>
+        <div id="glare"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scene" id="front"></div>
+
+  <!-- outro -->
+  <div id="s8" class="scene">
+    <div id="oIcon" class="abs"><img src="assets/icon.png" alt=""></div>
+    <div id="oLogo" class="abs"><img src="assets/logo-colobanes.png" alt="COLObanes"></div>
+    <div id="verbs" class="abs">
+      <div class="verb"><i class="fa-solid fa-bag-shopping" style="background:#3564a6"></i>Achetez</div>
+      <div class="verb"><i class="fa-solid fa-handshake" style="background:#ff6b35"></i>Négociez</div>
+      <div class="verb"><i class="fa-solid fa-hand-holding-heart" style="background:#15803d"></i>Donnez</div>
+      <div class="verb"><i class="fa-solid fa-store" style="background:#1e3a6b"></i>Vendez</div>
+    </div>
+    <div id="cta" class="abs"><i class="fa-solid fa-download"></i>Téléchargez l’app gratuitement</div>
+    <div id="stores" class="abs">
+      <div class="store" id="stA"><i class="fa-brands fa-apple"></i><div><small>Télécharger dans</small><b>App Store</b></div></div>
+      <div class="store" id="stG"><i class="fa-brands fa-google-play"></i><div><small>Disponible sur</small><b>Google Play</b></div></div>
+    </div>
+    <div id="url" class="abs">www.colobanes.sn</div>
+    <div id="flag" class="abs"><div style="background:#148a46"></div><div style="background:#f6c82d"></div><div style="background:#d63a2f"></div></div>
+  </div>
+</div>
+</div>
+<div id="controls">
+  <button id="pp" aria-label="Lecture / pause"><i class="fa-solid fa-pause"></i></button>
+  <button id="rs" class="g" aria-label="Recommencer"><i class="fa-solid fa-rotate-left"></i></button>
+  <input id="scrub" type="range" min="0" max="47" step="0.01" value="0" aria-label="Position">
+  <span id="tc">0:00</span>
+</div>
+</div>
+
+<script>
+const DUR = 47;
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const cl = (x,a=0,b=1) => Math.min(b,Math.max(a,x));
+const p = (t,a,b) => cl((t-a)/(b-a));
+const lerp = (a,b,x) => a+(b-a)*x;
+const E = {
+  out: x => 1-Math.pow(1-x,3),
+  in: x => x*x*x,
+  io: x => x<.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2,
+  qio: x => x<.5 ? 16*x**5 : 1-Math.pow(-2*x+2,5)/2,
+  back: x => { const c1=1.6, c3=c1+1; return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2); },
+};
+const show = (el, v) => { el.style.display = v ? '' : 'none'; return v; };
+
+/* ============ SCREENS (real captures, 923×2000) ============
+   hd/ft = fixed header & bottom bar in source px, used for in-app scrolling */
+const SCREENS = {
+  splash:{src:'s9'}, login:{src:'s11'},
+  home:{src:'s7',hd:400,ft:1805}, home2:{src:'s8',hd:400,ft:1805}, promo:{src:'s5',hd:400,ft:1805},
+  nouv:{src:'s1',hd:400,ft:1805}, pop:{src:'s2',hd:400,ft:1805},
+  region:{src:'s17'}, cat:{src:'s18'}, acc:{src:'s19'}, pat:{src:'s20'},
+  product:{src:'s10'}, offer:{src:'s12'}, sent:{src:'s13'}, msgs:{src:'s14'},
+  checkout:{src:'s15'}, fav:{src:'s16'}, vendre:{src:'s4'}, boutique:{src:'s10'},
+};
+const scr = $('#scr');
+for(const [id,o] of Object.entries(SCREENS)){
+  const d = document.createElement('div'); d.className='sc'; d.id='sc_'+id;
+  const img = `assets/${o.src}.webp`;
+  if(o.hd){
+    d.innerHTML = `<div class="bd" style="top:${o.hd}px;height:${o.ft-o.hd}px"><img src="${img}" style="top:-${o.hd}px;clip-path:inset(${o.hd}px 0 ${2000-o.ft}px 0)"></div>
+      <div class="hd" style="top:0;height:${o.hd}px"><img src="${img}"></div>
+      <div class="ft" style="top:${o.ft}px;bottom:0"><img src="${img}" style="top:-${o.ft}px"></div>`;
+  } else d.innerHTML = `<img src="${img}">`;
+  scr.appendChild(d); o.el = d; o.bd = d.querySelector('.bd img');
+}
+SCREENS.store = {el: $('#st')};
+
+/* in-phone overlays (source px) */
+scr.insertAdjacentHTML('beforeend', `
+  <div class="cover" id="cvPhone" style="left:250px;top:982px;width:600px;height:72px;background:#f2f4f7;font-size:34px;color:#101828;font-weight:500"></div>
+  <div class="ov" id="ckBox" style="left:39px;top:1289px;width:50px;height:50px;border-radius:12px;background:#3564a6;display:grid;place-items:center;color:#fff;font-size:28px"><i class="fa-solid fa-check"></i></div>
+  <div class="cover" id="cvOffer" style="left:84px;top:1630px;width:420px;height:76px;background:#fff;font-size:36px;color:#101828;font-weight:600"></div>
+  <div class="ov" id="hiDons" style="left:782px;top:652px;width:150px;height:86px;border-radius:43px;border:6px solid #ff6b35;box-shadow:0 0 0 10px rgba(255,107,53,.25)"></div>
+  <div class="ov" id="hiNego" style="left:343px;top:654px;width:260px;height:82px;border-radius:41px;border:6px solid #ff6b35;box-shadow:0 0 0 10px rgba(255,107,53,.25)"></div>
+  <div class="touch" id="touch"></div>`);
+
+/* ============ HEADLINES ============ */
+const HEADS = [
+  ['hDl','fa-download','TÉLÉCHARGEZ','L’app *COLObanes*|*iPhone & Android*'],
+  ['hLog','fa-user-check','CONNEXION','Inscription|*en 30 secondes*'],
+  ['hExp','fa-compass','EXPLOREZ','Tout le marché|*dans votre poche*'],
+  ['hReg','fa-location-dot','PRÈS DE CHEZ VOUS','Filtrez par|*région*'],
+  ['hCat','fa-grip','CATÉGORIES','Trouvez tout|*en un geste*'],
+  ['hNeg','fa-handshake','NÉGOCIEZ','Faites votre prix,|*comme au marché*'],
+  ['hDon','fa-hand-holding-heart','DONNEZ','Offrez ce que vous|*n’utilisez plus*'],
+  ['hLiv','fa-motorcycle','LIVRAISON','À domicile|*ou en boutique*'],
+  ['hFav','fa-heart','FAVORIS','Gardez vos|*coups de cœur*'],
+  ['hVen','fa-store','VENDEZ','Votre boutique,|*créée automatiquement*'],
+];
+$('#heads').innerHTML = HEADS.map(([id,ic,k,l]) => `<div class="head" id="${id}"><div class="kicker"><span class="ico"><i class="fa-solid ${ic}"></i></span>${k}</div><h2 class="ttl" data-lines="${l}"></h2></div>`).join('');
+$$('.ttl[data-lines]').forEach(h => {
+  h.innerHTML = h.dataset.lines.split('|').map(line => {
+    const parts = line.split(/(\*[^*]+\*)/).filter(s => s.trim());
+    return `<span class="ln">${parts.map(pt => { const hl = pt.startsWith('*'); return pt.replace(/\*/g,'').trim().split(' ').map(w => `<span class="w">${hl?`<em>${w}</em>`:w}</span>`).join(' '); }).join(' ')}</span>`;
+  }).join('');
+  h._w = [...h.querySelectorAll('.w')];
+});
+
+/* ============ CALLOUTS: crops of the real captures (stage coords) ============ */
+function crop(id, src, x, y, w, h, s, left, top){
+  return `<div class="call" id="${id}" style="left:${left}px;top:${top}px;width:${w*s}px;height:${h*s}px"><img src="assets/${src}.webp" style="width:${923*s}px;left:${-x*s}px;top:${-y*s}px"></div>`;
+}
+$('#front').innerHTML = [
+  crop('cPromo','s5', 38,412,847,463, .95, 138,1300),
+  crop('cPrice','s10', 18,1550,600,100, 1.35, 135,1380),
+  crop('cSent','s13', 168,940,725,282, 1.18, 112,1300),
+  crop('cDons','s14', 30,652,893,86, 1.05, 71,1250),
+  crop('cOpts','s15', 70,886,788,302, 1.12, 99,1380),
+  crop('cVend','s4', 190,1320,697,448, 1.2, 122,1180),
+  crop('cShop','s10', 26,420,872,340, 1.08, 69,1040),
+].join('') + `
+  <div class="pill" id="pNew" style="left:660px;top:1000px"><span class="ci" style="background:#ff6b35"><i class="fa-solid fa-wand-magic-sparkles"></i></span>Nouveautés</div>
+  <div class="pill" id="pPop" style="left:40px;top:1200px"><span class="ci" style="background:#3564a6"><i class="fa-solid fa-fire"></i></span>Populaires</div>
+  <div class="pill" id="pReg" style="left:600px;top:1560px"><span class="ci" style="background:#15803d"><i class="fa-solid fa-map-location-dot"></i></span>14 régions</div>
+  <div class="abs linkPill" id="linkPill"><div class="li"><i class="fa-solid fa-link"></i></div><div class="url" id="urlTxt"></div><div class="cp" id="cpBtn"><i class="fa-regular fa-copy"></i>Copier<div class="ok" id="cpOk"><i class="fa-solid fa-check"></i>Copié</div></div></div>
+  <div class="abs autoTag" id="autoTag"><i class="fa-solid fa-bolt"></i>Lien créé automatiquement</div>
+  <div class="share" id="sh1" style="background:#22c55e"><i class="fa-solid fa-comment-dots"></i></div>
+  <div class="share" id="sh2" style="background:#3564a6"><i class="fa-solid fa-share-nodes"></i></div>
+  <div class="share" id="sh3" style="background:#ff6b35"><i class="fa-solid fa-qrcode"></i></div>
+  <div id="hearts"></div>`;
+const HEARTS = Array.from({length:14},(_,i)=>({x: 40 + ((i*379)%1000), d: (i*0.17)%1.4, s: .6+((i*7)%5)/7, sw: 20+((i*13)%34)}));
+$('#hearts').innerHTML = HEARTS.map(()=>`<i class="fa-solid fa-heart heart"></i>`).join('');
+const heartEls = $$('#hearts .heart');
+
+/* ============ helpers ============ */
+function tr(el, t, a, b, o={}){
+  const {x=0,y=60,s=1,r=0,din=.6,dout=.4,ox=0,oy=-40,os=1,ease=E.out,pre=''} = o;
+  const ki = ease(p(t,a,a+din)), ko = b==null ? 0 : E.in(p(t,b,b+dout));
+  const op = cl(ki)*(1-ko);
+  if(!show(el, t>=a && op>0.001)) return 0;
+  el.style.opacity = op;
+  el.style.transform = `${pre} translate(${x*(1-ki)+ox*ko}px,${y*(1-ki)+oy*ko}px) scale(${lerp(s,1,ki)*lerp(1,os,ko)}) rotate(${r*(1-ki)}deg)`;
+  return ki;
+}
+function head(el, t, a, b){
+  if(!show(el, t>=a && t<b+.45)) return;
+  const k = el.querySelector('.kicker'), h = el.querySelector('.ttl');
+  const ko = E.in(p(t,b,b+.4));
+  el.style.opacity = 1-ko; el.style.transform = `translateY(${-40*ko}px)`;
+  k.style.opacity = p(t,a,a+.3); k.style.transform = `scale(${lerp(.6,1,E.back(p(t,a,a+.55)))})`;
+  h._w.forEach((w,i) => { const x = E.out(p(t,a+.12+i*.06,a+.8+i*.06)); w.style.transform = `translateY(${(1-x)*115}%)`; });
+}
+
+/* ============ TIMELINE ============ */
+const SEQ = [ // [time, screen, transition]
+  [2.6,'store','none'], [6.1,'splash','zoom'], [7.6,'login','up'],
+  [10.5,'home','fade'], [12.0,'home2','scroll'], [13.1,'promo','scroll'], [14.4,'nouv','scroll'], [15.5,'pop','scroll'],
+  [16.9,'region','fade'], [18.7,'cat','push'], [20.0,'acc','fade'], [21.0,'pat','push'],
+  [22.3,'product','push'], [24.2,'offer','up'], [26.1,'sent','fade'], [28.0,'msgs','push'],
+  [32.0,'checkout','push'], [34.6,'fav','push'], [36.6,'vendre','push'], [38.4,'boutique','push'],
+];
+const HEADT = [ ['hDl',2.7,6.0],['hLog',7.7,10.3],['hExp',10.6,16.6],['hReg',17.0,18.5],['hCat',18.8,22.0],['hNeg',22.4,29.6],['hDon',29.9,31.8],['hLiv',32.1,34.4],['hFav',34.7,36.4],['hVen',36.7,41.4] ];
+const TAPS = [ // [time, x, y] in source px
+  [3.9,640,385], [5.7,640,385], [9.2,63,1313], [9.9,461,1449],
+  [16.75,737,226], [19.6,255,515], [23.7,826,1641], [25.8,664,1799], [30.4,850,695], [37.6,410,1690],
+];
+const OUTRO = 41.6;
+
+function screenState(t){
+  let i = -1; for(let k=0;k<SEQ.length;k++) if(SEQ[k][0] <= t) i = k;
+  for(const o of Object.values(SCREENS)) show(o.el,false);
+  if(i<0) return null;
+  const [st, id, type] = SEQ[i]; const cur = SCREENS[id];
+  const prev = i>0 ? SCREENS[SEQ[i-1][1]] : null;
+  const dur = type==='scroll' ? .85 : type==='zoom' ? .7 : .6;
+  const k = p(t, st, st+dur);
+  const reset = o => { show(o.el,true); o.el.style.transform=''; o.el.style.opacity=1; o.el.style.filter=''; o.el.style.background='#fff';
+    if(o.bd){ o.bd.style.transform=''; o.el.querySelector('.hd').style.visibility='visible'; o.el.querySelector('.ft').style.visibility='visible'; } };
+  reset(cur); cur.el.style.zIndex = 2;
+  if(k<1 && prev && prev!==cur){
+    reset(prev); prev.el.style.zIndex = 1;
+    const e = E.qio(k);
+    if(type==='push'){ cur.el.style.transform=`translateX(${(1-e)*100}%)`; prev.el.style.transform=`translateX(${-30*e}%)`; prev.el.style.filter=`brightness(${1-.3*e})`; }
+    else if(type==='up'){ cur.el.style.transform=`translateY(${(1-e)*100}%)`; prev.el.style.filter=`brightness(${1-.35*e})`; }
+    else if(type==='fade'){ cur.el.style.opacity=e; cur.el.style.transform=`scale(${lerp(1.04,1,e)})`; }
+    else if(type==='zoom'){ cur.el.style.opacity=E.out(p(t,st+.15,st+.55)); cur.el.style.transform=`scale(${lerp(.4,1,E.out(k))})`; prev.el.style.transform=`scale(${1+e*.15})`; }
+    else if(type==='scroll'){
+      // the body slides like a real scroll; header and tab bar stay put
+      const H = cur.ft-cur.hd;
+      prev.bd.style.transform=`translateY(${-H*e}px)`;
+      cur.bd.style.transform=`translateY(${H*(1-e)}px)`;
+      cur.el.style.zIndex=3; cur.el.style.background='transparent';
+      cur.el.querySelector('.hd').style.visibility='hidden'; cur.el.querySelector('.ft').style.visibility='hidden';
+    }
+  }
+  return id;
+}
+
+/* phone camera keyframes: [time, x, y, rotY, rotZ, scale] */
+const CAM = [
+  [2.4,0,1500,0,10,.9],[3.3,0,0,-8,0,1],[5.6,0,0,8,0,1],[6.1,0,0,0,0,1],[7.5,0,0,0,0,1],
+  [8.2,0,0,-8,0,1],[10.3,0,0,-8,0,1],[10.9,0,0,0,0,1],[13.0,0,0,0,0,1],[13.5,0,-80,8,0,.92],[14.5,0,-80,8,0,.92],[15.1,0,0,0,0,1],
+  [16.8,0,0,0,0,1],[17.3,-40,0,-8,0,1],[18.6,0,0,0,0,1],[22.4,0,0,0,0,1],[22.9,0,-90,-8,0,.92],[23.6,0,-90,-8,0,.92],[24.1,0,0,0,0,1],
+  [26.5,0,0,0,0,1],[26.9,0,-90,8,0,.92],[27.9,0,-90,8,0,.92],[28.3,0,0,0,0,1],[30.0,0,0,0,0,1],[30.5,0,-90,-8,0,.92],[31.8,0,-90,-8,0,.92],[32.3,0,0,0,0,1],
+  [32.6,0,-90,8,0,.92],[34.3,0,-90,8,0,.92],[34.8,0,0,0,0,1],[36.8,0,0,0,0,1],[37.2,0,-110,-8,0,.92],[38.3,0,-60,0,0,.94],[39.0,0,-130,8,0,.9],
+  [41.1,0,-130,8,0,.9],[41.9,0,1700,-14,-6,.9]
+];
+function cam(t){
+  if(t<=CAM[0][0]) return CAM[0]; if(t>=CAM[CAM.length-1][0]) return CAM[CAM.length-1];
+  let a,b; for(let i=0;i<CAM.length-1;i++) if(t>=CAM[i][0] && t<=CAM[i+1][0]){ a=CAM[i]; b=CAM[i+1]; break; }
+  const e = E.io(p(t,a[0],b[0])); return a.map((v,j)=> lerp(v,b[j],e));
+}
+
+function render(t){
+  /* background */
+  $('#orb1').style.transform = `translate(${lerp(-150,600,.5+.5*Math.sin(t*.35))}px,${lerp(100,1400,.5+.5*Math.sin(t*.22+1))}px)`;
+  $('#orb2').style.transform = `translate(${lerp(500,-200,.5+.5*Math.sin(t*.27+2))}px,${lerp(-200,900,.5+.5*Math.cos(t*.19))}px)`;
+  $('#orb3').style.transform = `translate(${lerp(0,700,.5+.5*Math.cos(t*.31+3))}px,${lerp(600,1500,.5+.5*Math.sin(t*.25+4))}px)`;
+  $('#grid').style.transform = `translate(${(t*18)%90}px,${(t*30)%90}px)`;
+
+  /* ===== teaser: kinetic words ===== */
+  const COLS = ['#ff6b35','#3564a6','#15803d','#f6c82d'];
+  const fl = $('#flash'); fl.style.background = 'transparent';
+  if(show($('#teaser'), t < 2.9)){
+    for(let i=0;i<4;i++){
+      const a = .1+i*.42, w = $('#tw'+i);
+      const ki = E.out(p(t,a,a+.22)), ko = p(t,a+.36,a+.46);
+      if(show(w, t>=a && t<a+.46)){ w.style.opacity = ki*(1-ko); w.style.transform = `scale(${lerp(1.5,1,ki)*lerp(1,.9,ko)})`; w.style.filter = `blur(${(1-ki)*14}px)`; }
+      if(t>=a && t<a+.42) fl.style.background = `radial-gradient(70% 50% at 50% 50%, ${COLS[i]}aa, transparent 70%)`;
+    }
+    const f = $('#tfinal'); const ki = E.out(p(t,1.85,2.25)); const ko = E.in(p(t,2.5,2.85));
+    if(show(f, t>=1.85)){ f.style.opacity = ki*(1-ko); f.style.transform = `translateY(${(1-ki)*50 - ko*120}px) scale(${lerp(1.1,1,ki)})`; f.style.filter=`blur(${(1-ki)*10}px)`; }
+  }
+
+  HEADT.forEach(([id,a,b]) => head($('#'+id), t, a, b));
+
+  /* ===== phone ===== */
+  const c = cam(t);
+  show($('#phoneWrap'), t>2.35 && t<42.2);
+  $('#phone').style.transform = `translate(${c[1]}px,${c[2]}px) rotateY(${c[3]}deg) rotateZ(${c[4]}deg) scale(${c[5]})`;
+  $('#glare').style.backgroundPosition = `${lerp(120,-20,(Math.sin(t*.5)+1)/2)}% 0`;
+  const sid = screenState(t);
+
+  /* store: obtenir → download → ouvrir */
+  $('#getRing').style.display = (t>=4.0 && t<5.45) ? 'grid' : 'none';
+  $('#getArc').style.strokeDashoffset = 214*(1-E.io(p(t,4.0,5.4)));
+  $('#getTxt').textContent = t>=5.45 ? 'OUVRIR' : 'OBTENIR';
+  $('#getBtn').style.transform = `scale(${t>=5.45 ? lerp(.7,1,E.back(p(t,5.45,5.8))) : 1})`;
+
+  /* login typing */
+  const phoneNum = '77 123 45 67'; const pn = Math.round(lerp(0,phoneNum.length,p(t,8.3,9.0)));
+  if(show($('#cvPhone'), sid==='login' && t>=8.25)) $('#cvPhone').textContent = phoneNum.slice(0,pn);
+  if(show($('#ckBox'), sid==='login' && t>=9.25)) $('#ckBox').style.transform = `scale(${E.back(p(t,9.25,9.5))})`;
+
+  /* offer typing */
+  const on = Math.round(lerp(0,5,p(t,24.9,25.5)));
+  if(show($('#cvOffer'), sid==='offer' && t>=24.85)) $('#cvOffer').textContent = '4 000'.slice(0,on);
+  /* highlights in messages */
+  if(show($('#hiNego'), sid==='msgs' && t>28.6 && t<29.8)) $('#hiNego').style.opacity = Math.sin(Math.PI*p(t,28.6,29.8));
+  if(show($('#hiDons'), sid==='msgs' && t>29.9)) $('#hiDons').style.transform = `scale(${E.back(p(t,29.9,30.3))})`;
+
+  /* touch indicator */
+  const tch = $('#touch'); let tv = 0;
+  for(const [tt,x,y] of TAPS){
+    if(t>tt-.55 && t<tt+.35){
+      tv = p(t,tt-.55,tt-.35)*(1-p(t,tt+.15,tt+.35));
+      const press = Math.sin(Math.PI*p(t,tt-.08,tt+.16));
+      tch.style.left = x+'px'; tch.style.top = (y + (1-E.out(p(t,tt-.55,tt-.2)))*60)+'px';
+      tch.style.transform = `scale(${1-.22*press})`; tch.style.setProperty('--rip', 1+p(t,tt,tt+.35)*1.2); tch.style.setProperty('--ripo', t>tt ? 1-p(t,tt,tt+.35) : 0);
+    }
+  }
+  if(show(tch, tv>0)) tch.style.opacity = tv;
+
+  /* ===== callouts ===== */
+  const call = (id,a,b,o={}) => tr($('#'+id), t, a, b, {y:140, s:.7, ease:E.back, din:.7, oy:80, ...o});
+  call('cPromo', 13.5, 14.4);
+  tr($('#pNew'),t,14.7,15.4,{x:200,y:0,ox:200,oy:0,s:.8,ease:E.back});
+  tr($('#pPop'),t,15.8,16.6,{x:-200,y:0,ox:-200,oy:0,s:.8,ease:E.back});
+  tr($('#pReg'),t,17.5,18.5,{x:200,y:0,ox:200,oy:0,s:.8,ease:E.back});
+  call('cPrice', 22.9, 23.5, {r:-4});
+  call('cSent', 26.8, 27.8, {r:3});
+  call('cDons', 30.5, 31.7);
+  call('cOpts', 32.7, 34.2);
+  call('cVend', 37.1, 38.1, {r:-2});
+  ['cPromo','cPrice','cSent','cDons','cOpts','cVend','pNew','pPop','pReg'].forEach((id,i)=>{ const el=$('#'+id); if(el.style.display!=='none') el.style.transform += ` translateY(${Math.sin(t*1.6+i)*8}px)`; });
+
+  /* hearts: dons + favoris */
+  heartEls.forEach((h,i)=>{
+    const hd = HEARTS[i];
+    const w1 = p(t,30.4+hd.d,32.4+hd.d), w2 = p(t,34.9+hd.d,36.7+hd.d);
+    const k = w1>0 && w1<1 ? w1 : w2;
+    if(show(h, k>0 && k<1)){ h.style.left=hd.x+'px'; h.style.top=lerp(1950,600,k)+'px'; h.style.opacity=Math.sin(Math.PI*k);
+      h.style.transform=`translateX(${Math.sin(k*8+i)*hd.sw}px) scale(${hd.s*lerp(.6,1.3,k)})`; }
+  });
+
+  /* vendeur: boutique card + automatic link */
+  call('cShop', 38.7, 41.2, {y:-100, oy:-60});
+  tr($('#autoTag'), t, 39.0, 41.2, {y:30, s:.6, ease:E.back, pre:'translateX(-50%)'});
+  tr($('#linkPill'), t, 39.2, 41.2, {y:200, s:.5, ease:E.back, din:.7, oy:80});
+  const url = 'colobanes.sn/boutique/lo-cordonnier';
+  const sh = url.slice(0, Math.round(lerp(0,url.length,p(t,39.5,40.3))));
+  $('#urlTxt').innerHTML = sh.length>12 ? `colobanes.sn<span>${sh.slice(12)}</span>` : sh;
+  const cpT = 40.5;
+  $('#cpOk').style.clipPath = `circle(${E.out(p(t,cpT,cpT+.3))*120}% at 50% 50%)`;
+  $('#cpBtn').style.transform = `scale(${1-.08*Math.sin(Math.PI*p(t,cpT-.15,cpT+.1))})`;
+  [['sh1',-210,190],['sh2',0,215],['sh3',210,190]].forEach(([id,dx,dy],i)=>{
+    const el=$('#'+id); const k=E.back(p(t,cpT+.25+i*.1,cpT+.75+i*.1)); const ko=E.in(p(t,41.2,41.6));
+    if(show(el,k>0 && ko<1)){ el.style.left=(540-52+dx*k)+'px'; el.style.top=(1562-52+dy*k + Math.sin(t*2+i)*6)+'px'; el.style.opacity=cl(k)*(1-ko); el.style.transform=`scale(${k})`; }
+  });
+
+  /* ===== outro ===== */
+  if(show($('#s8'), t>OUTRO)){
+    const a = OUTRO;
+    $('#s8').style.clipPath = `circle(${E.io(p(t,a,a+.8))*120}% at 50% 60%)`;
+    tr($('#oIcon'), t, a+.5, null, {y:-120, s:.3, ease:E.back, din:.7});
+    $('#oIcon').style.transform += ` translateY(${Math.sin(t*2)*6}px)`;
+    const lk = E.out(p(t,a+.9,a+1.6));
+    const ol = $('#oLogo'); ol.style.clipPath = `inset(0 ${100-lk*100}% 0 0)`; ol.style.transform = `translateX(${(1-lk)*40}px)`;
+    $$('#verbs .verb').forEach((v,i)=> tr(v,t,a+1.8+i*.15,null,{y:50,s:.6,ease:E.back}));
+    tr($('#cta'),t,a+2.6,null,{y:60,s:.6,ease:E.back,pre:'translateX(-50%)'});
+    $('#cta').style.transform += ` scale(${1+.03*Math.sin(Math.max(0,t-a-3.2)*4)})`;
+    tr($('#stA'),t,a+3.0,null,{y:80,s:.7,ease:E.back});
+    tr($('#stG'),t,a+3.15,null,{y:80,s:.7,ease:E.back});
+    tr($('#url'),t,a+3.5,null,{y:30});
+    $$('#flag div').forEach((d,i)=> d.style.transform=`scaleX(${E.out(p(t,a+.9+i*.12,a+1.5+i*.12))})`);
+  }
+}
+
+/* ============ player ============ */
+const stage = $('#stage'), holder = $('#holder');
+const REC = new URLSearchParams(location.search).has('record');
+if(REC) document.body.classList.add('rec');
+function fit(){
+  const W = innerWidth-(REC?0:32), H = innerHeight-(REC?0:92);
+  const sc = REC ? 1 : Math.min(W/1080, H/1920);
+  stage.style.transform = `scale(${sc})`; holder.style.width = 1080*sc+'px'; holder.style.height = 1920*sc+'px';
+}
+addEventListener('resize', fit); fit();
+let t0 = performance.now(), cur = 0, playing = !REC;
+const scrub = $('#scrub'), tc = $('#tc'), pp = $('#pp');
+const mmss = s => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+function setPlaying(v){ playing=v; pp.innerHTML = `<i class="fa-solid fa-${v?'pause':'play'}"></i>`; t0 = performance.now() - cur*1000; }
+function frame(now){
+  if(playing){ cur = (now-t0)/1000; if(cur>DUR){ cur=0; t0=now; } }
+  render(cur); scrub.value = cur; tc.textContent = `${mmss(cur)} / ${mmss(DUR)}`;
+  requestAnimationFrame(frame);
+}
+pp.onclick = () => setPlaying(!playing);
+$('#rs').onclick = () => { cur=0; setPlaying(true); };
+scrub.oninput = () => { cur=+scrub.value; t0 = performance.now()-cur*1000; };
+addEventListener('keydown', e => { if(e.code==='Space'){ e.preventDefault(); setPlaying(!playing); } });
+window.__render = render; window.__DUR = DUR;
+const imgsReady = Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; })));
+window.__ready = Promise.all([document.fonts.ready, imgsReady]);
+if(!REC) window.__ready.then(()=>{ t0 = performance.now(); requestAnimationFrame(frame); });
+else render(0);
+</script>
+</body>
+</html>

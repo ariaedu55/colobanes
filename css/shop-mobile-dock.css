@@ -1,0 +1,391 @@
+/**
+ * Bottom navigation mobile — deux blocs blancs + panier flottant.
+ * La zone derrière le bouton panier reste transparente : le contenu de la page
+ * défile et reste visible autour du cercle orange.
+ */
+
+@media (max-width: 1024px) {
+  #shopMobileDock {
+    --smd-pill-radius: 32px;
+    --smd-notch-w: 122px;
+    --smd-nav-pad-x: 10px;
+    --smd-nav-pad-b: 4px;
+    --smd-item-h: 52px;
+    --smd-item-pad-y: 6px;
+    --smd-fab-size: 62px;
+    --smd-fab-ring: 4px;
+    --smd-fab-rise: 8px;
+    --smd-fab-gutter: 4px;
+    --smd-icon-size: 24px;
+    --smd-label-size: 12.5px;
+    --smd-orange: #ff6a2b;
+    --smd-orange-active: #f05a1a;
+    --smd-badge-blue: #1677ff;
+    --smd-ink: #0f172a;
+    --smd-ink-muted: #565d6d;
+  }
+
+  :root {
+    /* Marge sous le menu : on n'utilise qu'une partie de la zone de sécurité (barre d'accueil iPhone)
+       pour que le menu descende au plus près du bas sans toucher la barre système */
+    --smd-safe-b: max(2px, calc(env(safe-area-inset-bottom, 0px) - 14px));
+    --shop-mobile-dock-clearance: calc(82px + var(--smd-safe-b));
+  }
+
+  /* Application installée / mobile natif : la barre d'accueil de l'iPhone occupe le bas de l'écran */
+  @media (display-mode: standalone) {
+    :root {
+      --smd-safe-b: max(12px, calc(env(safe-area-inset-bottom, 0px) - 14px));
+    }
+  }
+
+  /* App Flutter : la WebView va jusqu'au bas de l'écran (viewport-fit=cover
+     injecté par l'app) ; on garde juste de quoi dégager la barre d'accueil. */
+  html.is-native-app {
+    --smd-safe-b: max(4px, calc(env(safe-area-inset-bottom, 0px) - 16px));
+  }
+
+  html:has(#shopMobileDock) {
+    scroll-padding-bottom: var(--shop-mobile-dock-clearance);
+  }
+
+  body:has(#shopMobileDock) {
+    padding-bottom: var(--shop-mobile-dock-clearance) !important;
+  }
+
+  /* Le body réserve déjà la place du dock : le main n'ajoute qu'un petit espace avant le footer. */
+  body:has(#shopMobileDock) .mp-main,
+  body:has(#shopMobileDock) main {
+    padding-bottom: 16px;
+  }
+
+  body:has(#shopMobileDock) section.section1 {
+    display: none;
+  }
+
+  /* Footer compact visible au-dessus du dock (accordéons, voir site-footer.css) */
+  body:has(#shopMobileDock) footer.sf {
+    margin-bottom: 0;
+  }
+
+  #shopMobileDock {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    top: auto !important;
+    z-index: 10100;
+    width: 100%;
+    max-width: 100vw;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    pointer-events: none;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+    contain: layout style;
+  }
+
+  #shopMobileDock .shop-mobile-dock__bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    width: 100%;
+    padding-top: 16px;
+    padding-bottom: var(--smd-safe-b);
+    /* Fond clair dégradé : le contenu ne se mélange plus aux blocs du dock */
+    background: linear-gradient(to top, rgba(246, 247, 249, 1) 0%, rgba(246, 247, 249, 0.97) 70%, rgba(246, 247, 249, 0) 100%);
+    overflow: visible;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #shopMobileDock .shop-mobile-dock__nav {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 0;
+    margin: 0;
+    padding: 0 var(--smd-nav-pad-x) var(--smd-nav-pad-b);
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    /* Ombre unique sur la barre complète (blocs + raccord creusé) */
+    filter: drop-shadow(0 4px 14px rgba(17, 24, 39, 0.08)) drop-shadow(0 1px 2px rgba(17, 24, 39, 0.05));
+  }
+
+  #shopMobileDock .shop-mobile-dock__group {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-evenly;
+    min-width: 0;
+    /* Hauteur fixe : le raccord SVG (viewBox 106×54) garde ses proportions exactes */
+    box-sizing: border-box;
+    height: calc(var(--smd-item-h) + 2 * var(--smd-item-pad-y));
+    padding: var(--smd-item-pad-y) 0 var(--smd-item-pad-y) 6px;
+    border-radius: var(--smd-pill-radius) 0 0 var(--smd-pill-radius);
+    background: #ffffff;
+    box-shadow: none;
+    pointer-events: auto;
+  }
+
+  #shopMobileDock .shop-mobile-dock__group:last-child {
+    padding: var(--smd-item-pad-y) 6px var(--smd-item-pad-y) 0;
+    border-radius: 0 var(--smd-pill-radius) var(--smd-pill-radius) 0;
+  }
+
+  /* Raccord central : relie les deux blocs, creusé en demi-cercle sous le panier flottant */
+  #shopMobileDock .shop-mobile-dock__slot {
+    position: relative;
+    flex: 0 0 var(--smd-notch-w);
+    margin: 0 -0.5px;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  #shopMobileDock .shop-mobile-dock__notch {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  #shopMobileDock .shop-mobile-dock__item {
+    -webkit-appearance: none;
+    appearance: none;
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: var(--smd-item-h);
+    margin: 0;
+    padding: 0 1px;
+    border: 0;
+    border-radius: 16px;
+    background: transparent;
+    box-shadow: none;
+    color: var(--smd-ink-muted);
+    font-family: var(--font-corps, 'Poppins', sans-serif);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: visible;
+  }
+
+  #shopMobileDock .shop-mobile-dock__item:active {
+    transform: scale(0.96);
+  }
+
+  #shopMobileDock .shop-mobile-dock__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--smd-icon-size);
+    height: var(--smd-icon-size);
+    background: transparent;
+    color: inherit;
+  }
+
+  #shopMobileDock .shop-mobile-dock__icon i {
+    display: block;
+    color: inherit;
+    font-size: var(--smd-icon-size);
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #shopMobileDock .shop-mobile-dock__label {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    color: inherit;
+    font-size: var(--smd-label-size);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #shopMobileDock .shop-mobile-dock__item.is-active {
+    color: var(--smd-ink);
+  }
+
+  #shopMobileDock .shop-mobile-dock__item.is-active .shop-mobile-dock__label {
+    font-weight: 700;
+  }
+
+  /* ——— Panier flottant : seul le cercle orange masque le contenu ——— */
+  #shopMobileDock .shop-mobile-dock__fab {
+    position: absolute;
+    left: 50%;
+    bottom: calc(
+      var(--smd-safe-b) + var(--smd-nav-pad-b) + var(--smd-fab-rise) +
+        (var(--smd-item-h) + 2 * var(--smd-item-pad-y) - var(--smd-fab-size)) / 2
+    );
+    z-index: 2;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--smd-fab-size);
+    height: var(--smd-fab-size);
+    border: 0;
+    border-radius: 50%;
+    background: var(--smd-orange);
+    /* Anneau blanc + halo orange diffus, comme sur la maquette */
+    box-shadow:
+      0 0 0 var(--smd-fab-ring) #ffffff,
+      0 8px 26px rgba(255, 106, 43, 0.38),
+      0 2px 6px rgba(17, 24, 39, 0.08);
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    transform: translateX(-50%);
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #shopMobileDock .shop-mobile-dock__fab:active {
+    transform: translateX(-50%) scale(0.95);
+  }
+
+  #shopMobileDock .shop-mobile-dock__fab.is-active {
+    background: var(--smd-orange-active);
+  }
+
+  #shopMobileDock .shop-mobile-dock__fab > svg {
+    display: block;
+    width: 30px;
+    height: 30px;
+    color: #ffffff;
+  }
+
+  /* Icônes SVG du dock : taille pilotée par --smd-icon-size */
+  #shopMobileDock .shop-mobile-dock__icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  #shopMobileDock .shop-mobile-dock__badge {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: var(--smd-badge-blue);
+    box-shadow: 0 0 0 2px #ffffff;
+    color: #ffffff;
+    font-family: var(--font-corps, 'Poppins', sans-serif);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  #shopMobileDock .shop-mobile-dock__badge--messages {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: 2;
+    transform: translateX(2px);
+    min-width: 16px;
+    height: 16px;
+    padding: 0 3px;
+    font-size: 9px;
+  }
+
+  #shopMobileDock .shop-mobile-dock__fab .shop-mobile-dock__badge {
+    position: absolute;
+    top: -6px;
+    right: -4px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    font-size: 11px;
+  }
+
+  /* Téléphone : proportions de la maquette (H = hauteur d'un bloc ≈ 54px)
+     cercle ≈ 0,96 H · bloc ≈ 2,8 × cercle · icône ≈ 0,38 H · libellé ≈ 0,21 H · cercle remonté de ≈ 0,23 H */
+  @media (max-width: 599px) {
+    :root {
+      --shop-mobile-dock-clearance: calc(92px + var(--smd-safe-b));
+    }
+
+    #shopMobileDock {
+      --smd-pill-radius: 31px;
+      --smd-notch-w: 108px;
+      --smd-nav-pad-x: 6px;
+      --smd-nav-pad-b: 2px;
+      --smd-item-h: 50px;
+      --smd-item-pad-y: 6px;
+      --smd-fab-size: 60px;
+      --smd-fab-ring: 4px;
+      --smd-fab-rise: 12px;
+      --smd-fab-gutter: 2px;
+      --smd-icon-size: 27px;
+      --smd-label-size: 12px;
+    }
+
+    #shopMobileDock .shop-mobile-dock__fab > svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  @media (min-width: 600px) and (max-width: 1024px) {
+    :root {
+      --shop-mobile-dock-clearance: calc(90px + var(--smd-safe-b));
+    }
+
+    #shopMobileDock {
+      --smd-pill-radius: 31px;
+      --smd-notch-w: 122px;
+      --smd-nav-pad-x: 20px;
+      --smd-nav-pad-b: 4px;
+      --smd-item-h: 52px;
+      --smd-item-pad-y: 5px;
+      --smd-fab-size: 60px;
+      --smd-fab-rise: 14px;
+      --smd-fab-gutter: 2px;
+      --smd-icon-size: 24px;
+      --smd-label-size: 13px;
+    }
+
+    #shopMobileDock .shop-mobile-dock__fab > svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+
+@media (min-width: 1025px) {
+  #shopMobileDock {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  body:has(#shopMobileDock) #adminVendeurBottomDock {
+    display: none !important;
+  }
+}

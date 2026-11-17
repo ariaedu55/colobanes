@@ -1,0 +1,149 @@
+/**
+ * Popup d'autorisation des notifications vendeur
+ */
+
+.vn-notify-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 11950;
+    background: rgba(13, 13, 13, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+}
+
+.vn-notify-overlay[hidden] {
+    display: none !important;
+}
+
+.vn-notify-modal {
+    position: relative;
+    width: min(420px, 100%);
+    background: #fff;
+    border-radius: 22px;
+    padding: 28px 24px 22px;
+    box-shadow: 0 24px 60px rgba(53, 100, 166, 0.22);
+    text-align: center;
+    border-top: 5px solid var(--couleur-dominante, #3564a6);
+    animation: vnNotifyIn 0.32s ease;
+}
+
+@keyframes vnNotifyIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.vn-notify-modal__icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 14px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(53, 100, 166, 0.12);
+    color: var(--couleur-dominante, #3564a6);
+    font-size: 1.35rem;
+}
+
+.vn-notify-modal__title {
+    margin: 0 0 10px;
+    font-size: 1.28rem;
+    font-weight: 800;
+    color: var(--titres, #0d0d0d);
+    font-family: var(--font-titres, 'Poppins', sans-serif);
+}
+
+.vn-notify-modal__text {
+    margin: 0 0 16px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--gris-fonce, #4a4a4a);
+}
+
+.vn-notify-modal__list {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.vn-notify-modal__list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 12px;
+    background: rgba(53, 100, 166, 0.06);
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--texte-fonce, #0d0d0d);
+}
+
+.vn-notify-modal__list i {
+    width: 18px;
+    color: var(--couleur-dominante, #3564a6);
+    text-align: center;
+}
+
+.vn-notify-modal__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.vn-notify-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 12px;
+    font-size: 0.86rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+}
+
+.vn-notify-btn--primary {
+    background: var(--couleur-dominante, #3564a6);
+    color: #fff;
+}
+
+.vn-notify-btn--primary:hover {
+    background: var(--bleu-principal-hover, #2d5690);
+}
+
+.vn-notify-btn--primary:disabled {
+    opacity: 0.72;
+    cursor: wait;
+}
+
+.vn-notify-btn--ghost {
+    background: #fff;
+    color: var(--gris-moyen, #737373);
+    border: 1px solid rgba(53, 100, 166, 0.18);
+}
+
+.vn-notify-btn--ghost:hover {
+    background: rgba(53, 100, 166, 0.05);
+}
+
+@media (max-width: 1024px) {
+    html.hide-web-push-notify-btn #vendorNotifyPrompt {
+        display: none !important;
+    }
+}

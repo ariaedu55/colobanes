@@ -1,0 +1,72 @@
+{
+    "notifications": {
+        "dernier": 1794658891,
+        "ok": true,
+        "resultat": "ok",
+        "duree_ms": 315,
+        "date": "2026-11-14T12:21:31+00:00"
+    },
+    "push_campagnes": {
+        "dernier": 1794658891,
+        "ok": false,
+        "resultat": "échec : identifiants Firebase manquants",
+        "duree_ms": 28,
+        "date": "2026-11-14T12:21:31+00:00"
+    },
+    "images_legeres": {
+        "dernier": 1794658891,
+        "ok": true,
+        "resultat": "0 image(s) allégée(s)",
+        "duree_ms": 299,
+        "date": "2026-11-14T12:21:31+00:00"
+    },
+    "produits_doublons": {
+        "dernier": 1794652101,
+        "ok": true,
+        "resultat": "0 doublon(s) masqué(s)",
+        "duree_ms": 5,
+        "date": "2026-11-14T10:28:21+00:00"
+    },
+    "schema_cache": {
+        "dernier": 1794652101,
+        "ok": true,
+        "resultat": "ok",
+        "duree_ms": 0,
+        "date": "2026-11-14T10:28:21+00:00"
+    },
+    "categories_webp": {
+        "dernier": 1794652101,
+        "ok": true,
+        "resultat": "0 image(s) mise(s) à jour",
+        "duree_ms": 19,
+        "date": "2026-11-14T10:28:21+00:00"
+    },
+    "firebase_cles": {
+        "dernier": 1794652101,
+        "ok": true,
+        "resultat": "Déployez ce fichier sur le serveur de production si le VPS bloque googleapis.com.",
+        "duree_ms": 573,
+        "date": "2026-11-14T10:28:21+00:00"
+    },
+    "firebase_sw": {
+        "dernier": 1794655735,
+        "ok": true,
+        "resultat": "à jour",
+        "duree_ms": 0,
+        "date": "2026-11-14T11:28:55+00:00"
+    },
+    "migration_references_boutique": {
+        "dernier": 1794086657,
+        "ok": true,
+        "resultat": "0 référence(s) convertie(s), 65 déjà à jour",
+        "duree_ms": 15,
+        "date": "2026-11-07T21:24:17+00:00"
+    },
+    "migration_categories_nom": {
+        "dernier": 1794086657,
+        "ok": true,
+        "resultat": "déjà fait",
+        "duree_ms": 0,
+        "date": "2026-11-07T21:24:17+00:00"
+    }
+}

@@ -1,0 +1,924 @@
+/**
+ * Messagerie client — habillage « messagerie professionnelle »
+ * Chargé uniquement sur user/messages.php (body.msg-pro), après messages-vendeur.css.
+ * La messagerie vendeur (admin) n'est pas concernée.
+ */
+
+body.msg-pro {
+  --mcp-brand: var(--couleur-dominante, #3564a6);
+  --mcp-brand-dark: var(--bleu-fonce, #2d5690);
+  --mcp-brand-tint: #edf2fa;
+  --mcp-orange: var(--orange, #ff6b35);
+  --mcp-ink: #0f172a;
+  --mcp-ink-soft: #475569;
+  --mcp-muted: #8a94a6;
+  --mcp-line: #eceff4;
+  --mcp-bg: #f4f6fa;
+  --mcp-thread-bg: #f3f5f9;
+  --mcp-bubble-in: #ffffff;
+  --mcp-online: #16a34a;
+}
+
+/* ================= Liste des conversations ================= */
+body.msg-pro .msg-inbox {
+  background: #fff;
+  border: 0;
+  border-right: 1px solid var(--mcp-line);
+}
+
+body.msg-pro .msg-inbox__desktop-head {
+  display: block;
+  padding: 18px 18px 10px;
+  border: 0;
+  background: #fff;
+}
+
+body.msg-pro .msg-inbox__desktop-head-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+body.msg-pro .msg-inbox__desktop-title {
+  margin: 0;
+  font-family: var(--font-titres);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--mcp-ink);
+  letter-spacing: -0.01em;
+}
+
+body.msg-pro .msg-inbox__desktop-unread {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: var(--mcp-brand);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Recherche */
+body.msg-pro .msg-inbox__search {
+  position: relative;
+  margin: 2px 16px 10px;
+}
+
+body.msg-pro .msg-inbox__search i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--mcp-muted);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+body.msg-pro .msg-inbox__search input {
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 0 14px 0 38px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: #f1f4f8;
+  color: var(--mcp-ink);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+body.msg-pro .msg-inbox__search input:focus {
+  background: #fff;
+  border-color: var(--mcp-brand);
+}
+
+/* Filtres : pastilles compactes, sans débordement */
+body.msg-pro .msg-inbox__toolbar {
+  padding: 0 14px 10px;
+  border-bottom: 1px solid var(--mcp-line);
+  background: #fff;
+}
+
+body.msg-pro .msg-inbox__filters {
+  gap: 5px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+body.msg-pro .msg-inbox__filter {
+  flex-shrink: 0;
+  min-height: 32px;
+  padding: 0 11px;
+  gap: 5px;
+  border: 1px solid var(--mcp-line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--mcp-ink-soft);
+  font-size: 12.5px;
+  font-weight: 600;
+  box-shadow: none;
+  white-space: nowrap;
+}
+
+body.msg-pro .msg-inbox__filter:hover {
+  border-color: #d7dde7;
+  color: var(--mcp-ink);
+}
+
+body.msg-pro .msg-inbox__filter.is-active {
+  background: var(--mcp-brand);
+  border-color: var(--mcp-brand);
+  color: #fff;
+  box-shadow: none;
+}
+
+body.msg-pro .msg-inbox__filter i {
+  display: none;
+}
+
+body.msg-pro .msg-inbox__filter-badge {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: var(--mcp-orange);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Lignes de conversation */
+body.msg-pro .msg-inbox__list {
+  padding: 6px 8px 12px;
+}
+
+body.msg-pro .msg-inbox__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 0;
+  margin: 0 0 2px;
+  padding: 10px 10px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  transition: background 0.15s ease;
+}
+
+body.msg-pro .msg-inbox__item[hidden] {
+  display: none;
+}
+
+body.msg-pro .msg-inbox__item:hover {
+  background: #f6f8fb;
+}
+
+body.msg-pro .msg-inbox__item.is-active {
+  background: var(--mcp-brand-tint);
+}
+
+body.msg-pro .msg-inbox__item.is-unread {
+  background: transparent;
+}
+
+body.msg-pro .msg-inbox__item.is-unread.is-active {
+  background: var(--mcp-brand-tint);
+}
+
+body.msg-pro .msg-inbox__thumb {
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #f1f4f8;
+  border: 1px solid var(--mcp-line);
+}
+
+body.msg-pro .msg-inbox__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+body.msg-pro .msg-inbox__top {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+body.msg-pro .msg-inbox__title-line {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+body.msg-pro .msg-inbox__item:not(.is-unread) .msg-inbox__title-line {
+  color: var(--mcp-ink);
+  font-weight: 600;
+}
+
+body.msg-pro .msg-inbox__item.is-unread .msg-inbox__title-line {
+  color: var(--mcp-ink);
+  font-weight: 700;
+}
+
+body.msg-pro .msg-inbox__time {
+  display: inline;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--mcp-muted);
+}
+
+body.msg-pro .msg-inbox__item.is-unread .msg-inbox__time {
+  color: var(--mcp-brand);
+  font-weight: 700;
+}
+
+body.msg-pro .msg-inbox__preview {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13.5px;
+  line-height: 1.35;
+  color: var(--mcp-ink-soft);
+}
+
+body.msg-pro .msg-inbox__item:not(.is-unread) .msg-inbox__preview {
+  color: var(--mcp-muted);
+}
+
+body.msg-pro .msg-inbox__item.is-unread .msg-inbox__preview {
+  color: var(--mcp-ink);
+  font-weight: 500;
+}
+
+body.msg-pro .msg-inbox__sub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin: 1px 0 0;
+  font-size: 12px;
+  color: var(--mcp-muted);
+}
+
+body.msg-pro .msg-inbox__meta {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--mcp-muted);
+}
+
+body.msg-pro .msg-inbox__price {
+  flex-shrink: 0;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mcp-ink-soft);
+}
+
+body.msg-pro .msg-inbox__price::before {
+  content: '·';
+  margin-right: 6px;
+  color: var(--mcp-muted);
+  font-weight: 400;
+}
+
+body.msg-pro .msg-inbox__item.is-unread .msg-inbox__price {
+  color: var(--mcp-ink-soft);
+}
+
+body.msg-pro .msg-inbox__tag {
+  flex-shrink: 0;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: #ecfdf3;
+  color: #15803d;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+body.msg-pro .msg-inbox__unread-badge {
+  position: static;
+  flex-shrink: 0;
+  align-self: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: var(--mcp-brand);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+/* Vendeur : nouvelles propositions jamais ouvertes (« stories ») */
+body.msg-pro .msg-inbox__stories {
+  padding: 4px 16px 12px;
+  background: #fff;
+  border: 0;
+}
+
+body.msg-pro .msg-inbox__stories-track {
+  gap: 12px;
+}
+
+body.msg-pro .msg-inbox__story-avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  padding: 2px;
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--mcp-orange);
+}
+
+body.msg-pro .msg-inbox__story-avatar img,
+body.msg-pro .msg-inbox__story-fallback {
+  border-radius: 50%;
+}
+
+body.msg-pro .msg-inbox__story.is-active .msg-inbox__story-avatar {
+  box-shadow: 0 0 0 2px var(--mcp-brand);
+}
+
+body.msg-pro .msg-inbox__story-dot {
+  background: var(--mcp-orange);
+  box-shadow: 0 0 0 2px #fff;
+}
+
+/* ================= Panneau vide (desktop) ================= */
+body.msg-pro .msg-pane {
+  border: 0;
+  background: var(--mcp-thread-bg);
+}
+
+body.msg-pro .msg-pane__empty-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: var(--mcp-brand-tint);
+  color: var(--mcp-brand);
+}
+
+/* ================= Fil de discussion ================= */
+body.msg-pro .msg-chat {
+  background: var(--mcp-thread-bg);
+}
+
+/* En-tête de conversation */
+body.msg-pro .msg-chat__header {
+  gap: 10px;
+  min-height: 64px;
+  padding: 10px 14px;
+  background: #fff;
+  border-bottom: 1px solid var(--mcp-line);
+  box-shadow: none;
+}
+
+body.msg-pro .msg-chat__back {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  color: var(--mcp-ink);
+  box-shadow: none;
+}
+
+body.msg-pro .msg-chat__back:hover {
+  background: #f1f4f8;
+}
+
+body.msg-pro .msg-chat__seller-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--mcp-line);
+  background: #fff;
+  box-shadow: none;
+}
+
+body.msg-pro .msg-chat__seller-avatar img {
+  object-fit: contain;
+  padding: 3px;
+}
+
+body.msg-pro .msg-chat__title {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--mcp-ink);
+}
+
+body.msg-pro .msg-chat__subtitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--mcp-muted);
+}
+
+body.msg-pro .msg-chat__subtitle--online {
+  color: var(--mcp-online);
+}
+
+body.msg-pro .msg-chat__subtitle--online::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--mcp-online);
+}
+
+/* Produit concerné : carte compacte */
+body.msg-pro .msg-chat__header-product {
+  gap: 10px;
+  padding: 5px 12px 5px 5px;
+  border: 1px solid var(--mcp-line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: none;
+}
+
+body.msg-pro .msg-chat__header-product:hover {
+  border-color: #d5deea;
+}
+
+body.msg-pro .msg-chat__header-product-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  overflow: hidden;
+  background: #f1f4f8;
+}
+
+body.msg-pro .msg-chat__header-product-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mcp-ink);
+}
+
+body.msg-pro .msg-chat__header-product-price {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--mcp-orange);
+}
+
+/* Infos vendeur (lieu, ancienneté) : discrètes */
+body.msg-pro .msg-chat__seller-chip {
+  justify-content: center;
+  gap: 14px;
+  margin: 4px auto 10px;
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--mcp-muted);
+  font-size: 12px;
+  box-shadow: none;
+}
+
+/* Séparateur de date */
+body.msg-pro .msg-chat__date {
+  margin: 14px auto 10px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #e6eaf1;
+  color: var(--mcp-ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+/* Encart d'ouverture de négociation */
+body.msg-pro .msg-chat__intro {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: min(100%, 420px);
+  margin: 6px auto 12px;
+  padding: 14px 18px;
+  box-sizing: border-box;
+  border: 1px dashed #cfd9e8;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: center;
+}
+
+body.msg-pro .msg-chat__intro-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin-bottom: 2px;
+  background: var(--mcp-brand-tint);
+  color: var(--mcp-brand);
+  font-size: 15px;
+}
+
+body.msg-pro .msg-chat__intro-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--mcp-ink);
+}
+
+body.msg-pro .msg-chat__intro-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--mcp-ink-soft);
+  overflow-wrap: anywhere;
+}
+
+body.msg-pro .msg-chat__intro-time {
+  font-size: 11px;
+  color: var(--mcp-muted);
+}
+
+/* Bulles */
+/* La ligne fixe la largeur max ; la bulle prend la largeur de son texte (mots jamais coupés) */
+body.msg-pro .msg-chat__row {
+  max-width: min(78%, 560px);
+  margin: 2px 0;
+}
+
+body.msg-pro .msg-chat__bubble {
+  max-width: 100%;
+  min-width: 64px;
+  padding: 8px 12px 6px;
+  border-radius: 18px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  box-shadow: 0 1px 1px rgba(15, 23, 42, 0.05);
+}
+
+body.msg-pro .msg-chat__row--out .msg-chat__bubble {
+  background: var(--mcp-brand);
+  color: #fff;
+  border: 0;
+  border-bottom-right-radius: 6px;
+}
+
+body.msg-pro .msg-chat__row--in .msg-chat__bubble {
+  background: var(--mcp-bubble-in);
+  color: var(--mcp-ink);
+  border: 1px solid var(--mcp-line);
+  border-bottom-left-radius: 6px;
+}
+
+body.msg-pro .msg-chat__bubble-text {
+  word-break: normal;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+body.msg-pro .msg-chat__bubble-meta {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--mcp-muted);
+}
+
+body.msg-pro .msg-chat__row--out .msg-chat__bubble-meta,
+body.msg-pro .msg-chat__row--out .msg-chat__ticks {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+body.msg-pro .msg-chat__row--out .msg-chat__ticks--read {
+  color: #bfe3ff;
+}
+
+/* Cartes d'offre : rangées du côté de leur auteur, comme les bulles */
+body.msg-pro .msg-chat__offer-block {
+  max-width: min(84%, 440px);
+}
+
+body.msg-pro .msg-chat__offer-block--out {
+  align-self: flex-end;
+  margin-left: auto;
+}
+
+body.msg-pro .msg-chat__offer-block--in {
+  align-self: flex-start;
+  margin-right: auto;
+}
+
+body.msg-pro .msg-chat__offer-block--out .msg-chat__offer-card {
+  background: var(--mcp-brand-tint);
+  border-color: #d6e1f1;
+  border-bottom-right-radius: 6px;
+}
+
+body.msg-pro .msg-chat__offer-block--in .msg-chat__offer-card {
+  border-bottom-left-radius: 6px;
+}
+
+/* Cartes d'offre / notifications dans le fil */
+body.msg-pro .msg-chat__notice,
+body.msg-pro .msg-chat__offer-card {
+  border-radius: 16px;
+  border: 1px solid var(--mcp-line);
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+body.msg-pro .msg-chat__notice--blue {
+  background: #fff;
+  border-color: #d9e4f3;
+  box-shadow: inset 3px 0 0 var(--mcp-brand);
+}
+
+body.msg-pro .msg-chat__notice-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--mcp-ink);
+}
+
+body.msg-pro .msg-chat__notice-price {
+  color: var(--mcp-orange);
+}
+
+body.msg-pro .msg-chat__notice-pay {
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+body.msg-pro .msg-chat__system {
+  color: var(--mcp-muted);
+  font-size: 12.5px;
+}
+
+/* ================= Pied : actions + saisie ================= */
+body.msg-pro .msg-chat__footer {
+  background: #fff;
+  border-top: 1px solid var(--mcp-line);
+  box-shadow: none;
+}
+
+body.msg-pro .msg-chat__actions {
+  gap: 8px;
+  padding: 10px 14px 0;
+}
+
+body.msg-pro .msg-chat__action {
+  min-height: 40px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+body.msg-pro .msg-chat__action--offer {
+  background: #fff;
+  border: 1.5px solid var(--mcp-brand);
+  color: var(--mcp-brand);
+}
+
+body.msg-pro .msg-chat__action--buy {
+  background: var(--mcp-orange);
+  border: 1.5px solid var(--mcp-orange);
+  color: #fff;
+}
+
+/* Bandeau « Prix convenu » + paiement */
+body.msg-pro .msg-client-offer-actions {
+  margin: 0;
+  padding: 10px 14px 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.msg-pro .msg-client-offer-actions .msg-admin-offer-actions__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--mcp-muted);
+}
+
+body.msg-pro .msg-client-offer-actions .msg-admin-offer-actions__head strong {
+  font-weight: 600;
+  color: var(--mcp-ink-soft);
+}
+
+body.msg-pro .msg-client-offer-actions .msg-admin-offer-actions__head span {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--mcp-ink);
+}
+
+body.msg-pro .msg-client-offer-actions .msg-admin-offer-actions__accept {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 999px;
+  background: var(--mcp-orange);
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+/* Zone de saisie */
+body.msg-pro .msg-chat__compose {
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: #fff;
+  border: 0;
+  box-shadow: none;
+}
+
+body.msg-pro .msg-chat__attach,
+body.msg-pro .msg-chat__send {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+body.msg-pro .msg-chat__attach {
+  border: 0;
+  background: #f1f4f8;
+  color: var(--mcp-ink-soft);
+}
+
+body.msg-pro .msg-chat__input {
+  min-height: 42px;
+  max-height: 140px;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 21px;
+  background: #f1f4f8;
+  color: var(--mcp-ink);
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.4;
+  box-shadow: none;
+}
+
+body.msg-pro .msg-chat__input:focus {
+  background: #fff;
+  border-color: var(--mcp-brand);
+  outline: none;
+}
+
+body.msg-pro .msg-chat__send {
+  border: 0;
+  background: var(--mcp-brand);
+  color: #fff;
+}
+
+body.msg-pro .msg-chat__send:disabled {
+  background: #e3e8f0;
+  color: #9aa6b8;
+  opacity: 1;
+}
+
+/* ================= Téléphone / tablette ================= */
+@media (max-width: 860px) {
+  /* Conversation ouverte : plein écran façon appli (en-tête du site masqué) */
+  body.msg-pro.site-page-messages--chat .nav-planete-gateau {
+    display: none !important;
+  }
+
+  body.msg-pro.site-page-messages--chat .msg-app {
+    padding-top: 0 !important;
+    --msg-site-nav-h: 0px;
+    --msg-mobile-top-bar: 0px;
+  }
+
+  body.msg-pro .msg-chat__header {
+    padding-top: calc(8px + env(safe-area-inset-top, 0px));
+  }
+
+  body.msg-pro .msg-chat__header-product-copy {
+    display: none;
+  }
+
+  body.msg-pro .msg-chat__header-product {
+    padding: 3px;
+    border-radius: 11px;
+  }
+
+  body.msg-pro .msg-chat__row {
+    max-width: 84%;
+  }
+
+  body.msg-pro .msg-inbox {
+    border-right: 0;
+  }
+
+  body.msg-pro .msg-inbox__desktop-head {
+    padding: 14px 16px 8px;
+  }
+}
+
+/* ================= Messagerie unique : sélecteur Achats / Ventes ================= */
+body.msg-pro .msg-role-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin: 2px 16px 12px;
+  padding: 4px;
+  border-radius: 12px;
+  background: #eef1f6;
+}
+
+body.msg-pro .msg-role-switch__tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  border-radius: 9px;
+  color: var(--mcp-ink-soft);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+body.msg-pro .msg-role-switch__tab i {
+  font-size: 13px;
+}
+
+body.msg-pro .msg-role-switch__tab:hover {
+  color: var(--mcp-ink);
+}
+
+body.msg-pro .msg-role-switch__tab.is-active {
+  background: #fff;
+  color: var(--mcp-brand);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+body.msg-pro .msg-role-switch__badge {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  display: inline-grid;
+  place-items: center;
+  background: var(--mcp-orange);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ================= Onglet « Ventes » : même gabarit que « Achats » ================= */
+/* L'habillage admin (menu latéral, barre vendeur) est retiré ; le tiroir reste accessible via « Menu » */
+body.msg-pro.msg-role-vendeur .admin-sidebar:not(.show),
+body.msg-pro.msg-role-vendeur .vd-topbar,
+body.msg-pro.msg-role-vendeur .mobile-menu-toggle,
+body.msg-pro.msg-role-vendeur #sidebarOverlay:not(.show) {
+  display: none !important;
+}
+
+body.msg-pro.msg-role-vendeur .admin-container {
+  display: block;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+/* Onglet « Ventes » sur téléphone : le tiroir de menu passe au-dessus de l’en-tête du site (z-index 11000) */
+@media (max-width: 1024px) {
+  body.msg-pro.msg-role-vendeur .admin-sidebar.admin-sidebar--vendeur.show {
+    z-index: 11200 !important;
+  }
+
+  body.msg-pro.msg-role-vendeur #sidebarOverlay.show {
+    z-index: 11100 !important;
+  }
+}

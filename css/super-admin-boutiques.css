@@ -1,0 +1,420 @@
+/**
+ * Super Admin — Liste boutiques
+ */
+
+.sa-btq-page {
+  --sa-btq-radius: 16px;
+  --sa-btq-border: rgba(53, 100, 166, 0.14);
+  --sa-btq-shadow: 0 4px 28px rgba(53, 100, 166, 0.1);
+}
+
+.sa-btq-shell {
+  max-width: 1280px;
+}
+
+/* --- Hero --- */
+.sa-btq-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  margin-bottom: 1.35rem;
+  padding: 1.35rem 1.45rem;
+  background: linear-gradient(135deg, var(--bleu-fonce) 0%, var(--couleur-dominante) 48%, #4a6fa8 100%);
+  color: var(--texte-clair);
+  box-shadow: var(--sa-btq-shadow), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+.sa-btq-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 55% at 100% 0%, rgba(255, 107, 53, 0.2) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.sa-btq-hero__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+}
+
+.sa-btq-hero__intro {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.sa-btq-hero__title {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-titres);
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.sa-btq-hero__sub {
+  margin: 0;
+  font-size: 0.88rem;
+  opacity: 0.9;
+}
+
+.sa-btq-hero__kpis {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex: 0 1 auto;
+}
+
+.sa-btq-hero-kpi {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 5.5rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-align: center;
+}
+
+.sa-btq-hero-kpi__label {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  opacity: 0.9;
+  margin-bottom: 0.15rem;
+  white-space: nowrap;
+}
+
+.sa-btq-hero-kpi__value {
+  font-family: var(--font-titres);
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+@media (max-width: 720px) {
+  .sa-btq-hero__inner {
+    align-items: flex-start;
+  }
+
+  .sa-btq-hero__kpis {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .sa-btq-hero-kpi {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+/* --- Filtres --- */
+.sa-btq-filters {
+  margin-bottom: 1.25rem;
+  padding: 1.15rem 1.25rem 1.2rem;
+  border-radius: var(--sa-btq-radius);
+  background: var(--fond-principal);
+  border: 1px solid var(--sa-btq-border);
+  box-shadow: var(--sa-btq-shadow);
+}
+
+.sa-btq-filters__block {
+  margin-bottom: 1rem;
+}
+
+.sa-btq-filters__block:last-child {
+  margin-bottom: 0;
+}
+
+.sa-btq-filters__row {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .sa-btq-filters__row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.sa-btq-filters__label {
+  margin: 0 0 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--texte-mute);
+}
+
+.sa-btq-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.sa-btq-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--gris-fonce);
+  background: var(--blanc-casse, #fafafa);
+  border: 1px solid rgba(53, 100, 166, 0.16);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.sa-btq-chip:hover {
+  border-color: var(--couleur-dominante);
+  color: var(--couleur-dominante);
+  background: var(--bleu-pale);
+}
+
+.sa-btq-chip.is-active {
+  background: var(--couleur-dominante);
+  border-color: var(--couleur-dominante);
+  color: #fff;
+}
+
+.sa-btq-chip__flag {
+  display: block;
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.sa-btq-chip__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: rgba(53, 100, 166, 0.1);
+  color: var(--couleur-dominante);
+}
+
+.sa-btq-chip.is-active .sa-btq-chip__count {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+.sa-btq-toolbar {
+  margin-bottom: 1.25rem;
+}
+
+/* --- Liste résultats (cartes) --- */
+.sa-btq-panel {
+  margin-bottom: 0.5rem;
+}
+
+.sa-btq-panel .sa-users-panel__head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, var(--blanc-casse, #fafafa) 0%, var(--fond-principal) 100%);
+}
+
+.sa-btq-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sa-btq-row {
+  border-bottom: 1px solid rgba(53, 100, 166, 0.1);
+  transition: background 0.15s ease;
+}
+
+.sa-btq-row:last-child {
+  border-bottom: none;
+}
+
+.sa-btq-row:hover {
+  background: rgba(53, 100, 166, 0.035);
+}
+
+.sa-btq-row--off {
+  background: rgba(255, 107, 53, 0.03);
+}
+
+.sa-btq-row__grid {
+  display: grid;
+  gap: 0.85rem 1.25rem;
+  padding: 1rem 1.35rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .sa-btq-row__grid {
+    grid-template-columns: minmax(180px, 1.1fr) minmax(160px, 1fr) auto auto;
+  }
+}
+
+.sa-btq-row__shop {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.sa-btq-row__avatar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--bleu-fonce);
+  background: linear-gradient(145deg, rgba(53, 100, 166, 0.14) 0%, rgba(53, 100, 166, 0.06) 100%);
+  border: 1px solid rgba(53, 100, 166, 0.16);
+}
+
+.sa-btq-row--off .sa-btq-row__avatar {
+  color: var(--orange-fonce);
+  background: var(--orange-pale, rgba(255, 107, 53, 0.12));
+  border-color: rgba(255, 107, 53, 0.2);
+}
+
+.sa-btq-row__shop-body {
+  min-width: 0;
+}
+
+.sa-btq-row__name {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--titres);
+  text-decoration: none;
+  line-height: 1.3;
+}
+
+.sa-btq-row__name:hover {
+  color: var(--couleur-dominante);
+}
+
+.sa-btq-slug {
+  display: inline-block;
+  margin-top: 0.25rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-family: ui-monospace, monospace;
+  background: rgba(53, 100, 166, 0.08);
+  color: var(--bleu-fonce);
+}
+
+.sa-btq-row__cert {
+  margin-top: 0.4rem;
+}
+
+.sa-btq-row__contact {
+  min-width: 0;
+  font-size: 0.84rem;
+}
+
+.sa-btq-row__contact-name {
+  display: block;
+  font-weight: 600;
+  color: var(--titres);
+  margin-bottom: 0.15rem;
+}
+
+.sa-btq-row__contact-line {
+  display: block;
+  color: var(--texte-mute);
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.sa-btq-row__stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.sa-btq-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--texte-mute);
+}
+
+.sa-btq-stat i {
+  color: var(--couleur-dominante);
+  opacity: 0.85;
+}
+
+.sa-btq-stat strong {
+  font-variant-numeric: tabular-nums;
+  color: var(--couleur-dominante);
+  font-size: 0.95rem;
+}
+
+.sa-btq-row__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.sa-btq-row__form {
+  margin: 0;
+}
+
+@media (max-width: 899px) {
+  .sa-btq-row__actions {
+    justify-content: flex-start;
+    padding-top: 0.15rem;
+  }
+}
+
+.sa-badge--mute {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--texte-mute);
+  background: rgba(53, 100, 166, 0.08);
+}
+
+.sa-btq-pagination__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Rétrocompat — anciennes classes si utilisées ailleurs */
+.sa-btq-tabs,
+.sa-btq-subtabs {
+  display: none;
+}

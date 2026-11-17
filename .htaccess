@@ -1,0 +1,248 @@
+# Configuration PHP pour l'upload de fichiers volumineux
+# Ces valeurs surchargent les valeurs du php.ini si nécessaire
+# ---------------------------------------------------------------
+# Deep Links : autoriser l'accès au dossier .well-known
+# Requis pour Android App Links (assetlinks.json)
+# et iOS Universal Links (apple-app-site-association)
+# ---------------------------------------------------------------
+<IfModule mod_headers.c>
+    <FilesMatch "^apple-app-site-association$|^assetlinks\.json$">
+        Header set Content-Type "application/json"
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+    <FilesMatch "^apple-developer-domain-association(\.txt)?$">
+        Header set Content-Type "text/plain"
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+</IfModule>
+
+# ---------------------------------------------------------------
+# En-têtes de sécurité
+# ---------------------------------------------------------------
+<IfModule mod_headers.c>
+    # Interdit l'affichage du site dans un cadre d'un autre site (clickjacking)
+    Header always set X-Frame-Options "SAMEORIGIN"
+    # CSP : pas de plugins (Flash/objets), <base> verrouillé, aucun cadre étranger ; en HTTPS, toute ressource passe en HTTPS
+    Header always set Content-Security-Policy "frame-ancestors 'self'; object-src 'none'; base-uri 'self'" env=!HTTPS
+    Header always set Content-Security-Policy "frame-ancestors 'self'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests" env=HTTPS
+    Header always set X-Permitted-Cross-Domain-Policies "none"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(self), camera=(self), microphone=(), payment=()"
+    # HTTPS uniquement : le navigateur refuse ensuite le HTTP pendant 1 an
+    Header always set Strict-Transport-Security "max-age=31536000" env=HTTPS
+    # Ne pas annoncer les versions du serveur
+    Header always unset X-Powered-By
+    Header unset X-Powered-By
+</IfModule>
+
+# ---------------------------------------------------------------
+# Sécurité : masquer listings + fichiers/dossiers sensibles
+# ---------------------------------------------------------------
+# Pages d'erreur aux couleurs de COLObanes (erreur.php) — en local, le site est sous /fouta-main
+ErrorDocument 400 /erreur.php?code=400
+ErrorDocument 403 /erreur.php?code=403
+ErrorDocument 404 /erreur.php?code=404
+ErrorDocument 500 /erreur.php?code=500
+ErrorDocument 503 /erreur.php?code=503
+<If "%{REQUEST_URI} =~ m#^/fouta-main/#">
+    ErrorDocument 400 /fouta-main/erreur.php?code=400
+    ErrorDocument 403 /fouta-main/erreur.php?code=403
+    ErrorDocument 404 /fouta-main/erreur.php?code=404
+    ErrorDocument 500 /fouta-main/erreur.php?code=500
+    ErrorDocument 503 /fouta-main/erreur.php?code=503
+</If>
+
+Options -Indexes
+
+# Fichiers à ne jamais servir via le navigateur
+<FilesMatch "(?i)\.(sql|bak|env|pem|log|ini|md|zip|tar|gz|tgz|rar|7z|old|orig|swp)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+<FilesMatch "^(composer\.(json|lock)|package(-lock)?\.json|skills-lock\.json|\.env|\.gitignore|error_log)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+<Files "error_log">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</Files>
+
+# Scripts maintenance / diag / includes partiels — jamais publics
+<FilesMatch "^(fix_ssl_certificates|generate_pwa_icons|generate_sitemap|run_migrate_fcm|run_migration_image_cp|check_php_config|debug_cp|fcm-diagnostic|autoload|nav_bar|footer)\.php$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Factures / pages test hors app
+<FilesMatch "(?i)^(INV[0-9]+\.html|teste\.(html|js))$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# (Les dossiers techniques sont bloqués plus bas via mod_rewrite)
+
+# ---------------------------------------------------------------
+# Compression (Brotli puis gzip) — réduit fortement le poids transféré
+# ---------------------------------------------------------------
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/xml application/javascript application/x-javascript application/json application/xml image/svg+xml
+</IfModule>
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/javascript application/x-javascript application/json application/xml image/svg+xml application/x-font-ttf font/opentype font/ttf
+</IfModule>
+
+# ---------------------------------------------------------------
+# Cache navigateur — les assets statiques (versionnés via ?v=) sont
+# mis en cache longtemps ; les pages PHP ne sont jamais mises en cache.
+# ---------------------------------------------------------------
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+</IfModule>
+<IfModule mod_headers.c>
+    <FilesMatch "\.(jpg|jpeg|png|webp|gif|svg|ico|css|js|woff2|woff|ttf)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+    <FilesMatch "\.php$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# Réécriture pour SEO : robots.txt et sitemap.xml
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# Sécurité : dossiers techniques non accessibles via le navigateur
+RewriteRule ^(config|conn|vendor|migrations|models|controllers|includes|scripts|services|page|docs|colobane|pub-vendeurs|storage|tmp|tmp-hero-ref)/ - [F,L]
+# Fragments PHP (includes / partials) de tous les sous-dossiers : jamais appelés directement
+RewriteRule (^|/)(includes|_partials)/ - [F,L]
+# Fragments inc_*.php (inclus par les pages, jamais appelés seuls)
+RewriteRule (^|/)inc_[^/]*\.php$ - [F,L]
+# Fichiers et dossiers cachés (.cursor, .hintrc…), sauf .well-known
+RewriteRule (^|/)\.(?!well-known(/|$)) - [F,L]
+RewriteRule ^(composer\.(json|lock)|package(-lock)?\.json)$ - [F,L]
+# Scripts maintenance / migrations web (double filet)
+RewriteRule ^(fix_ssl_certificates|generate_pwa_icons|generate_sitemap|run_migrate_fcm|run_migration_image_cp|check_php_config|debug_cp|fcm-diagnostic|autoload)\.php$ - [F,L]
+# Pièces d'identité / docs certification : jamais en URL directe
+RewriteRule ^upload/certifications/ - [F,L]
+# Deuxième filet (appliqué aussi par LiteSpeed, qui ignore les blocs FilesMatch) :
+# sauvegardes, dumps SQL, archives, journaux, notes et fichiers de réglage
+RewriteRule (?i)\.(sql|bak|env|pem|key|log|ini|md|zip|tar|gz|tgz|rar|7z|old|orig|swp|save|dist|lock)$ - [F,L]
+RewriteRule (?i)(^|/)(error_log|skills-lock\.json|INV[0-9]+\.html|teste\.(html|js))$ - [F,L]
+# Aucun script exécutable dans les fichiers envoyés (anti webshell, même si upload/.htaccess est ignoré)
+RewriteRule (?i)^upload/.*\.(php[0-9]?|phtml|phar|pht|cgi|pl|py|jsp|asp|aspx|shtml)(\.|$) - [F,L]
+# Outils de test / migration de l'espace vendeur : jamais via le navigateur
+RewriteRule ^admin/(test-email|run_migration_produits|firebase-api-key-fix|firebase-config-check)\.php$ - [F,L]
+
+# Apex unique : plus de www.colobanes.com (App Links, SEO, app mobile)
+RewriteCond %{HTTP_HOST} ^www\.colobanes\.com$ [NC]
+RewriteRule ^ https://colobanes.com%{REQUEST_URI} [R=301,L]
+
+# Ancienne connexion admin → connexion unifiée
+RewriteRule ^admin/login\.php$ /choix-connexion.php [R=301,L,QSA]
+# Connexion super admin → connexion unifiée
+RewriteRule ^super_admin/login\.php$ /choix-connexion.php?redirect=%2Fsuper_admin%2Fdashboard.php [R=301,L,QSA]
+
+# Ne pas réécrire les fichiers .well-known (deep links Android/iOS)
+RewriteRule ^\.well-known/ - [L]
+
+# Callback Apple Sign-In (Android)
+RewriteRule ^auth/apple-callback$ auth/apple-callback.php [L]
+
+RewriteRule ^robots\.txt$ robots.php [L]
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+RewriteRule ^favicon\.ico$ site-icons/favicon-48.png [L]
+
+# Marketplace : URL courte https://domaine/{slug}/… (vitrine vendeur ; même contenu que /boutique/{slug}/)
+# Ne pas traiter le 1er segment comme slug boutique s’il est réservé (pages racine, assets, etc.)
+RewriteCond %{REQUEST_URI} ^/([a-z0-9-]+)/
+RewriteCond %1 !^(index|produits|produit|categorie|panier|commande|choix-connexion|choix-inscription|contact|promo|nouveautes|conditions-utilisation|politique-confidentialite|politique-suppression-compte|sign-up|add-to-panier|commande-personnalisee|stock-info|facture|facture-cp|facture-devis|robots|sitemap|boutiques|boutiques-proches|debug-cp|check-php-config|generate-sitemap|generate-pwa-icons|run-migrate-fcm|run-migration-image-cp|fix-ssl-certificates|autoload|footer|nav-bar|admin|user|boutique|api|css|js|image|upload|icons|site-icons|config|conn|vendor|page|models|controllers|includes|fonts|mot-de-passe|pwa|connexion|inscription|deconnexion|mon-compte|suivi-commande)$
+RewriteRule ^([a-z0-9-]+)/(produits|panier|nouveautes|promo|contact)\.php$ boutique/$2.php?boutique=$1 [L,QSA]
+RewriteCond %{REQUEST_URI} ^/([a-z0-9-]+)/
+RewriteCond %1 !^(index|produits|produit|categorie|panier|commande|choix-connexion|choix-inscription|contact|promo|nouveautes|conditions-utilisation|politique-confidentialite|politique-suppression-compte|sign-up|add-to-panier|commande-personnalisee|stock-info|facture|facture-cp|facture-devis|robots|sitemap|boutiques|boutiques-proches|debug-cp|check-php-config|generate-sitemap|generate-pwa-icons|run-migrate-fcm|run-migration-image-cp|fix-ssl-certificates|autoload|footer|nav-bar|admin|user|boutique|api|css|js|image|upload|icons|site-icons|config|conn|vendor|page|models|controllers|includes|fonts|mot-de-passe|pwa|connexion|inscription|deconnexion|mon-compte|suivi-commande)$
+RewriteRule ^([a-z0-9-]+)/categorie\.php$ boutique/categorie.php?boutique=$1 [L,QSA]
+
+# Compatibilité : /boutique/{slug}/…
+RewriteRule ^boutique/([a-z0-9-]+)/?$ boutique/index.php?boutique=$1 [L,QSA]
+RewriteRule ^boutique/([a-z0-9-]+)/(index\.php)?$ boutique/index.php?boutique=$1 [L,QSA]
+RewriteRule ^boutique/([a-z0-9-]+)/(produits|panier|categorie|nouveautes|promo|contact)\.php$ boutique/$2.php?boutique=$1 [L,QSA]
+
+# /{slug} seul → accueil boutique (uniquement si aucun fichier .php du même nom n’existe à la racine)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php !-f
+RewriteCond %{REQUEST_URI} ^/([a-z0-9-]+)/?$
+RewriteCond %1 !^(index|produits|produit|categorie|panier|commande|choix-connexion|choix-inscription|contact|promo|nouveautes|conditions-utilisation|politique-confidentialite|politique-suppression-compte|sign-up|add-to-panier|commande-personnalisee|stock-info|facture|facture-cp|facture-devis|robots|sitemap|boutiques|boutiques-proches|debug-cp|check-php-config|generate-sitemap|generate-pwa-icons|run-migrate-fcm|run-migration-image-cp|fix-ssl-certificates|autoload|footer|nav-bar|admin|user|boutique|api|css|js|image|upload|icons|site-icons|config|conn|vendor|page|models|controllers|includes|fonts|mot-de-passe|pwa|connexion|inscription|deconnexion|mon-compte|suivi-commande)$
+RewriteRule ^([a-z0-9-]+)/?$ boutique/index.php?boutique=$1 [L,QSA]
+
+# Script .php inexistant : vraie 404 (page COLObanes) au lieu du « File not found » brut de PHP-FPM
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule \.php$ - [R=404,L]
+</IfModule>
+
+# Réglages PHP uniquement quand PHP tourne en mod_php (Apache).
+# En PHP-FPM / CGI (cas de Webuzo), ces directives provoqueraient une erreur 500 :
+# elles sont donc déplacées dans .user.ini (voir ce fichier à la racine).
+<IfModule mod_php.c>
+    php_value session.gc_maxlifetime 2592000
+    php_value session.cookie_lifetime 2592000
+    php_value auto_prepend_file none
+    php_value upload_max_filesize 1000M
+    php_value post_max_size 1000M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+    php_value memory_limit 512M
+</IfModule>
+<IfModule mod_php7.c>
+    php_value session.gc_maxlifetime 2592000
+    php_value session.cookie_lifetime 2592000
+    php_value auto_prepend_file none
+    php_value upload_max_filesize 1000M
+    php_value post_max_size 1000M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+    php_value memory_limit 512M
+</IfModule>
+<IfModule mod_php8.c>
+    php_value session.gc_maxlifetime 2592000
+    php_value session.cookie_lifetime 2592000
+    php_value auto_prepend_file none
+    php_value upload_max_filesize 1000M
+    php_value post_max_size 1000M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+    php_value memory_limit 512M
+</IfModule>

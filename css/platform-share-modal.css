@@ -1,0 +1,369 @@
+/**
+ * Modal partage unifiée — produits (catalogue) + boutique vendeur (admin)
+ * Ordinateur : fenêtre centrée. Téléphone : feuille qui monte du bas (comme les grandes applis d'achat),
+ * avec un bouton « Plus » vers le partage du téléphone quand il existe.
+ */
+
+.prm-share-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10300; /* au-dessus de la barre du bas mobile (10100) et du bouton d’aide */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.prm-share-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.prm-share-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 17, 28, 0.45);
+  backdrop-filter: blur(3px);
+}
+
+.prm-share-modal__panel {
+  position: relative;
+  width: min(100%, 392px);
+  max-height: min(92vh, 560px);
+  overflow: auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 24px 64px rgba(15, 30, 60, 0.22);
+  padding: 18px 20px 20px;
+  font-family: var(--font-corps, 'Poppins', sans-serif);
+  transform: translateY(10px) scale(0.98);
+  transition: transform 0.2s ease;
+}
+
+.prm-share-modal.is-open .prm-share-modal__panel {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prm-share-modal,
+  .prm-share-modal__panel,
+  .prm-share-item__icon {
+    transition: none;
+  }
+}
+
+/* En-tête */
+.prm-share-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.prm-share-modal__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--titres, #101828);
+  line-height: 1.3;
+}
+
+.prm-share-modal__close {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #667085;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.prm-share-modal__close:hover,
+.prm-share-modal__close:focus-visible {
+  background: #f2f4f7;
+  color: #101828;
+  outline: none;
+}
+
+/* Aperçu du produit partagé */
+.prm-share-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  margin-bottom: 18px;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+
+.prm-share-preview[hidden] {
+  display: none;
+}
+
+.prm-share-preview__img {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #fff;
+  border: 1px solid #eaecf0;
+}
+
+.prm-share-preview__img[hidden] {
+  display: none;
+}
+
+.prm-share-preview__txt {
+  min-width: 0;
+}
+
+.prm-share-preview__name {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #101828;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.prm-share-preview__price {
+  margin: 3px 0 0;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--orange, #ff6b35);
+}
+
+.prm-share-preview__price:empty {
+  display: none;
+}
+
+/* Canaux : une ligne d'icônes rondes */
+.prm-share-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.prm-share-item {
+  appearance: none;
+  -webkit-appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 2px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #344054;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.prm-share-item__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  color: #fff;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.prm-share-item:hover .prm-share-item__icon,
+.prm-share-item:focus-visible .prm-share-item__icon {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 24, 40, 0.16);
+}
+
+.prm-share-item:focus-visible {
+  outline: 2px solid var(--couleur-dominante, #3564a6);
+  outline-offset: 2px;
+}
+
+.prm-share-item--wa .prm-share-item__icon { background: #25d366; }
+.prm-share-item--fb .prm-share-item__icon { background: #1877f2; }
+.prm-share-item--ig .prm-share-item__icon {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+}
+.prm-share-item--tt .prm-share-item__icon { background: #010101; }
+
+/* Lien + copier */
+.prm-share-modal__url-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 5px 5px 12px;
+  border: 1px solid #d0d5dd;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.prm-share-modal__url-ico {
+  color: #98a2b3;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.prm-share-modal__url {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 0.8rem;
+  color: #475467;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prm-share-modal__url-copy {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--couleur-dominante, #3564a6);
+  color: #fff;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.prm-share-modal__url-copy:hover,
+.prm-share-modal__url-copy:focus-visible {
+  background: #2b5390;
+  outline: none;
+}
+
+.prm-share-modal__url-copy.is-copied {
+  background: #12b76a;
+}
+
+.prm-share-modal__hint {
+  margin: 12px 0 0;
+  font-size: 0.74rem;
+  color: #667085;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.prm-share-modal__hint.is-note {
+  color: #027a48;
+  font-weight: 600;
+}
+
+.prm-share-item[hidden] {
+  display: none;
+}
+
+.prm-share-item--more .prm-share-item__icon {
+  background: #f2f4f7;
+  color: #344054;
+}
+
+.prm-share-modal.has-more .prm-share-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.prm-share-modal__grip {
+  display: none;
+}
+
+/* ===== Téléphone : feuille du bas ===== */
+@media (max-width: 640px) {
+  .prm-share-modal {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .prm-share-modal__panel {
+    width: 100%;
+    max-height: 88vh;
+    border-radius: 20px 20px 0 0;
+    padding: 8px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+    transform: translateY(100%);
+    transition: transform 0.26s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .prm-share-modal.is-open .prm-share-modal__panel {
+    transform: translateY(0);
+  }
+
+  .prm-share-modal__grip {
+    display: block;
+    width: 40px;
+    height: 4px;
+    margin: 2px auto 10px;
+    border-radius: 4px;
+    background: #d0d5dd;
+  }
+
+  .prm-share-modal__head {
+    margin-bottom: 12px;
+  }
+
+  .prm-share-preview {
+    margin-bottom: 16px;
+  }
+
+  .prm-share-grid {
+    gap: 2px;
+    margin-bottom: 16px;
+  }
+
+  .prm-share-item {
+    font-size: 0.7rem;
+    padding: 4px 0;
+  }
+
+  .prm-share-item__icon {
+    width: 52px;
+    height: 52px;
+    font-size: 1.4rem;
+  }
+
+  .prm-share-modal__url-row {
+    padding: 4px 4px 4px 12px;
+  }
+
+  .prm-share-modal__url-copy {
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 360px) {
+  .prm-share-item__icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+  }
+
+  .prm-share-item {
+    font-size: 0.64rem;
+  }
+}

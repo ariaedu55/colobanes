@@ -1,0 +1,284 @@
+/**
+ * Carrousel hero marketplace / vitrine boutique
+ * Largeur cible 1320px, image pleine, marges latérales, coins arrondis
+ * Isolé de style.css (.slider-area hors .mp-hero)
+ */
+
+.mp-hero {
+    --mp-hero-width: 1320px;
+    --mp-hero-radius: 16px;
+    --mp-hero-gutter: clamp(12px, 3vw, 28px);
+    /* Bannières au format 1920×823 (≈ 7:3) : hauteur suit la largeur pour ne pas rogner le texte,
+       plafonnée sur grand écran (recadrage léger et centré au-delà) */
+    --mp-hero-max-h: min(calc((min(100vw, var(--mp-hero-width)) - 2 * var(--mp-hero-gutter)) * 0.4286), 440px);
+    background: var(--blanc-neige, #f5f5f5);
+    border-bottom: none;
+    padding: 4px var(--mp-hero-gutter) 4px;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.mp-hero + .mp-popular-categories {
+    margin-top: 0;
+    border-top: none;
+}
+
+.mp-hero .mp-slider-wrap.mp-hero-slider-wrap {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: var(--mp-hero-width);
+    padding: 0;
+    margin: 0 auto;
+    overflow: visible;
+    line-height: 0;
+}
+
+.mp-hero .mp-hero-slider-wrap .slider-area.owl-carousel {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    height: var(--mp-hero-max-h);
+    max-height: var(--mp-hero-max-h);
+    min-height: var(--mp-hero-max-h);
+    background: var(--blanc, #fff);
+    border-radius: var(--mp-hero-radius);
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(53, 100, 166, 0.12);
+}
+
+.mp-hero .mp-hero-slider-wrap .owl-stage-outer,
+.mp-hero .mp-hero-slider-wrap .owl-stage,
+.mp-hero .mp-hero-slider-wrap .owl-item,
+.mp-hero .mp-hero-slider-wrap .slider-item {
+    height: var(--mp-hero-max-h);
+    max-height: var(--mp-hero-max-h);
+    min-height: 0;
+}
+
+.mp-hero .mp-hero-slider-wrap .owl-stage-outer {
+    width: 100%;
+    border-radius: var(--mp-hero-radius);
+    overflow: hidden;
+}
+
+/* Transition propre : fondu sans glissement visible */
+.mp-hero .mp-hero-slider-wrap .owl-item {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.mp-hero .mp-hero-slider-wrap .owl-item .slider-item {
+    will-change: opacity;
+}
+
+.mp-hero .mp-hero-slider-wrap .owl-item.animated {
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+/* Fondu sans trou : l'affiche suivante est déjà visible dessous, seule l'affiche sortante s'efface par-dessus */
+.mp-hero .mp-hero-slider-wrap .owl-item.owl-animated-out {
+    z-index: 3;
+}
+
+.mp-hero .mp-hero-slider-wrap .owl-item.owl-animated-in {
+    z-index: 1;
+    opacity: 1;
+    animation: none;
+}
+
+.mp-hero .mp-hero-slider-wrap .owl-item.active:not(.animated) {
+    position: relative;
+    z-index: 1;
+}
+
+/* Owl masque .owl-carousel tant que .owl-loaded n'est pas posé — afficher la 1re affiche en attendant */
+.mp-hero .mp-hero-slider-wrap .slider-area.owl-carousel:not(.owl-loaded) {
+    display: block;
+}
+
+.mp-hero .mp-hero-slider-wrap .slider-area.owl-carousel:not(.owl-loaded) .slider-item:not(:first-child) {
+    display: none;
+}
+
+.mp-hero .mp-hero-slider-wrap .slider-item {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--blanc, #fff);
+    line-height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    border-radius: var(--mp-hero-radius);
+    position: relative;
+    isolation: isolate;
+}
+
+/* Fond flou tiré de la même affiche : remplit le cadre quand le format de l’image diffère (::after, le ::before sert au skeleton) */
+.mp-hero .mp-hero-slider-wrap .slider-item::after {
+    content: '';
+    position: absolute;
+    inset: -40px;
+    z-index: -1;
+    /* Image étirée sur tout le cadre puis très floutée : les bandes prolongent
+       les couleurs des bords de l'affiche (dégradé doux) au lieu d'une photo brouillée */
+    background-image: var(--hero-bg, none);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: blur(40px) saturate(1.1);
+    opacity: 0.85;
+    pointer-events: none;
+}
+
+/* Mobile / app : le flou plein cadre est très coûteux en WebView (affiche qui
+   clignote ou reste blanche) et donne des bandes grises sur les affiches hors
+   format. Fond blanc uni, l'affiche reste entière et centrée dans la carte. */
+@media (max-width: 768px) {
+    .mp-hero .mp-hero-slider-wrap .slider-item::after {
+        content: none;
+    }
+}
+
+html.is-native-app .mp-hero .mp-hero-slider-wrap .slider-item::after {
+    content: none;
+}
+
+.mp-hero .mp-hero-slider-wrap .slider-item img,
+.mp-hero .mp-hero-slider-wrap .owl-item img {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    height: var(--mp-hero-max-h);
+    max-height: var(--mp-hero-max-h);
+    min-height: 0;
+    display: block;
+    margin: 0 auto;
+    vertical-align: top;
+    /* Affiche toujours entière (jamais rognée), centrée dans le cadre */
+    object-fit: contain;
+    object-position: center;
+    border-radius: 0;
+    transform: none;
+}
+
+.mp-hero .mp-hero-slider-wrap .owl-dots,
+.mp-hero .mp-hero-slider-wrap .owl-nav {
+    display: none;
+    margin: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.mp-hero-slider-wrap {
+    margin-bottom: 0;
+}
+
+.mp-hero-placeholder {
+    width: 100%;
+    max-width: var(--mp-hero-width, 1320px);
+    height: var(--mp-hero-max-h, 300px);
+    margin: 0 auto;
+    border-radius: var(--mp-hero-radius, 16px);
+    background: linear-gradient(135deg, var(--bleu-pale, rgba(53, 100, 166, 0.12)) 0%, var(--fond-secondaire, #fafafa) 100%);
+    border: 1px dashed var(--border-input, rgba(53, 100, 166, 0.2));
+}
+
+@media (max-width: 992px) {
+    .mp-hero {
+        --mp-hero-radius: 14px;
+        --mp-hero-gutter: 14px;
+        padding: 4px var(--mp-hero-gutter) 4px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mp-hero {
+        --mp-hero-radius: 12px;
+        --mp-hero-gutter: 12px;
+        padding: 4px 12px 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .mp-hero {
+        --mp-hero-radius: 10px;
+        --mp-hero-gutter: 10px;
+        padding: 3px 10px 3px;
+    }
+}
+
+body.boutique-vitrine .mp-hero .mp-hero-slider-wrap .slider-area .slider-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+}
+
+body.boutique-vitrine .mp-hero .mp-hero-slider-wrap .slider-area .slider-item img {
+    width: 100%;
+    height: var(--mp-hero-max-h);
+    object-fit: cover;
+    object-position: center;
+    min-height: 0;
+}
+
+/* Stabilité : si le carrousel n'est pas (encore) initialisé (script lent ou bloqué),
+   la première affiche reste visible au lieu d'un bloc vide */
+.mp-hero .mp-hero-slider-wrap .slider-area.owl-carousel:not(.owl-loaded) {
+    display: block;
+}
+
+.mp-hero .mp-hero-slider-wrap .slider-area.owl-carousel:not(.owl-loaded) > .slider-item:not(:first-child) {
+    display: none;
+}
+
+/* Même filet de sécurité pour le défilé des logos partenaires */
+.marques-carousel.owl-carousel:not(.owl-loaded) {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+/* ─── Téléphone : le cadre épouse la proportion de chaque affiche ───
+   (pas de bandes autour des affiches hors format, pas de rognage).
+   Le carrousel (index.php) passe en autoHeight ; la hauteur glisse en douceur
+   d'une affiche à l'autre. Tablette / ordinateur : cadre fixe ci-dessus. */
+@media (max-width: 767px) {
+    body:not(.boutique-vitrine) .mp-hero .mp-hero-slider-wrap .slider-area.owl-carousel {
+        height: auto;
+        min-height: 0;
+        max-height: none;
+    }
+
+    body:not(.boutique-vitrine) .mp-hero .mp-hero-slider-wrap .owl-stage-outer,
+    body:not(.boutique-vitrine) .mp-hero .mp-hero-slider-wrap .owl-stage,
+    body:not(.boutique-vitrine) .mp-hero .mp-hero-slider-wrap .owl-item,
+    body:not(.boutique-vitrine) .mp-hero .mp-hero-slider-wrap .slider-item {
+        height: auto;
+        max-height: none;
+    }
+
+    body:not(.boutique-vitrine) .mp-hero .mp-hero-slider-wrap .owl-height {
+        transition: height 0.45s ease;
+    }
+
+    body:not(.boutique-vitrine) .mp-hero .mp-hero-slider-wrap .slider-item img,
+    body:not(.boutique-vitrine) .mp-hero .mp-hero-slider-wrap .owl-item img {
+        width: 100%;
+        height: auto;
+        max-height: none;
+        object-fit: contain;
+    }
+}

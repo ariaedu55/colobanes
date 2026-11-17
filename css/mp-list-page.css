@@ -1,0 +1,286 @@
+/**
+ * Listes « Voir tout » de l'accueil (top-ventes.php, plus-consultes.php, nouveautes.php). Tailles en px (racine à 10px).
+ */
+
+.lp-body {
+    background: #f5f6fa;
+}
+
+.lp-shell {
+    width: 100%;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+/* ---------- En-tête ---------- */
+.lp-head {
+    padding: 18px 0 0;
+    border-bottom: 1px solid #e6e9f0;
+    background: #fff;
+}
+
+.lp-crumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: #667085;
+}
+
+.lp-crumbs a {
+    color: #667085;
+    text-decoration: none;
+}
+
+.lp-crumbs a:hover { color: var(--couleur-dominante, #3564a6); }
+.lp-crumbs i { font-size: 9px; color: #98a2b3; }
+.lp-crumbs span { color: #101828; font-weight: 600; }
+
+.lp-head__row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.lp-head__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    font-size: 21px;
+}
+
+.lp-head__icon--ventes { background: #fff6e0; color: #e0a100; }
+.lp-head__icon--consultes { background: #eef4ff; color: var(--couleur-dominante, #3564a6); }
+.lp-head__icon--nouveautes { background: #fff1e8; color: var(--accent-promo, #ff6b35); }
+.lp-head__icon--promo { background: #fff1e8; color: var(--accent-promo, #ff6b35); }
+
+.lp-head__spacer {
+    height: 18px;
+}
+
+.lp-head__text {
+    flex: 1;
+    min-width: 0;
+}
+
+.lp-head__text h1 {
+    margin: 0;
+    font-family: var(--font-titres, inherit);
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #101828;
+}
+
+.lp-head__text p {
+    margin: 3px 0 0;
+    font-size: 14px;
+    color: #667085;
+}
+
+.lp-head__count {
+    flex: none;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: #f2f4f7;
+    font-size: 13px;
+    font-weight: 700;
+    color: #344054;
+}
+
+.lp-tabs {
+    display: flex;
+    gap: 4px;
+    margin-top: 18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.lp-tabs::-webkit-scrollbar { display: none; }
+
+.lp-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex: none;
+    padding: 12px 16px;
+    border-bottom: 3px solid transparent;
+    font-size: 14px;
+    font-weight: 600;
+    color: #667085;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.lp-tab:hover { color: #101828; }
+
+.lp-tab.is-active {
+    border-bottom-color: var(--couleur-dominante, #3564a6);
+    color: var(--couleur-dominante, #3564a6);
+}
+
+/* ---------- Contenu ---------- */
+.lp-page {
+    padding: 22px 0 56px;
+}
+
+.lp-chips {
+    display: flex;
+    gap: 8px;
+    margin: 0 0 18px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.lp-chips::-webkit-scrollbar { display: none; }
+
+.lp-chip {
+    flex: none;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid #e4e7ec;
+    border-radius: 999px;
+    background: #fff;
+    color: #344054;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.lp-chip span { margin-left: 2px; font-size: 11px; color: #98a2b3; }
+.lp-chip:hover { border-color: var(--couleur-dominante, #3564a6); }
+
+.lp-chip.is-active {
+    border-color: var(--couleur-dominante, #3564a6);
+    background: var(--couleur-dominante, #3564a6);
+    color: #fff;
+}
+
+.lp-chip.is-active span { color: rgba(255, 255, 255, 0.75); }
+
+.lp-item {
+    position: relative;
+    display: flex;
+    min-width: 0;
+}
+
+.lp-item[hidden] { display: none; }
+
+.lp-item > .mp-card {
+    flex: 1;
+    min-width: 0;
+}
+
+.lp-rank,
+.lp-flag {
+    position: absolute;
+    left: 10px;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    pointer-events: none;
+}
+
+.lp-rank {
+    top: 10px;
+    height: 26px;
+    padding: 0 9px;
+    border-radius: 8px;
+    background: rgba(16, 24, 40, 0.8);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.lp-rank--top { background: var(--couleur-dominante, #3564a6); }
+
+.lp-flag {
+    top: 10px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 8px rgba(16, 24, 40, 0.12);
+    color: #475467;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.lp-rank + .lp-flag { top: 42px; }
+.lp-flag .fa-eye { color: var(--couleur-dominante, #3564a6); }
+.lp-flag--new { background: var(--accent-promo, #ff6b35); color: #fff; }
+.lp-flag--sold { color: #e0601f; }
+
+.lp-noresult,
+.lp-empty {
+    margin: 0;
+    padding: 40px 20px;
+    border: 1px dashed #d0d5dd;
+    border-radius: 18px;
+    background: #fff;
+    text-align: center;
+    color: #667085;
+}
+
+.lp-empty i { font-size: 34px; opacity: 0.45; }
+.lp-empty p { margin: 12px 0 16px; }
+.lp-empty a { font-weight: 700; color: var(--couleur-dominante, #3564a6); }
+
+.lp-pager {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 32px;
+}
+
+.lp-pager a,
+.lp-pager span {
+    display: grid;
+    place-items: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 6px;
+    border: 1px solid #e4e7ec;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    color: #344054;
+    text-decoration: none;
+}
+
+.lp-pager a:hover { border-color: var(--couleur-dominante, #3564a6); }
+
+.lp-pager .is-current {
+    border-color: var(--couleur-dominante, #3564a6);
+    background: var(--couleur-dominante, #3564a6);
+    color: #fff;
+}
+
+/* ---------- Téléphone ---------- */
+@media (max-width: 640px) {
+    .lp-shell { padding: 0 14px; }
+    .lp-head { padding-top: 12px; }
+    .lp-crumbs { margin-bottom: 10px; }
+    .lp-head__row { gap: 12px; }
+    .lp-head__icon { width: 44px; height: 44px; font-size: 18px; border-radius: 12px; }
+    .lp-head__text h1 { font-size: 21px; }
+    .lp-head__text p { font-size: 13px; }
+    .lp-head__count { display: none; }
+    .lp-tabs { margin: 12px -14px 0; padding: 0 10px; }
+    .lp-tab { padding: 11px 10px; font-size: 13px; }
+    .lp-page { padding-top: 16px; }
+    .lp-chips { margin: 0 -14px 14px; padding: 0 14px; }
+    .lp-rank, .lp-flag { left: 8px; }
+    .lp-rank { top: 8px; }
+    .lp-flag { top: 8px; font-size: 10px; padding: 3px 7px; }
+    .lp-rank + .lp-flag { top: 38px; }
+}

@@ -1,0 +1,491 @@
+/**
+ * Footer site (marketplace + vitrines boutique)
+ * Chargé depuis footer.php. Racine à 10px sur la plupart des pages : tailles en px.
+ */
+
+.sf {
+  --sf-ink: #101828;
+  --sf-text: #475467;
+  --sf-muted: #667085;
+  --sf-line: #e4e7ec;
+  --sf-brand: var(--couleur-dominante, #3564a6);
+  display: block;
+  width: 100%;
+  margin-top: 56px;
+  padding: 0;
+  background: #fff;
+  border-top: 1px solid var(--sf-line);
+  color: var(--sf-text);
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.sf *,
+.sf *::before,
+.sf *::after {
+  box-sizing: border-box;
+}
+
+/* Neutralise l'ancienne règle « footer span » de style.css */
+.sf span,
+.sf small {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-style: normal;
+  font-weight: inherit;
+}
+
+.sf__wrap {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.sf__main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)) minmax(0, 1.25fr);
+  gap: 40px;
+  padding: 48px 0 40px;
+}
+
+.sf--boutique .sf__main {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  max-width: 760px;
+}
+
+/* Marque */
+.sf__logo {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 14px;
+  text-decoration: none;
+}
+
+.sf__logo img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 180px;
+  max-height: 48px;
+  object-fit: contain;
+}
+
+.sf .sf__logo-fallback {
+  display: none;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--sf-ink);
+}
+
+.sf__tagline {
+  margin: 0 0 16px;
+  max-width: 300px;
+  font-size: 14px;
+  color: var(--sf-muted);
+}
+
+.sf__contact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.sf__contact li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--sf-text);
+}
+
+.sf__contact i {
+  width: 14px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--sf-brand);
+  text-align: center;
+  flex: none;
+}
+
+.sf__contact a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.sf__contact a:hover {
+  color: var(--sf-brand);
+}
+
+.sf__social {
+  display: flex;
+  gap: 8px;
+}
+
+.sf__social a {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--sf-social, #101828);
+  color: #fff;
+  font-size: 16px;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Couleurs officielles des réseaux */
+.sf__social a[aria-label="Facebook"] { --sf-social: #1877f2; }
+.sf__social a[aria-label="Instagram"] {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+}
+.sf__social a[aria-label="TikTok"] {
+  --sf-social: #000;
+  text-shadow: -1.5px -1px 0 #25f4ee, 1.5px 1px 0 #fe2c55;
+}
+.sf__social a[aria-label="LinkedIn"] { --sf-social: #0a66c2; }
+.sf__social a[aria-label="YouTube"] { --sf-social: #ff0000; }
+.sf__social a[aria-label="WhatsApp"] { --sf-social: #25d366; }
+.sf__social a[aria-label="X"],
+.sf__social a[aria-label="Twitter"] { --sf-social: #000; }
+
+.sf__social a:hover {
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(16, 24, 40, 0.18);
+}
+
+/* Colonnes de liens */
+.sf__group {
+  min-width: 0;
+}
+
+.sf__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 14px;
+  font-family: var(--font-titres, inherit);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sf-ink);
+  list-style: none;
+  cursor: default;
+}
+
+.sf__title::-webkit-details-marker {
+  display: none;
+}
+
+.sf__title i {
+  display: none;
+}
+
+.sf__links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sf__links a {
+  font-size: 14px;
+  color: var(--sf-text);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.sf__links a:hover {
+  color: var(--sf-brand);
+}
+
+/* Application */
+.sf__app-text {
+  margin: 0 0 14px;
+  font-size: 14px;
+  color: var(--sf-muted);
+}
+
+.sf__stores {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.sf__store {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 168px;
+  height: 48px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.sf__store:hover {
+  background: #1d2939;
+  color: #fff;
+}
+
+.sf__store i {
+  width: 22px;
+  font-size: 22px;
+  text-align: center;
+}
+
+.sf__store span {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.sf__store small {
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+/* Bas de page */
+.sf__bottom {
+  border-top: 1px solid var(--sf-line);
+  background: #f9fafb;
+}
+
+.sf__bottom-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.sf__copy,
+.sf__made {
+  margin: 0;
+  font-size: 13px;
+  color: var(--sf-muted);
+}
+
+.sf__made {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sf__powered {
+  font-size: 13px;
+  color: var(--sf-muted);
+  text-decoration: none;
+}
+
+.sf__powered strong {
+  color: var(--sf-brand);
+}
+
+.sf a:focus-visible,
+.sf summary:focus-visible {
+  outline: 2px solid var(--sf-brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Tablette */
+@media (max-width: 1100px) {
+  .sf__main {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .sf__brand {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 32px;
+    align-items: start;
+  }
+
+  .sf__brand .sf__tagline {
+    max-width: 460px;
+  }
+
+  .sf__brand .sf__social {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .sf__app {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--sf-line);
+  }
+
+  .sf__app .sf__title {
+    margin: 0;
+  }
+
+  .sf__app-text {
+    flex: 1;
+    min-width: 220px;
+    margin: 0;
+  }
+
+  .sf__stores {
+    flex-direction: row;
+  }
+
+  .sf--boutique .sf__main {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+
+  .sf--boutique .sf__brand {
+    grid-column: auto;
+    display: block;
+  }
+}
+
+/* Téléphone : accordéons compacts */
+@media (max-width: 767px) {
+  .sf {
+    margin-top: 32px;
+  }
+
+  .sf__wrap {
+    padding: 0 16px;
+  }
+
+  .sf__main,
+  .sf--boutique .sf__main {
+    display: block;
+    padding: 28px 0 8px;
+  }
+
+  .sf__brand {
+    display: block;
+    padding-bottom: 20px;
+  }
+
+  .sf__logo img {
+    max-width: 150px;
+    max-height: 40px;
+  }
+
+  .sf__tagline {
+    max-width: none;
+    font-size: 13px;
+  }
+
+  .sf__contact li {
+    font-size: 13px;
+  }
+
+  .sf__group {
+    border-top: 1px solid var(--sf-line);
+  }
+
+  .sf__title {
+    margin: 0;
+    padding: 15px 0;
+    cursor: pointer;
+  }
+
+  .sf__title i {
+    display: inline-block;
+    font-size: 12px;
+    color: var(--sf-muted);
+    transition: transform 0.2s ease;
+  }
+
+  .sf__group[open] .sf__title i {
+    transform: rotate(180deg);
+  }
+
+  .sf__links {
+    gap: 12px;
+    padding: 0 0 16px;
+  }
+
+  .sf__app {
+    display: block;
+    padding: 20px 0 16px;
+    border-top: 1px solid var(--sf-line);
+  }
+
+  .sf__title--static {
+    margin-bottom: 4px;
+    padding: 0;
+    cursor: default;
+  }
+
+  .sf__app-text {
+    margin-bottom: 14px;
+    font-size: 13px;
+  }
+
+  .sf__stores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .sf__store {
+    min-width: 0;
+    height: 46px;
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .sf__store i {
+    width: 20px;
+    font-size: 19px;
+  }
+
+  .sf__store span {
+    font-size: 13px;
+  }
+
+  .sf__store small {
+    font-size: 10px;
+  }
+
+  .sf__bottom-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .sf__copy,
+  .sf__made,
+  .sf__powered {
+    font-size: 12px;
+  }
+}
+
+/* Téléphone : pas de footer (le menu du bas donne déjà accès à tout) */
+@media (max-width: 767px) {
+  footer.sf {
+    display: none !important;
+  }
+}

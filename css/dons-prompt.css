@@ -1,0 +1,229 @@
+/**
+ * Invitation au don (includes/partials/dons_prompt.php).
+ * Ordinateur : fenêtre centrée. Téléphone / application : panneau qui monte du bas.
+ */
+
+.dp-root {
+    position: fixed;
+    inset: 0;
+    /* Au-dessus du menu mobile du bas (z-index 10100) et de l'assistant */
+    z-index: 10200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.dp-root[hidden] {
+    display: none;
+}
+
+.dp-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(16, 24, 40, 0.5);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.dp-card {
+    position: relative;
+    width: min(400px, 100%);
+    padding: 28px 24px 18px;
+    border-radius: 22px;
+    background: #fff;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(16, 24, 40, 0.25);
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.dp-root.is-open .dp-backdrop {
+    opacity: 1;
+}
+
+.dp-root.is-open .dp-card {
+    opacity: 1;
+    transform: none;
+}
+
+.dp-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 50%;
+    background: #f2f4f7;
+    color: #344054;
+    cursor: pointer;
+}
+
+.dp-close:hover {
+    background: #e4e7ec;
+}
+
+/* Illustration : main qui donne + petits objets autour */
+.dp-visual {
+    position: relative;
+    width: 116px;
+    height: 104px;
+    margin: 0 auto 14px;
+}
+
+.dp-visual__main {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: grid;
+    place-items: center;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b35, #ff8a5c);
+    color: #fff;
+    font-size: 32px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 10px 24px rgba(255, 107, 53, 0.32);
+}
+
+.dp-visual__chip {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #fff;
+    font-size: 15px;
+    box-shadow: 0 4px 12px rgba(16, 24, 40, 0.14);
+}
+
+.dp-visual__chip--a { left: 0; top: 8px; color: #3564a6; }
+.dp-visual__chip--b { right: 0; top: 4px; color: #3564a6; }
+.dp-visual__chip--c { right: 6px; bottom: 0; color: #ff6b35; }
+
+.dp-title {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #101828;
+}
+
+.dp-text {
+    margin: 0 auto 14px;
+    max-width: 320px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: #475467;
+}
+
+.dp-proof {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 16px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: #fff3ec;
+    color: #c2410c;
+    font-size: 12.5px;
+    font-weight: 700;
+}
+
+.dp-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.dp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.dp-btn--primary {
+    background: #ff6b35;
+    color: #fff;
+}
+
+.dp-btn--primary:hover {
+    background: #e85a2a;
+    color: #fff;
+}
+
+.dp-btn--ghost {
+    border: 1px solid #d0d5dd;
+    background: #fff;
+    color: #101828;
+}
+
+.dp-btn--ghost:hover {
+    border-color: #98a2b3;
+}
+
+.dp-later {
+    margin-top: 10px;
+    padding: 6px 10px;
+    border: 0;
+    background: none;
+    color: #667085;
+    font: inherit;
+    font-size: 13.5px;
+    cursor: pointer;
+}
+
+.dp-later:hover {
+    color: #101828;
+}
+
+/* Téléphone et application : panneau en bas de l'écran, au-dessus du menu */
+@media (max-width: 640px) {
+    .dp-root {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .dp-card {
+        width: 100%;
+        padding: 26px 20px calc(16px + env(safe-area-inset-bottom, 0px));
+        border-radius: 22px 22px 0 0;
+        transform: translateY(100%);
+    }
+
+    .dp-card::before {
+        content: "";
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        width: 40px;
+        height: 4px;
+        border-radius: 2px;
+        background: #e4e7ec;
+        transform: translateX(-50%);
+    }
+
+    .dp-title {
+        font-size: 19px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dp-backdrop,
+    .dp-card {
+        transition: none;
+    }
+}

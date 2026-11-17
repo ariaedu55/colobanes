@@ -1,0 +1,503 @@
+/**
+ * Super Admin — Comptes super administrateur + Mon compte
+ */
+
+.sa-comptes-page {
+  --sa-radius-xl: 24px;
+  --sa-radius: 16px;
+  --sa-shadow: 0 4px 28px rgba(53, 100, 166, 0.1);
+  --sa-border: rgba(53, 100, 166, 0.14);
+}
+
+.sa-comptes-page .sa-comptes-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem 3rem;
+}
+
+.sa-comptes-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.sa-comptes-btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.15rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--couleur-dominante, #3564a6);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(53, 100, 166, 0.28);
+  transition: background 0.18s, transform 0.15s;
+}
+
+.sa-comptes-btn-add:hover {
+  background: var(--couleur-dominante-hover, #2d5690);
+}
+
+.sa-comptes-btn-add:active {
+  transform: scale(0.98);
+}
+
+.sa-comptes-form-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 5rem 1.25rem 2rem;
+  background: rgba(13, 13, 13, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.sa-comptes-form-layer.is-open {
+  display: flex;
+}
+
+.sa-comptes-form-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(100%, 440px);
+  padding: 1.5rem 1.35rem 1.35rem;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--sa-border);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
+}
+
+.sa-comptes-form-panel__hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+}
+
+.sa-comptes-form-panel__title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--titres, #0d0d0d);
+}
+
+.sa-comptes-form-close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(53, 100, 166, 0.08);
+  color: var(--couleur-dominante, #3564a6);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.sa-comptes-form-close:hover {
+  background: rgba(53, 100, 166, 0.14);
+}
+
+.sa-comptes-field {
+  margin-bottom: 0.9rem;
+}
+
+.sa-comptes-field label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gris-fonce, #4a4a4a);
+}
+
+.sa-comptes-field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.8rem;
+  border: 1.5px solid rgba(53, 100, 166, 0.2);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.92rem;
+}
+
+.sa-comptes-field input:focus {
+  outline: none;
+  border-color: var(--couleur-dominante, #3564a6);
+  box-shadow: 0 0 0 3px rgba(53, 100, 166, 0.12);
+}
+
+.sa-comptes-form-actions {
+  display: flex;
+  gap: 0.65rem;
+  margin-top: 1.1rem;
+}
+
+.sa-comptes-btn-submit {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background: var(--couleur-dominante, #3564a6);
+  color: #fff;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sa-comptes-btn-cancel {
+  padding: 0.7rem 1rem;
+  border: 1.5px solid rgba(53, 100, 166, 0.25);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--couleur-dominante, #3564a6);
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Liste — panneau partagé avec sa-users-panel (super-admin-clients.css) */
+.sa-comptes-panel {
+  margin-bottom: 0.5rem;
+}
+
+.sa-comptes-table-wrap {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.sa-comptes-table {
+  min-width: 720px;
+}
+
+.sa-comptes-user {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.sa-comptes-user__avatar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--bleu-fonce, #2d5690);
+  background: linear-gradient(145deg, rgba(53, 100, 166, 0.16) 0%, rgba(53, 100, 166, 0.06) 100%);
+  border: 1px solid rgba(53, 100, 166, 0.18);
+}
+
+.sa-comptes-row--self .sa-comptes-user__avatar {
+  color: #fff;
+  background: linear-gradient(145deg, var(--couleur-dominante, #3564a6) 0%, var(--bleu-fonce, #2d5690) 100%);
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(53, 100, 166, 0.28);
+}
+
+.sa-comptes-user__body {
+  min-width: 0;
+}
+
+.sa-comptes-user__body .sa-user-cell__name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+}
+
+.sa-comptes-date {
+  display: block;
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--titres, #0d0d0d);
+  font-weight: 500;
+}
+
+.sa-comptes-date--muted {
+  color: var(--texte-mute, #737373);
+  font-weight: 500;
+}
+
+.sa-comptes-date--never {
+  font-style: italic;
+  font-weight: 500;
+}
+
+.sa-comptes-row--self {
+  background: rgba(53, 100, 166, 0.06) !important;
+}
+
+.sa-comptes-row--self:hover {
+  background: rgba(53, 100, 166, 0.09) !important;
+}
+
+.sa-comptes-self-hint {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--couleur-dominante, #3564a6);
+}
+
+.sa-comptes-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.sa-comptes-badge--self {
+  background: rgba(53, 100, 166, 0.14);
+  color: var(--bleu-fonce, #2d5690);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sa-comptes-toggle-form {
+  display: inline-block;
+}
+
+/* --- Mon compte (profil) --- */
+.sa-compte-page .sa-comptes-shell {
+  max-width: 1040px;
+}
+
+.sa-compte-hero .sa-users-hero__title {
+  margin-bottom: 0;
+}
+
+.sa-compte-hero__card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  min-width: min(100%, 320px);
+}
+
+.sa-compte-hero__avatar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: var(--bleu-fonce, #2d5690);
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(13, 13, 13, 0.12);
+}
+
+.sa-compte-hero__meta {
+  min-width: 0;
+}
+
+.sa-compte-hero__name {
+  margin: 0 0 0.2rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.sa-compte-hero__email {
+  margin: 0 0 0.55rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  opacity: 0.92;
+  word-break: break-word;
+}
+
+.sa-compte-hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.sa-compte-hero__badge {
+  font-size: 0.65rem;
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+
+.sa-compte-hero__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sa-compte-layout {
+  display: grid;
+  gap: 1.35rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .sa-compte-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.sa-compte-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.sa-compte-panel .sa-users-panel__head h2 {
+  margin: 0;
+  font-family: var(--font-titres);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--titres);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sa-compte-panel .sa-users-panel__head h2 i {
+  color: var(--couleur-dominante, #3564a6);
+}
+
+.sa-compte-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.sa-compte-panel__alert {
+  padding: 0 1.35rem;
+  margin-top: 1rem;
+}
+
+.sa-compte-panel__body {
+  padding: 1.25rem 1.35rem 0.5rem;
+  flex: 1;
+}
+
+.sa-compte-panel__foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  padding: 1rem 1.35rem 1.25rem;
+  margin-top: auto;
+  border-top: 1px solid var(--border-input, rgba(53, 100, 166, 0.2));
+  background: linear-gradient(180deg, var(--fond-principal) 0%, var(--blanc-casse, #fafafa) 100%);
+}
+
+.sa-compte-fields-row {
+  display: grid;
+  gap: 0;
+}
+
+@media (min-width: 520px) {
+  .sa-compte-fields-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 0 1rem;
+  }
+}
+
+.sa-compte-label-hint {
+  font-weight: 400;
+  color: var(--texte-mute, #737373);
+}
+
+.sa-compte-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0 0 1rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--bleu-fonce, #2d5690);
+  background: var(--bleu-pale, rgba(53, 100, 166, 0.12));
+  border: 1px solid rgba(53, 100, 166, 0.18);
+}
+
+.sa-compte-hint i {
+  margin-top: 0.12rem;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.sa-compte-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.72rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--couleur-dominante, #3564a6);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(53, 100, 166, 0.28);
+  transition: background 0.18s ease, transform 0.15s ease;
+}
+
+.sa-compte-btn-primary:hover {
+  background: var(--couleur-dominante-hover, #2d5690);
+}
+
+.sa-compte-btn-primary:active {
+  transform: scale(0.98);
+}
+
+.sa-compte-btn-primary--outline {
+  background: #fff;
+  color: var(--couleur-dominante, #3564a6);
+  border: 2px solid var(--couleur-dominante, #3564a6);
+  box-shadow: none;
+}
+
+.sa-compte-btn-primary--outline:hover {
+  background: var(--bleu-pale, rgba(53, 100, 166, 0.12));
+  box-shadow: var(--ombre-douce, 0 4px 20px rgba(53, 100, 166, 0.12));
+}
+
+@media (max-width: 599px) {
+  .sa-compte-hero__card {
+    width: 100%;
+  }
+
+  .sa-compte-panel__foot .sa-compte-btn-primary {
+    width: 100%;
+  }
+}

@@ -1,0 +1,153 @@
+/**
+ * Popup onboarding vendeur — activation via premier produit
+ */
+
+.vonb-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 12050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(12px, 4vw, 28px);
+    background: rgba(13, 13, 13, 0.65);
+}
+
+@media (min-width: 769px) {
+    .vonb-overlay {
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+}
+
+.vonb-modal {
+    position: relative;
+    width: min(400px, 100%);
+    max-height: min(92vh, 420px);
+    overflow-y: auto;
+    padding: clamp(20px, 4vw, 28px);
+    border-radius: clamp(16px, 3vw, 22px);
+    background: #fff;
+    box-shadow: 0 28px 70px rgba(53, 100, 166, 0.28);
+    font-family: var(--font-corps, 'Poppins', sans-serif);
+    text-align: center;
+    animation: vonbIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes vonbIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.vonb-modal__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(53, 100, 166, 0.1);
+    color: var(--couleur-dominante, #3564a6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vonb-modal__close:hover {
+    background: rgba(53, 100, 166, 0.18);
+}
+
+.vonb-modal__icon {
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.vonb-modal__logo {
+    display: block;
+    width: auto;
+    max-width: 180px;
+    height: auto;
+    max-height: 56px;
+    object-fit: contain;
+}
+
+.vonb-modal__title {
+    margin: 0 0 10px;
+    font-size: clamp(1.15rem, 3vw, 1.35rem);
+    font-weight: 700;
+    color: var(--titres, #0d0d0d);
+    line-height: 1.25;
+}
+
+.vonb-modal__text {
+    margin: 0 0 22px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: var(--gris-fonce, #4a4a4a);
+    text-align: center;
+    max-width: 28ch;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.vonb-modal__boutique {
+    color: var(--couleur-dominante, #3564a6);
+    font-weight: 600;
+}
+
+.vonb-modal__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vonb-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.vonb-btn--primary {
+    background: var(--orange, #FF6B35);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(255, 107, 53, 0.28);
+}
+
+.vonb-btn--primary:hover {
+    background: var(--orange-fonce, #E85A2A);
+    color: #fff;
+}
+
+.vonb-btn--ghost {
+    background: transparent;
+    color: var(--gris-moyen, #737373);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.vonb-btn--ghost:hover {
+    background: var(--blanc-neige, #f5f5f5);
+    color: var(--texte-fonce, #0d0d0d);
+}

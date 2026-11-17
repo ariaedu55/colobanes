@@ -1,0 +1,48 @@
+/**
+ * En-tête unifié — pages activité client
+ */
+.uact-header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+  min-height: 36px;
+}
+
+.uact-back {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--couleur-dominante);
+  text-decoration: none;
+  border: 1px solid var(--border-input);
+  background: var(--fond-principal);
+  font-size: 0.95rem;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.uact-back:hover,
+.uact-back:focus-visible {
+  background: var(--bleu-pale);
+  outline: none;
+  transform: translateX(-1px);
+}
+
+.uact-header__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.uact-header__title {
+  margin: 0;
+  font-family: var(--font-titres);
+  font-size: clamp(1.45rem, 2.6vw, 1.95rem);
+  font-weight: 700;
+  color: var(--titres);
+  line-height: 1;
+}

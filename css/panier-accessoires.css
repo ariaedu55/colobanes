@@ -1,0 +1,391 @@
+/**
+ * Panier — « Complétez votre achat » (includes/partials/panier_accessoires_block.php).
+ * Téléphone : carrousel au doigt, cartes compactes, bouton « + » rond sur l'image.
+ * Ordinateur / tablette : rangée de cartes avec flèches et bouton « Ajouter » pleine largeur.
+ */
+
+/* La colonne du panier ne doit pas s'élargir pour contenir le carrousel (débordement horizontal sur mobile) */
+.co-layout > .co-main {
+    min-width: 0;
+}
+
+.pacc {
+    min-width: 0;
+    max-width: 100%;
+    margin-top: 16px;
+    padding: 18px 0 16px;
+    border: 1px solid var(--co-line, #e4e7ec);
+    border-radius: 20px;
+    background: #fff;
+}
+
+.pacc__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 18px 12px;
+}
+
+.pacc__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--co-ink, #101828);
+}
+
+.pacc__title i {
+    color: var(--co-orange, #ff6b35);
+}
+
+.pacc__nav {
+    display: flex;
+    gap: 6px;
+}
+
+.pacc__arrow {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--co-line, #e4e7ec);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--co-ink, #101828);
+    font-size: 12px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.pacc__arrow:hover {
+    border-color: var(--co-brand, #3564a6);
+    background: var(--co-brand-tint, #edf2fa);
+}
+
+.pacc__track {
+    display: flex;
+    gap: 12px;
+    padding: 2px 18px 4px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 18px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.pacc__track::-webkit-scrollbar {
+    display: none;
+}
+
+/* ---- Carte ---- */
+.pacc-card {
+    position: relative;
+    display: flex;
+    flex: 0 0 calc((100% - 36px) / 4);
+    flex-direction: column;
+    min-width: 0;
+    border: 1px solid var(--co-line, #e4e7ec);
+    border-radius: 16px;
+    background: #fff;
+    overflow: hidden;
+    scroll-snap-align: start;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.pacc-card:hover {
+    border-color: rgba(53, 100, 166, 0.35);
+    box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08);
+}
+
+.pacc-card__img {
+    position: relative;
+    display: block;
+    aspect-ratio: 1;
+    min-height: 0;
+    overflow: hidden;
+    background: var(--co-bg, #f4f6fa);
+}
+
+/* Image en absolu : une photo haute ne peut plus agrandir la case (cartes alignées) */
+.pacc-card__img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pacc-card__tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--co-brand, #3564a6);
+    font-size: 11px;
+    font-weight: 700;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.12);
+}
+
+.pacc-card__tag--promo {
+    background: var(--co-orange, #ff6b35);
+    color: #fff;
+}
+
+.pacc-card__body {
+    flex: 1;
+    padding: 10px 12px 0;
+}
+
+.pacc-card__name {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    min-height: 2.6em;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--co-ink, #101828);
+    text-decoration: none;
+}
+
+.pacc-card__price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 6px;
+    margin: 6px 0 0;
+}
+
+.pacc-card__price strong {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--co-ink, #101828);
+}
+
+.pacc-card__price s {
+    font-size: 11.5px;
+    color: var(--co-muted, #667085);
+}
+
+.pacc-card__form {
+    margin: 0;
+    padding: 10px 12px 12px;
+}
+
+/* Ordinateur : bouton pleine largeur */
+.pacc-card__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    min-height: 38px;
+    padding: 0 10px;
+    border: 1.5px solid var(--co-brand, #3564a6);
+    border-radius: 11px;
+    background: #fff;
+    color: var(--co-brand, #3564a6);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+
+.pacc-card__btn:hover {
+    background: var(--co-brand, #3564a6);
+    color: #fff;
+}
+
+.pacc-card__btn:active {
+    transform: scale(0.96);
+}
+
+.pacc-card__btn:disabled {
+    cursor: default;
+}
+
+/* États : chargement → ajouté */
+.pacc-card__btn.is-loading i::before {
+    content: "\f110";
+}
+
+.pacc-card__btn.is-loading i {
+    animation: paccSpin 0.8s linear infinite;
+}
+
+.pacc-card__btn.is-done {
+    border-color: var(--co-green, #12805c);
+    background: var(--co-green, #12805c);
+    color: #fff;
+}
+
+.pacc-card__btn.is-done i::before {
+    content: "\f00c";
+}
+
+.pacc-card.is-added {
+    border-color: var(--co-green, #12805c);
+}
+
+@keyframes paccSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* ---- Toast « Ajouté au panier » ---- */
+.pacc-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: #101828;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 12px 30px rgba(16, 24, 40, 0.25);
+    opacity: 0;
+    transform: translate(-50%, 16px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+}
+
+.pacc-toast i {
+    color: #4ade80;
+}
+
+.pacc-toast--error i {
+    color: #fda29b;
+}
+
+.pacc-toast.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* ---- Tablette : 3 cartes visibles ---- */
+@media (max-width: 1023px) {
+    .pacc-card {
+        flex-basis: calc((100% - 24px) / 3);
+    }
+}
+
+/* ---- Téléphone : carrousel au doigt, cartes compactes, « + » rond sur l'image ---- */
+@media (max-width: 767px) {
+    .pacc {
+        margin-top: 12px;
+        padding: 14px 0 12px;
+        border-radius: 18px;
+    }
+
+    .pacc__head {
+        padding: 0 14px 10px;
+    }
+
+    .pacc__title {
+        font-size: 15px;
+    }
+
+    .pacc__nav {
+        display: none;
+    }
+
+    .pacc__track {
+        gap: 10px;
+        padding: 2px 14px 4px;
+        scroll-padding: 0 14px;
+    }
+
+    /* 2 cartes et demie : on voit qu'il y en a d'autres à faire glisser */
+    .pacc-card {
+        flex: 0 0 40%;
+        max-width: 160px;
+        border-radius: 14px;
+    }
+
+    .pacc-card__body {
+        padding: 8px 10px 10px;
+    }
+
+    .pacc-card__name {
+        font-size: 12.5px;
+    }
+
+    .pacc-card__price strong {
+        font-size: 13.5px;
+    }
+
+    .pacc-card__form {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0;
+        /* Le bouton est posé sur le coin bas-droit de l'image (image carrée = largeur de la carte) */
+        width: 100%;
+        aspect-ratio: 1;
+        pointer-events: none;
+    }
+
+    .pacc-card__btn {
+        position: absolute;
+        right: 8px;
+        bottom: 8px;
+        width: 40px;
+        min-height: 40px;
+        height: 40px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background: var(--co-orange, #ff6b35);
+        color: #fff;
+        font-size: 16px;
+        box-shadow: 0 6px 14px rgba(255, 107, 53, 0.4);
+        pointer-events: auto;
+    }
+
+    .pacc-card__btn:hover {
+        background: #e85a2a;
+        color: #fff;
+    }
+
+    .pacc-card__btn-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+
+    .pacc-card__btn.is-done {
+        background: var(--co-green, #12805c);
+        box-shadow: 0 6px 14px rgba(18, 128, 92, 0.35);
+    }
+
+    /* Au-dessus de la barre « Total / Commander » et du menu mobile */
+    .pacc-toast {
+        bottom: calc(var(--shop-mobile-dock-clearance, 92px) + 86px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pacc-card,
+    .pacc-card__btn,
+    .pacc-toast {
+        transition: none;
+    }
+
+    .pacc-card__btn.is-loading i {
+        animation: none;
+    }
+}

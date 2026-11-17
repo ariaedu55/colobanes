@@ -1,0 +1,248 @@
+/**
+ * Palette - Bleu et Blanc
+ * Couleurs principales du site
+ * #3564a6 (bleu principal) | #FFFFFF (blanc)
+ */
+
+/* Poppins hébergée sur COLObanes (licence SIL Open Font License) : aucun appel à Google, affichage immédiat (swap). */
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-400-italic-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-400-italic-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-300-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-300-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-600-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-600-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-700-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-700-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-800-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(../fonts/poppins/poppins-800-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* Couleurs de base */
+  --bleu-principal: #3564a6;
+  --bleu-principal-hover: #2d5690;
+  --blanc: #ffffff;
+  --noir: #0d0d0d;
+  --orange: #ff6b35;
+
+  /* Nuances dérivées */
+  --noir-doux: #1a1a1a;
+  --noir-clair: #2d2d2d;
+  --gris-fonce: #4a4a4a;
+  --gris-moyen: #737373;
+  --gris-clair: #a3a3a3;
+  --blanc-casse: #fafafa;
+  --blanc-neige: #f6f7f9;
+
+  --orange-clair: #ff8f65;
+  --orange-fonce: #e85a2a;
+  --orange-pale: rgba(255, 107, 53, 0.12);
+
+  --bleu: #3564a6;
+  --bleu-clair: #4a7ab8;
+  --bleu-fonce: #2d5690;
+  --bleu-pale: rgba(53, 100, 166, 0.12);
+
+  /* Textes */
+  --texte-fonce: #0d0d0d;
+  --texte-clair: #ffffff;
+  /* Texte secondaire (labels, onglets inactifs) — aligné sur la grille grise */
+  --texte-mute: var(--gris-moyen);
+
+  /* Rôles sémantiques - Bleu comme couleur dominante */
+  --fond-principal: #ffffff;
+  --fond-secondaire: #fafafa;
+  /* Fond de page plein (sans dégradé) — préféré pour body sur tout le site */
+  --fond-page: var(--fond-principal);
+  --couleur-dominante: #3564a6;
+  --couleur-dominante-hover: #2d5690;
+  --boutons-secondaires: #3564a6;
+  --boutons-secondaires-hover: #2d5690;
+  --accent-promo: #ff6b35;
+  --titres: #0d0d0d;
+
+  /* Rétrocompatibilité */
+  --rose: var(--couleur-dominante);
+  --jaune-wilton: var(--orange);
+  --beige-creme: var(--blanc);
+  --turquoise: var(--bleu-clair);
+
+  /* Glassmorphisme */
+  --glass-bg: #ffffff;
+  --glass-border: rgba(15, 23, 42, 0.06);
+  /* Ombres allégées : cartes nettes, sans halo gris diffus */
+  --glass-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+
+  /* Ombres - bleu harmonisé */
+  --ombre-douce: 0 2px 10px rgba(15, 23, 42, 0.06);
+  --ombre-promo: 0 2px 10px rgba(53, 100, 166, 0.16);
+  --ombre-gourmande: 0 4px 16px rgba(15, 23, 42, 0.08);
+
+  /* États - succès et erreur */
+  --success-bg: rgba(53, 100, 166, 0.12);
+  --success-border: var(--bleu);
+  --error-bg: rgba(255, 107, 53, 0.12);
+  --error-border: var(--orange);
+  --border-input: rgba(53, 100, 166, 0.2);
+  --border-input-focus: var(--couleur-dominante);
+  --focus-ring: rgba(53, 100, 166, 0.15);
+
+  /* Variantes pour fonds et accents */
+  --noir-pale: rgba(13, 13, 13, 0.08);
+
+  /* Typographie */
+  --font-titres: "Poppins", sans-serif;
+  --font-corps: "Poppins", sans-serif;
+
+  /* Pastilles icônes navigation admin (squircles) — cycle bleu / orange */
+  --admin-nav-icon-1: var(--couleur-dominante);
+  --admin-nav-icon-2: var(--bleu-clair);
+  --admin-nav-icon-3: var(--orange);
+  --admin-nav-icon-4: var(--bleu-fonce);
+  --admin-nav-icon-5: var(--orange-clair);
+  --admin-nav-icon-6: color-mix(
+    in srgb,
+    var(--bleu) 58%,
+    var(--bleu-clair) 42%
+  );
+  --admin-nav-icon-7: var(--orange-fonce);
+  --admin-nav-icon-out: var(--orange-fonce);
+
+  /* Navigation — pastilles soft UI (fond pastel + icône foncée, ombre légère) */
+  --nav-soft-shadow: 0 2px 8px rgba(15, 23, 42, 0.07);
+  --nav-soft-shadow-hover: 0 4px 14px rgba(15, 23, 42, 0.1);
+  --nav-soft-bg-1: #eef2ff;
+  --nav-soft-fg-1: #1e3a8a;
+  --nav-soft-bg-2: #ecfdf5;
+  --nav-soft-fg-2: #0f766e;
+  --nav-soft-bg-3: #fff7ed;
+  --nav-soft-fg-3: #c2410c;
+  --nav-soft-bg-4: #f0f9ff;
+  --nav-soft-fg-4: #0369a1;
+  --nav-soft-bg-5: #fdf4ff;
+  --nav-soft-fg-5: #86198f;
+  --nav-soft-bg-6: #fef9c3;
+  --nav-soft-fg-6: #a16207;
+  --nav-soft-bg-7: #e0e7ff;
+  --nav-soft-fg-7: #312e81;
+  --nav-soft-bg-out: #ffedd5;
+  --nav-soft-fg-out: #9a3412;
+
+  /* Sidebars (admin / super admin / espace client) — largeur compacte */
+  --sidebar-nav-width: 264px;
+}
